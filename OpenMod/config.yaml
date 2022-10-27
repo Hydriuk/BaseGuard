@@ -1,0 +1,21 @@
+# See https://openmod.github.io/openmod-docs/devdoc/concepts/configuration.html
+# You can delete this file if you do not need a configuration
+
+ActivationMode: Permanent
+ShieldMode: Cumulative
+
+BaseShield: 0.2
+ActiveRaidTimer: 120
+
+Guards:
+- Id: 458
+  Range:  458
+  Shield: 0.5
+- Id: 1230
+  Range: 32
+  Shield: 1
+
+Overwrites:
+- Id: 1373
+  BaseShield: 0
+  MaxShield: 0

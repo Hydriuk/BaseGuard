@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32825.248
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BaseGuard", "BaseGuard\BaseGuard.shproj", "{75514B43-5D27-47CF-9784-644270F2C98D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMod", "OpenMod\OpenMod.csproj", "{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketMod", "RocketMod\RocketMod.csproj", "{D391A6CD-6C47-4DFB-BB95-ABE2B56472CA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		OpenMod|Any CPU = OpenMod|Any CPU
+		RocketMod|Any CPU = RocketMod|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.OpenMod|Any CPU.ActiveCfg = OpenMod|Any CPU
+		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.OpenMod|Any CPU.Build.0 = OpenMod|Any CPU
+		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.RocketMod|Any CPU.ActiveCfg = OpenMod|Any CPU
+		{D391A6CD-6C47-4DFB-BB95-ABE2B56472CA}.OpenMod|Any CPU.ActiveCfg = RocketMod|Any CPU
+		{D391A6CD-6C47-4DFB-BB95-ABE2B56472CA}.RocketMod|Any CPU.ActiveCfg = RocketMod|Any CPU
+		{D391A6CD-6C47-4DFB-BB95-ABE2B56472CA}.RocketMod|Any CPU.Build.0 = RocketMod|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {91914F6B-F3B7-4B59-8A9D-3484CB764855}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		BaseGuard\BaseGuard.projitems*{75514b43-5d27-47cf-9784-644270f2c98d}*SharedItemsImports = 13
+		BaseGuard\BaseGuard.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
+		BaseGuard\BaseGuard.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
+	EndGlobalSection
+EndGlobal

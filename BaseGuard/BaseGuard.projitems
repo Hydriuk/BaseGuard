@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>75514b43-5d27-47cf-9784-644270f2c98d</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>BaseGuard</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)API\IConfigurationProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)API\IDamageController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)API\IDamageReducer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)API\IGuardActivator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)API\IActiveRaidProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)API\IGuardProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EActivationMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EGuardMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Guard.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\GuardAsset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ShieldOverwrite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DamageController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\CumulativeDamageReducer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\AllDamageReducer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\OfflineGuardActivator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\PermanentGuardActivator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\UnabledGuardActivator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ActiveRaidProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\RatioDamageReducer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GuardFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GuardProvider.cs" />
+  </ItemGroup>
+</Project>
