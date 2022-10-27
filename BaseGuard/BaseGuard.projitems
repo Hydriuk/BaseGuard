@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\CumulativeDamageReducer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\AllDamageReducer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\BaseDamageReducer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\OfflineGuardActivator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\PermanentGuardActivator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\UnabledGuardActivator.cs" />

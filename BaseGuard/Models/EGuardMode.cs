@@ -8,6 +8,9 @@ namespace BaseGuard.Models
     public enum EGuardMode
     {
         [EnumMember]
+        Base,
+
+        [EnumMember]
         Cumulative,
 
         [EnumMember]

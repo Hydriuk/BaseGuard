@@ -10,16 +10,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace BaseGuard.Services.DamageReducers
 {
 #if OPENMOD
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]
 #endif
-    public class CumulativeDamageReducer : IDamageReducer
+    public class CumulativeDamageReducer : BaseDamageReducer, IDamageReducer
     {
-        public float ReduceDamage(float damage, List<Guard> guards)
+        private readonly IGuardProvider _guardProvider;
+
+        public CumulativeDamageReducer(IConfigurationProvider configuration, IGuardProvider guardProvider) : base(configuration)
         {
+            _guardProvider = guardProvider;
+        }
+
+        public override float ReduceDamage(float damage, uint buildableInstanceId, Vector3 position)
+        {
+            damage = base.ReduceDamage(damage, buildableInstanceId, position);
+
+            List<Guard> guards = _guardProvider.GetGuards(buildableInstanceId, position);
+
             if (guards.Count == 0)
                 return damage;
 

@@ -23,12 +23,9 @@ namespace BaseGuard.Services
     {
         private readonly IGuardActivator _guardActivator;
         private readonly IDamageReducer _damageReducer;
-        private readonly IGuardProvider _guardProvider;
 
         public DamageController(IConfigurationProvider configuration, IActiveRaidProvider activeRaidProvider, IGuardProvider guardProvider)
         {
-            _guardProvider = guardProvider;
-
             switch (configuration.ActivationMode)
             {
                 case EActivationMode.Permanent:
@@ -48,16 +45,20 @@ namespace BaseGuard.Services
             switch (configuration.GuardMode)
             {
                 case EGuardMode.All:
-                    _damageReducer = new AllDamageReducer();
+                    _damageReducer = new AllDamageReducer(configuration);
                     break;
 
                 case EGuardMode.Ratio:
-                    _damageReducer = new RatioDamageReducer();
+                    _damageReducer = new RatioDamageReducer(configuration);
                     break;
 
                 case EGuardMode.Cumulative:
+                    _damageReducer = new CumulativeDamageReducer(configuration, guardProvider);
+                    break;
+
+                case EGuardMode.Base:
                 default:
-                    _damageReducer = new CumulativeDamageReducer();
+                    _damageReducer = new BaseDamageReducer(configuration);
                     break;
             }
         }
@@ -70,15 +71,12 @@ namespace BaseGuard.Services
         /// <param name="playerId"> Id of the player who owns the buildable </param>
         /// <param name="groupId"> Id of the group that owns the builable </param>
         /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
         public float ReduceDamage(float damage, uint buildableInstanceId, Vector3 position, CSteamID playerId, CSteamID groupId)
         {
             if (!_guardActivator.TryActivateGuard(playerId, groupId))
                 return damage;
 
-            List<Guard> guards = _guardProvider.GetGuards(buildableInstanceId, position);
-
-            damage = _damageReducer.ReduceDamage(damage, guards);
+            damage = _damageReducer.ReduceDamage(damage, buildableInstanceId, position);
 
             return damage;
         }

@@ -2,7 +2,7 @@
 # You can delete this file if you do not need a configuration
 
 ActivationMode: Permanent
-ShieldMode: Cumulative
+ShieldMode: Base
 
 BaseShield: 0.2
 ActiveRaidTimer: 120

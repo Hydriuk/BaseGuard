@@ -7,15 +7,20 @@ using OpenMod.API.Ioc;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace BaseGuard.Services.DamageReducers
 {
 #if OPENMOD
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]
 #endif
-    public class RatioDamageReducer : IDamageReducer
+    public class RatioDamageReducer : BaseDamageReducer, IDamageReducer
     {
-        public float ReduceDamage(float damage, List<Guard> guards)
+        public RatioDamageReducer(IConfigurationProvider configuration) : base(configuration)
+        {
+        }
+
+        public float ReduceDamage(float damage, uint buildableInstanceId, Vector3 position)
         {
             throw new NotImplementedException();
         }
