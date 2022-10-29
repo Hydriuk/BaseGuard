@@ -7,7 +7,6 @@ using OpenMod.API.Ioc;
 using SDG.Unturned;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Protocols.WSTrust;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -35,7 +34,7 @@ namespace BaseGuard.Services
 
             _maxGuardByType = 0;
 
-            _maxRange = configuration.Guards.Select(guard => guard.Range).Max();
+            _maxRange = configuration.Guards.Count > 0 ? configuration.Guards.Max(guard => guard.Range) : 0;
             _sqrMaxRange = Mathf.Pow(_maxRange, 2);
         }
 

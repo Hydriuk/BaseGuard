@@ -15,12 +15,6 @@ namespace BaseGuard.OpenMod
     {
         public Plugin(IServiceProvider serviceProvider, IConfigurationProvider configuration) : base(serviceProvider)
         {
-            Console.WriteLine(configuration.ActiveRaidTimer);
-            Console.WriteLine(configuration.ActivationMode);
-            Console.WriteLine(configuration.BaseShield);
-            Console.WriteLine(configuration.GuardMode);
-            Console.WriteLine(configuration.Guards.Count);
-            Console.WriteLine(configuration.Overwrites.Count);
         }
 
     }

@@ -9,10 +9,10 @@ using OpenMod.API.Ioc;
 using Steamworks;
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Protocols.WSTrust;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace BaseGuard.Services
 {
@@ -44,10 +44,6 @@ namespace BaseGuard.Services
 
             switch (configuration.GuardMode)
             {
-                case EGuardMode.All:
-                    _damageReducer = new AllDamageReducer(configuration);
-                    break;
-
                 case EGuardMode.Ratio:
                     _damageReducer = new RatioDamageReducer(configuration);
                     break;
@@ -71,12 +67,17 @@ namespace BaseGuard.Services
         /// <param name="playerId"> Id of the player who owns the buildable </param>
         /// <param name="groupId"> Id of the group that owns the builable </param>
         /// <returns></returns>
-        public float ReduceDamage(float damage, uint buildableInstanceId, Vector3 position, CSteamID playerId, CSteamID groupId)
+        public ushort ReduceDamage(ushort damage, uint buildableInstanceId, Vector3 position, CSteamID playerId, CSteamID groupId)
         {
             if (!_guardActivator.TryActivateGuard(playerId, groupId))
                 return damage;
 
-            damage = _damageReducer.ReduceDamage(damage, buildableInstanceId, position);
+            float newDamage = _damageReducer.ReduceDamage(damage, buildableInstanceId, position);
+
+            damage = (ushort)newDamage;
+
+            if (Random.value < newDamage % 1)
+                damage++;
 
             return damage;
         }

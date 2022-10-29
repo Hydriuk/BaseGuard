@@ -14,6 +14,6 @@ namespace BaseGuard.API
 #endif
     public interface IDamageController
     {
-        float ReduceDamage(float damage, uint buildableInstanceId, Vector3 position, CSteamID playerId, CSteamID groupId);
+        ushort ReduceDamage(ushort damage, uint buildableInstanceId, Vector3 position, CSteamID playerId, CSteamID groupId);
     }
 }

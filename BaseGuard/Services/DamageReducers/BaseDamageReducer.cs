@@ -1,20 +1,12 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
-#if OPENMOD
-using Microsoft.Extensions.DependencyInjection;
-using OpenMod.API.Ioc;
-#endif
 using System;
 using System.Collections.Generic;
-using System.IdentityModel.Protocols.WSTrust;
 using System.Text;
 using UnityEngine;
 
 namespace BaseGuard.Services.DamageReducers
 {
-#if OPENMOD
-    [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]
-#endif
     public class BaseDamageReducer : IDamageReducer
     {
         private readonly float _baseShield;
@@ -24,6 +16,6 @@ namespace BaseGuard.Services.DamageReducers
             _baseShield = configuration.BaseShield;
         }
 
-        public virtual float ReduceDamage(float damage, uint buildableInstanceId, Vector3 position) => damage * (1 - _baseShield);
+        public virtual float ReduceDamage(ushort damage, uint buildableInstanceId, Vector3 position) => damage * (1 - _baseShield);
     }
 }

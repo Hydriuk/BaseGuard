@@ -31,7 +31,7 @@ namespace BaseGuard.Services
             // Update the player's raid
             if (_activeRaids.TryGetValue(playerId, out float playerRaidTime))
             {
-                if (playerRaidTime + _raidActiveTime < time)
+                if (playerRaidTime + _raidActiveTime > time)
                     Upsert(playerId);
                 else
                     _activeRaids.Remove(playerId);
@@ -40,7 +40,7 @@ namespace BaseGuard.Services
             // Update the group's raid
             if (groupId != CSteamID.Nil && _activeRaids.TryGetValue(groupId, out float groupRaidTime))
             {
-                if (groupRaidTime + _raidActiveTime < time)
+                if (groupRaidTime + _raidActiveTime > time)
                     Upsert(groupId);
                 else
                     _activeRaids.Remove(groupId);
@@ -53,13 +53,20 @@ namespace BaseGuard.Services
             // Try to activate the raid
             bool isGroupSet = false;
             bool isPlayerSet = false;
+
             foreach (var sPlayer in Provider.clients)
             {
-                if (!isGroupSet && groupId != CSteamID.Nil && sPlayer.playerID.group == groupId)
+                if (!isGroupSet && groupId != CSteamID.Nil && sPlayer.player.quests.groupID == groupId)
+                {
                     _activeRaids.Add(groupId, Time.realtimeSinceStartup);
+                    isGroupSet = true;
+                }
 
                 if (!isPlayerSet && sPlayer.playerID.steamID == playerId)
+                {
                     _activeRaids.Add(playerId, Time.realtimeSinceStartup);
+                    isPlayerSet = true;
+                }
 
                 if (isPlayerSet && isGroupSet)
                     break;

@@ -2,6 +2,7 @@
 using OpenMod.API.Eventing;
 using OpenMod.Unturned.Building;
 using OpenMod.Unturned.Building.Events;
+using SDG.Unturned;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -22,23 +23,26 @@ namespace BaseGuard.OpenMod.Events
 
         public Task HandleEventAsync(object? sender, UnturnedBuildableDamagingEvent @event)
         {
-            if (!@event.Buildable.Ownership.HasOwner ||
-                @event.Buildable.Ownership.OwnerPlayerId == null ||
-                @event.Buildable.Ownership.OwnerGroupId == null ||
-                @event.Buildable == null)
-            {
+            if (!@event.Buildable.Ownership.HasOwner || @event.Buildable.Ownership.OwnerPlayerId == null ||
+                @event.Buildable.Ownership.OwnerGroupId == null || @event.Buildable == null)
                 return Task.CompletedTask;
-            }
 
-            @event.DamageAmount = (ushort)_damageController.ReduceDamage(
+            if (@event is { DamageOrigin: 
+                EDamageOrigin.Carepackage_Timeout or
+                EDamageOrigin.Charge_Self_Destruct or
+                EDamageOrigin.Horde_Beacon_Self_Destruct or
+                EDamageOrigin.Plant_Harvested or
+                EDamageOrigin.VehicleDecay
+            })
+                return Task.CompletedTask;
+
+            @event.DamageAmount = _damageController.ReduceDamage(
                 @event.DamageAmount, 
                 uint.Parse(@event.Buildable.BuildableInstanceId),
                 new Vector3(@event.Buildable.Transform.Position.X, @event.Buildable.Transform.Position.Y, @event.Buildable.Transform.Position.Z), 
                 new CSteamID(ulong.Parse(@event.Buildable.Ownership.OwnerPlayerId)),
                 new CSteamID(ulong.Parse(@event.Buildable.Ownership.OwnerGroupId))
             );
-
-            //Console.WriteLine($"[BaseGuard.BuildableDamagingEvent/HandleEventAsync] - New damage {@event.DamageAmount}");
 
             return Task.CompletedTask;
 

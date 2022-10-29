@@ -1,12 +1,31 @@
-# See https://openmod.github.io/openmod-docs/devdoc/concepts/configuration.html
-# You can delete this file if you do not need a configuration
+# BuildGuard - Configuration file
 
-ActivationMode: Permanent
-ShieldMode: Base
+# Control for protection activation.
+# Values can be :
+#   Unabled: No protection
+#   Offline: Protection is active when players are offline
+#   Permanent: Protection is alwyas active
+ActivationMode: Offline
 
+# Control for protection calculation.
+# Values can be :
+#   Base: Only the configured BaseShield is applied
+#   Cumulative [Not available]: In range guards shield value are added
+#   Ratio [Not available]: In range guards shield value are multiplied (0.5 and 0.5 will give 0.75 total shield value)
+GuardMode: Base
+
+# Base protection to apply
+# Values range from 0 to 1
 BaseShield: 0.2
+
+# Only useful if ActivationMode is set to Offline
+# If a player disconnects while being raided, his raiders can continue to raid his base.
+# This value defines how long it needs not to take any damage for it to be protected once the player disconnects.
+# Value is in seconds
 ActiveRaidTimer: 120
 
+# [Not available]
+# Protection barriades
 Guards:
 - Id: 458
   Range:  458
@@ -15,6 +34,8 @@ Guards:
   Range: 32
   Shield: 1
 
+# [Not available]
+# Overwrites a protection for a structure / barricade
 Overwrites:
 - Id: 1373
   BaseShield: 0
