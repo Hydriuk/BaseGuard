@@ -13,7 +13,7 @@ namespace BaseGuard.RocketMod
     {
         public void LoadDefaults()
         {
-            ActivationMode = EActivationMode.Permanent;
+            ActivationMode = EActivationMode.Offline;
             GuardMode = EGuardMode.Base;
             BaseShield = 0.5f;
             ActiveRaidTimer = 120;

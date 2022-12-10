@@ -13,9 +13,8 @@ namespace BaseGuard.OpenMod
 {
     public class Plugin : OpenModUnturnedPlugin
     {
-        public Plugin(IServiceProvider serviceProvider, IConfigurationProvider configuration) : base(serviceProvider)
+        public Plugin(IServiceProvider serviceProvider, IConfigurationProvider configuration, IGuardProvider guardProvider) : base(serviceProvider)
         {
         }
-
     }
 }

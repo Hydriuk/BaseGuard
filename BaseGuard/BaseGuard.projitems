@@ -29,7 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\UnabledGuardActivator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ActiveRaidProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\RatioDamageReducer.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Services\GuardFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardProvider.cs" />
   </ItemGroup>
 </Project>
