@@ -19,8 +19,8 @@ namespace BaseGuard.Services.DamageReducers
         {
             float newDamage = base.ReduceDamage(damage, buildableInstanceId, position); ;
 
-            List<Guard> guards = _guardProvider.GetGuards(buildableInstanceId, position);
-            if (guards == null || guards.Count == 0)
+            IEnumerable<Guard> guards = _guardProvider.GetGuards(buildableInstanceId, position);
+            if (guards == null || guards.Count() == 0)
                 return newDamage;
 
             float protectionCoefficient = guards
@@ -28,6 +28,7 @@ namespace BaseGuard.Services.DamageReducers
                 .Aggregate((totalShield, guardShield) => totalShield += guardShield);
 
             protectionCoefficient = Mathf.Clamp01(protectionCoefficient);
+
             return newDamage * (1 - protectionCoefficient);
         }
     }

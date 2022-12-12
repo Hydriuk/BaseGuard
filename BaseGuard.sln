@@ -5,9 +5,11 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BaseGuard", "BaseGuard\BaseGuard.shproj", "{75514B43-5D27-47CF-9784-644270F2C98D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenMod", "OpenMod\OpenMod.csproj", "{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenMod", "OpenMod\OpenMod.csproj", "{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketMod", "RocketMod\RocketMod.csproj", "{D391A6CD-6C47-4DFB-BB95-ABE2B56472CA}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ThreadModule", "..\..\_Shared\ThreadModule\ThreadModule.shproj", "{DCB52946-ABFC-446E-A0A0-BC338711D422}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,8 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		BaseGuard\BaseGuard.projitems*{75514b43-5d27-47cf-9784-644270f2c98d}*SharedItemsImports = 13
 		BaseGuard\BaseGuard.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
+		..\..\_Shared\ThreadModule\ThreadModule.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
 		BaseGuard\BaseGuard.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
+		..\..\_Shared\ThreadModule\ThreadModule.projitems*{dcb52946-abfc-446e-a0a0-bc338711d422}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

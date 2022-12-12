@@ -45,7 +45,7 @@ namespace BaseGuard.Services
             switch (configuration.GuardMode)
             {
                 case EGuardMode.Ratio:
-                    _damageReducer = new RatioDamageReducer(configuration);
+                    _damageReducer = new RatioDamageReducer(configuration, guardProvider);
                     break;
 
                 case EGuardMode.Cumulative:

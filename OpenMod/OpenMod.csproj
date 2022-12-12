@@ -42,4 +42,6 @@
 
   <Import Project="..\BaseGuard\BaseGuard.projitems" Label="Shared" />
 
+  <Import Project="..\..\..\_Shared\ThreadModule\ThreadModule.projitems" Label="Shared" />
+
 </Project>

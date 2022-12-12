@@ -45,6 +45,8 @@ namespace BaseGuard.OpenMod.Events
                 new CSteamID(ulong.Parse(@event.Buildable.Ownership.OwnerGroupId))
             );
 
+            Console.WriteLine($"{i} => {@event.DamageAmount}");
+
             return Task.CompletedTask;
 
         }
