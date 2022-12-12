@@ -48,7 +48,6 @@ namespace BaseGuard.OpenMod.Events
             Console.WriteLine($"{i} => {@event.DamageAmount}");
 
             return Task.CompletedTask;
-
         }
     }
 }

@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using ThreadModule.API;
+using ThreadModule.OpenMod;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SocialPlatforms;
@@ -21,8 +23,9 @@ namespace BaseGuard.Services
 #endif
     public class GuardProvider : IGuardProvider
     {
-        private readonly Dictionary<uint, HashSet<Guard>> _buildableGuardsProvider = new Dictionary<uint, HashSet<Guard>>();
+        private readonly IThreadAdatper _threadAdatper;
 
+        private readonly Dictionary<uint, HashSet<Guard>> _buildableGuardsProvider = new Dictionary<uint, HashSet<Guard>>();
         private readonly Dictionary<uint, Guard> _guardProvider = new Dictionary<uint, Guard>();
 
         // Configuration
@@ -31,8 +34,10 @@ namespace BaseGuard.Services
         private readonly float _maxRange;
         private readonly float _sqrMaxRange;
 
-        public GuardProvider(IConfigurationProvider configuration)
+        public GuardProvider(IConfigurationProvider configuration, IThreadAdatper threadAdatper)
         {
+            _threadAdatper = threadAdatper;
+
             _guardAssets = configuration.Guards.ToDictionary(guard => guard.Id);
 
             _maxGuardByType = 0;
@@ -127,37 +132,44 @@ namespace BaseGuard.Services
 
         public void AddGuard(ushort assetId, uint instanceId, Vector3 position)
         {
-            if (!_guardAssets.TryGetValue(assetId, out GuardAsset guardAsset))
-                return;
-
-            // TODO init active state
-            Guard guard = new Guard(guardAsset, instanceId, true);
-
-            List<uint> protectedBuildables = FindProtectedBuildables(position, guardAsset.Range);
-
-            foreach (var id in protectedBuildables)
+            _threadAdatper.RunOnThreadPool(() =>
             {
-                if (_buildableGuardsProvider.TryGetValue(id, out HashSet<Guard> guards))
-                    guards.Add(guard);
-                else
-                    _buildableGuardsProvider.Add(id, new HashSet<Guard> { guard });
-            }
+                if (!_guardAssets.TryGetValue(assetId, out GuardAsset guardAsset))
+                    return;
+
+                // TODO init active state
+                Guard guard = new Guard(guardAsset, instanceId, true);
+
+                List<uint> protectedBuildables = FindProtectedBuildables(position, guardAsset.Range);
+
+                foreach (var id in protectedBuildables)
+                {
+                    if (_buildableGuardsProvider.TryGetValue(id, out HashSet<Guard> guards))
+                        guards.Add(guard);
+                    else
+                        _buildableGuardsProvider.Add(id, new HashSet<Guard> { guard });
+                }
+            });
         }
 
         public void AddBuilable(uint instanceId, Vector3 position)
         {
-            HashSet<Guard> guards = FindGuards(position);
+            _threadAdatper.RunOnThreadPool(() =>
+            {
+                HashSet<Guard> guards = FindGuards(position);
 
-            _buildableGuardsProvider.Add(instanceId, guards);
+                _buildableGuardsProvider.Add(instanceId, guards);
+            });
         }
 
         public void RemoveBuilable(uint instanceId)
         {
-            Console.WriteLine("Remove Buildable");
+            _threadAdatper.RunOnThreadPool(() =>
+            {
+                _buildableGuardsProvider.Remove(instanceId);
 
-            _buildableGuardsProvider.Remove(instanceId);
-
-            RemoveGuard(instanceId);
+                RemoveGuard(instanceId);
+            });
         }
 
         private void RemoveGuard(uint instanceId)
@@ -173,8 +185,6 @@ namespace BaseGuard.Services
         {
             if (!_guardProvider.TryGetValue(instanceId, out Guard guard))
                 return;
-
-            Console.WriteLine("Upadting guard");
 
             guard.IsActive = active;
         }
