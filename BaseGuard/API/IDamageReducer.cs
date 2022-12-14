@@ -6,6 +6,6 @@ namespace BaseGuard.API
 {
     public interface IDamageReducer
     {
-        float ReduceDamage(ushort damage, uint buildableInstanceId, Vector3 position);
+        float ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, Vector3 position);
     }
 }

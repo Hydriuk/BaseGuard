@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BaseGuard.Models
 {
-    public class ShieldOverwrite
+    public class ShieldOverride
     {
         public ushort Id { get; set; }
         public float BaseShield { get; set; }

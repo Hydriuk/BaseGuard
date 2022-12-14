@@ -18,7 +18,7 @@ namespace BaseGuard.RocketMod
             BaseShield = 0.5f;
             ActiveRaidTimer = 120;
             Guards = new List<GuardAsset>();
-            Overwrites = new List<ShieldOverwrite>();
+            Overrides = new List<ShieldOverride>();
         }
     }
 }

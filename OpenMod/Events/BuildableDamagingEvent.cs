@@ -23,11 +23,13 @@ namespace BaseGuard.OpenMod.Events
 
         public Task HandleEventAsync(object? sender, UnturnedBuildableDamagingEvent @event)
         {
+            // Cancel damage reduction if buildable has no owner
             if (!@event.Buildable.Ownership.HasOwner || 
                 @event.Buildable.Ownership.OwnerPlayerId == null && @event.Buildable.Ownership.OwnerGroupId == null || 
                 @event.Buildable == null)
                 return Task.CompletedTask;
 
+            // Cancel damage reduction for technical gameplay damages
             if (@event is { DamageOrigin: 
                 EDamageOrigin.Carepackage_Timeout or
                 EDamageOrigin.Charge_Self_Destruct or
@@ -39,14 +41,13 @@ namespace BaseGuard.OpenMod.Events
 
             var i = @event.DamageAmount;
             @event.DamageAmount = _damageController.ReduceDamage(
-                @event.DamageAmount, 
+                @event.DamageAmount,
+                ushort.Parse(@event.Buildable.Asset.BuildableAssetId),
                 uint.Parse(@event.Buildable.BuildableInstanceId),
                 new Vector3(@event.Buildable.Transform.Position.X, @event.Buildable.Transform.Position.Y, @event.Buildable.Transform.Position.Z), 
                 new CSteamID(ulong.Parse(@event.Buildable.Ownership.OwnerPlayerId)),
                 new CSteamID(ulong.Parse(@event.Buildable.Ownership.OwnerGroupId))
             );
-
-            Console.WriteLine($"{i} => {@event.DamageAmount}");
 
             return Task.CompletedTask;
         }

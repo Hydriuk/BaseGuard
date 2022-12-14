@@ -20,6 +20,6 @@ namespace BaseGuard.API
         int ActiveRaidTimer { get; }
 
         List<GuardAsset> Guards { get; }
-        List<ShieldOverwrite> Overwrites { get; }
+        List<ShieldOverride> Overrides { get; }
     }
 }

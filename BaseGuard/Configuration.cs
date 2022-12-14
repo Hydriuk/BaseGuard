@@ -18,6 +18,6 @@ namespace BaseGuard
 
         public List<GuardAsset> Guards { get; set; } = new List<GuardAsset>();
 
-        public List<ShieldOverwrite> Overwrites { get; set; } = new List<ShieldOverwrite>();
+        public List<ShieldOverride> Overrides { get; set; } = new List<ShieldOverride>();
     }
 }

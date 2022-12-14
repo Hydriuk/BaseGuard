@@ -21,7 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\EGuardMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Guard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GuardAsset.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\ShieldOverwrite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ShieldOverride.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\CumulativeDamageReducer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\BaseDamageReducer.cs" />

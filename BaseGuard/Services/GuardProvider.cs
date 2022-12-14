@@ -33,6 +33,8 @@ namespace BaseGuard.Services
 
         // Configuration
         private readonly Dictionary<ushort, GuardAsset> _guardAssets;
+
+        // TODO add max amount my type
         private readonly int _maxGuardByType;
         private readonly float _maxRange;
         private readonly float _sqrMaxRange;
@@ -69,32 +71,47 @@ namespace BaseGuard.Services
         private List<uint> FindProtectedBuildables(Vector3 position, float range)
         {
             float sqrRange = range * range;
-            List<RegionCoordinate> regions = new List<RegionCoordinate>();
-            Regions.getRegionsInRadius(position, range, regions);
 
-            List<Transform> barricades = new List<Transform>();
-            List<Transform> structures = new List<Transform>();
-            BarricadeManager.getBarricadesInRadius(position, sqrRange, regions, barricades);
-            StructureManager.getStructuresInRadius(position, sqrRange, regions, structures);
-
-            List<uint> protectedBuildables = new List<uint>();
-            foreach (var barricade in barricades)
+            // TODO Change this for a better way to insure the builadables are correctly found
+            // Loop until getInRadius and FindByRoot methods succeed
+            while (true)
             {
-                BarricadeDrop protectedDrop = BarricadeManager.FindBarricadeByRootTransform(barricade);
-                protectedBuildables.Add(protectedDrop.instanceID);
-            }
+                try
+                {
+                    List<RegionCoordinate> regions = new List<RegionCoordinate>();
+                    Regions.getRegionsInRadius(position, range, regions);
 
-            foreach (var structure in structures)
-            {
-                StructureDrop protectedDrop = StructureManager.FindStructureByRootTransform(structure);
-                protectedBuildables.Add(protectedDrop.instanceID);
-            }
+                    List<Transform> barricades = new List<Transform>();
+                    List<Transform> structures = new List<Transform>();
+                    BarricadeManager.getBarricadesInRadius(position, sqrRange, regions, barricades);
+                    StructureManager.getStructuresInRadius(position, sqrRange, regions, structures);
 
-            return protectedBuildables;
+                    List<uint> protectedBuildables = new List<uint>();
+                    foreach (var barricade in barricades)
+                    {
+                        BarricadeDrop protectedDrop = BarricadeManager.FindBarricadeByRootTransform(barricade);
+                        protectedBuildables.Add(protectedDrop.instanceID);
+                    }
+
+                    foreach (var structure in structures)
+                    {
+                        StructureDrop protectedDrop = StructureManager.FindStructureByRootTransform(structure);
+                        protectedBuildables.Add(protectedDrop.instanceID);
+                    }
+
+                    return protectedBuildables;
+                }
+                catch (InvalidOperationException)
+                {
+                    Thread.Sleep(100);
+                }
+            }
         }
 
         private HashSet<Guard> FindGuards(Vector3 position)
         {
+            // TODO Change this for a better way to insure the guards are correctly found
+            // Loop until getInRadius and FindByRoot methods succeed
             while (true)
             {
                 try
@@ -113,7 +130,10 @@ namespace BaseGuard.Services
                         BarricadeDrop protectedDrop = BarricadeManager.FindBarricadeByRootTransform(barricade);
 
                         if (_guardProvider.TryGetValue(protectedDrop.instanceID, out Guard guard))
-                            guards.Add(guard);
+                        {
+                            if(Vector3.Distance(position, barricade.transform.position) < guard.Range)
+                                guards.Add(guard);
+                        }
                     }
 
                     foreach (var structure in structures)
@@ -121,11 +141,14 @@ namespace BaseGuard.Services
                         StructureDrop protectedDrop = StructureManager.FindStructureByRootTransform(structure);
 
                         if (_guardProvider.TryGetValue(protectedDrop.instanceID, out Guard guard))
-                            guards.Add(guard);
+                        {
+                            if (Vector3.Distance(position, structure.transform.position) < guard.Range)
+                                guards.Add(guard);
+                        }
                     }
                     return guards;
                 }
-                catch(InvalidOperationException e)
+                catch(InvalidOperationException)
                 {
                     Thread.Sleep(100);
                 }
@@ -149,8 +172,6 @@ namespace BaseGuard.Services
                     return;
 
                 Guard guard = new Guard(guardAsset, instanceId, isActive);
-
-                // TODO set override
 
                 List<uint> protectedBuildables = FindProtectedBuildables(position, guardAsset.Range);
 

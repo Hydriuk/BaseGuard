@@ -9,6 +9,7 @@ using OpenMod.API.Ioc;
 using Steamworks;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -23,9 +24,12 @@ namespace BaseGuard.Services
     {
         private readonly IGuardActivator _guardActivator;
         private readonly IDamageReducer _damageReducer;
+        private readonly Dictionary<ushort, ShieldOverride> _guardOverrides;
 
         public DamageController(IConfigurationProvider configuration, IActiveRaidProvider activeRaidProvider, IGuardProvider guardProvider)
         {
+            _guardOverrides = configuration.Overrides.ToDictionary(guard => guard.Id);
+
             switch (configuration.ActivationMode)
             {
                 case EActivationMode.Permanent:
@@ -67,14 +71,27 @@ namespace BaseGuard.Services
         /// <param name="playerId"> Id of the player who owns the buildable </param>
         /// <param name="groupId"> Id of the group that owns the builable </param>
         /// <returns></returns>
-        public ushort ReduceDamage(ushort damage, uint buildableInstanceId, Vector3 position, CSteamID playerId, CSteamID groupId)
+        public ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, Vector3 position, CSteamID playerId, CSteamID groupId)
         {
             if (!_guardActivator.TryActivateGuard(playerId, groupId))
                 return damage;
 
-            float newDamage = _damageReducer.ReduceDamage(damage, buildableInstanceId, position);
+            float newDamage = _damageReducer.ReduceDamage(damage, assetId, buildableInstanceId, position);
 
-            damage = (ushort)newDamage;
+            // Apply max override
+            if (_guardOverrides.TryGetValue(assetId, out var shieldOverride)) 
+            {
+                float minDamage = damage * (1 - shieldOverride.MaxShield);
+
+                if (newDamage < minDamage)
+                    damage = (ushort)minDamage;
+                else
+                    damage = (ushort)newDamage;
+            }
+            else
+            {
+                damage = (ushort)newDamage;
+            }
 
             if (Random.value < newDamage % 1)
                 damage++;

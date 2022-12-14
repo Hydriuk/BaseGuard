@@ -15,9 +15,9 @@ namespace BaseGuard.Services.DamageReducers
             _guardProvider = guardProvider;
         }
 
-        public override float ReduceDamage(ushort damage, uint buildableInstanceId, Vector3 position)
+        public override float ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, Vector3 position)
         {
-            float newDamage = base.ReduceDamage(damage, buildableInstanceId, position); ;
+            float newDamage = base.ReduceDamage(damage, assetId, buildableInstanceId, position); ;
 
             IEnumerable<Guard> guards = _guardProvider.GetGuards(buildableInstanceId, position);
             if (guards == null || guards.Count() == 0)
