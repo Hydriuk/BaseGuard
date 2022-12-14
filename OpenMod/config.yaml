@@ -10,8 +10,8 @@ ActivationMode: Offline
 # Control for protection calculation.
 # Values can be :
 #   Base: Only the configured BaseShield is applied
-#   Cumulative [Not available]: In range guards shield value are added
-#   Ratio [Not available]: In range guards shield value are multiplied (0.5 and 0.5 will give 0.75 total shield value)
+#   Cumulative : In range guards shield value are added
+#   Ratio : In range guards shield value are multiplied (0.5 and 0.5 will give 0.75 total shield value)
 GuardMode: Base
 
 # Base protection to apply
@@ -24,7 +24,6 @@ BaseShield: 0.2
 # Value is in seconds
 ActiveRaidTimer: 120
 
-# [Not available]
 # Protection barriades
 Guards:
 - Id: 458

@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)API\IActiveRaidProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IGuardProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\InteractableExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EActivationMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EGuardMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Guard.cs" />

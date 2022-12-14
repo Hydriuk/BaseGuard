@@ -1,4 +1,5 @@
 ﻿using BaseGuard.API;
+using BaseGuard.Extensions;
 using BaseGuard.Models;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
@@ -6,10 +7,12 @@ using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using ThreadModule.API;
 using ThreadModule.OpenMod;
 using UnityEngine;
@@ -24,9 +27,9 @@ namespace BaseGuard.Services
     public class GuardProvider : IGuardProvider
     {
         private readonly IThreadAdatper _threadAdatper;
-
-        private readonly Dictionary<uint, HashSet<Guard>> _buildableGuardsProvider = new Dictionary<uint, HashSet<Guard>>();
-        private readonly Dictionary<uint, Guard> _guardProvider = new Dictionary<uint, Guard>();
+        
+        private readonly ConcurrentDictionary<uint, HashSet<Guard>> _buildableGuardsProvider = new ConcurrentDictionary<uint, HashSet<Guard>>();
+        private readonly ConcurrentDictionary<uint, Guard> _guardProvider = new ConcurrentDictionary<uint, Guard>();
 
         // Configuration
         private readonly Dictionary<ushort, GuardAsset> _guardAssets;
@@ -39,7 +42,6 @@ namespace BaseGuard.Services
             _threadAdatper = threadAdatper;
 
             _guardAssets = configuration.Guards.ToDictionary(guard => guard.Id);
-
             _maxGuardByType = 0;
 
             _maxRange = configuration.Guards.Count > 0 ? configuration.Guards.Max(guard => guard.Range) : 0;
@@ -61,7 +63,7 @@ namespace BaseGuard.Services
         {
             foreach (var barricadeRegion in BarricadeManager.BarricadeRegions)
                 foreach (var drop in barricadeRegion.drops)
-                    AddGuard(drop.asset.id, drop.instanceID, drop.model.position);
+                    AddGuard(drop.asset.id, drop.instanceID, drop.model.position, drop.interactable.IsActive());
         }
 
         private List<uint> FindProtectedBuildables(Vector3 position, float range)
@@ -93,52 +95,62 @@ namespace BaseGuard.Services
 
         private HashSet<Guard> FindGuards(Vector3 position)
         {
-            List<RegionCoordinate> regions = new List<RegionCoordinate>();
-            Regions.getRegionsInRadius(position, _maxRange, regions);
-
-            List<Transform> barricades = new List<Transform>();
-            List<Transform> structures = new List<Transform>();
-            BarricadeManager.getBarricadesInRadius(position, _sqrMaxRange, regions, barricades);
-            StructureManager.getStructuresInRadius(position, _sqrMaxRange, regions, structures);
-
-
-            HashSet<Guard> guards = new HashSet<Guard>();
-            foreach (var barricade in barricades)
+            while (true)
             {
-                BarricadeDrop protectedDrop = BarricadeManager.FindBarricadeByRootTransform(barricade);
+                try
+                {
+                    List<RegionCoordinate> regions = new List<RegionCoordinate>();
+                    Regions.getRegionsInRadius(position, _maxRange, regions);
 
-                if(_guardProvider.TryGetValue(protectedDrop.instanceID, out Guard guard))
-                    guards.Add(guard);
+                    List<Transform> barricades = new List<Transform>();
+                    List<Transform> structures = new List<Transform>();
+                    BarricadeManager.getBarricadesInRadius(position, _sqrMaxRange, regions, barricades);
+                    StructureManager.getStructuresInRadius(position, _sqrMaxRange, regions, structures);
+
+                    HashSet<Guard> guards = new HashSet<Guard>();
+                    foreach (var barricade in barricades)
+                    {
+                        BarricadeDrop protectedDrop = BarricadeManager.FindBarricadeByRootTransform(barricade);
+
+                        if (_guardProvider.TryGetValue(protectedDrop.instanceID, out Guard guard))
+                            guards.Add(guard);
+                    }
+
+                    foreach (var structure in structures)
+                    {
+                        StructureDrop protectedDrop = StructureManager.FindStructureByRootTransform(structure);
+
+                        if (_guardProvider.TryGetValue(protectedDrop.instanceID, out Guard guard))
+                            guards.Add(guard);
+                    }
+                    return guards;
+                }
+                catch(InvalidOperationException e)
+                {
+                    Thread.Sleep(100);
+                }
             }
-
-            foreach (var structure in structures)
-            {
-                StructureDrop protectedDrop = StructureManager.FindStructureByRootTransform(structure);
-
-                if (_guardProvider.TryGetValue(protectedDrop.instanceID, out Guard guard))
-                    guards.Add(guard);
-            }
-
-            return guards;
         }
 
         public IEnumerable<Guard> GetGuards(uint instanceId, Vector3 position)
         {
-            _buildableGuardsProvider.TryGetValue(instanceId, out HashSet<Guard> guards);
+            if (!_buildableGuardsProvider.TryGetValue(instanceId, out HashSet<Guard> guards))
+                return new List<Guard>();
 
             return guards
                 .Where(guard => guard.IsActive);
         }
 
-        public void AddGuard(ushort assetId, uint instanceId, Vector3 position)
+        public void AddGuard(ushort assetId, uint instanceId, Vector3 position, bool isActive)
         {
             _threadAdatper.RunOnThreadPool(() =>
             {
                 if (!_guardAssets.TryGetValue(assetId, out GuardAsset guardAsset))
                     return;
 
-                // TODO init active state
-                Guard guard = new Guard(guardAsset, instanceId, true);
+                Guard guard = new Guard(guardAsset, instanceId, isActive);
+
+                // TODO set override
 
                 List<uint> protectedBuildables = FindProtectedBuildables(position, guardAsset.Range);
 
@@ -147,7 +159,7 @@ namespace BaseGuard.Services
                     if (_buildableGuardsProvider.TryGetValue(id, out HashSet<Guard> guards))
                         guards.Add(guard);
                     else
-                        _buildableGuardsProvider.Add(id, new HashSet<Guard> { guard });
+                        _buildableGuardsProvider.TryAdd(id, new HashSet<Guard> { guard });
                 }
             });
         }
@@ -158,35 +170,39 @@ namespace BaseGuard.Services
             {
                 HashSet<Guard> guards = FindGuards(position);
 
-                _buildableGuardsProvider.Add(instanceId, guards);
+                _buildableGuardsProvider.TryAdd(instanceId, guards);
             });
         }
 
         public void RemoveBuilable(uint instanceId)
         {
-            _threadAdatper.RunOnThreadPool(() =>
-            {
-                _buildableGuardsProvider.Remove(instanceId);
+            _threadAdatper.RunOnThreadPool(() => _buildableGuardsProvider.TryRemove(instanceId, out var _));
 
-                RemoveGuard(instanceId);
-            });
+            RemoveGuard(instanceId);
         }
 
         private void RemoveGuard(uint instanceId)
         {
-            if (!_guardProvider.TryGetValue(instanceId, out Guard guard))
-                return;
+            _threadAdatper.RunOnThreadPool(() =>
+            {
+                if (!_guardProvider.TryGetValue(instanceId, out Guard guard))
+                    return;
 
-            foreach (var guards in _buildableGuardsProvider.Values)
-                guards.Remove(guard);
+                foreach (var guards in _buildableGuardsProvider.Values)
+                    guards.Remove(guard);
+            });
+
         }
 
         public void UpdateGuard(uint instanceId, bool active)
         {
-            if (!_guardProvider.TryGetValue(instanceId, out Guard guard))
-                return;
+            _threadAdatper.RunOnThreadPool(() =>
+            {
+                if (!_guardProvider.TryGetValue(instanceId, out Guard guard))
+                    return;
 
-            guard.IsActive = active;
+                guard.IsActive = active;
+            });
         }
     }
 }

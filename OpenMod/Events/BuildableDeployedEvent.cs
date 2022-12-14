@@ -1,6 +1,8 @@
 ﻿using BaseGuard.API;
+using BaseGuard.Extensions;
 using OpenMod.API.Eventing;
 using OpenMod.Unturned.Building.Events;
+using SDG.Unturned;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -28,7 +30,11 @@ namespace BaseGuard.OpenMod.Events
 
             _guardProvider.AddBuilable(instanceId, position);
 
-            _guardProvider.AddGuard(assetId, instanceId, position);
+            bool isActive = true;
+            if(@event is UnturnedBarricadeDeployedEvent deployedEvent)
+                isActive = deployedEvent.Buildable.Interactable.IsActive();
+
+            _guardProvider.AddGuard(assetId, instanceId, position, isActive);
 
             return Task.CompletedTask;
         }

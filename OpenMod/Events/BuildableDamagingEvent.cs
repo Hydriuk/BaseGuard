@@ -23,8 +23,9 @@ namespace BaseGuard.OpenMod.Events
 
         public Task HandleEventAsync(object? sender, UnturnedBuildableDamagingEvent @event)
         {
-            if (!@event.Buildable.Ownership.HasOwner || @event.Buildable.Ownership.OwnerPlayerId == null ||
-                @event.Buildable.Ownership.OwnerGroupId == null || @event.Buildable == null)
+            if (!@event.Buildable.Ownership.HasOwner || 
+                @event.Buildable.Ownership.OwnerPlayerId == null && @event.Buildable.Ownership.OwnerGroupId == null || 
+                @event.Buildable == null)
                 return Task.CompletedTask;
 
             if (@event is { DamageOrigin: 
