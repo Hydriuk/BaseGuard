@@ -24,18 +24,24 @@ BaseShield: 0.2
 # Value is in seconds
 ActiveRaidTimer: 120
 
-# Protection barriades
+# Protection barricades and structures
 Guards:
+  # Id of the barricade
 - Id: 458
-  Range:  458
+  # Protection range (meters)
+  Range:  16
+  # Protection amount (from 0 to 1)
   Shield: 0.5
+
 - Id: 1230
   Range: 32
   Shield: 1
 
-# [Not available]
-# Overwrites a protection for a structure / barricade
-Overwrites:
+# Overrides a protection for a structure / barricade
+Overrides:
+  # Id of the overrided structure or barricade
 - Id: 1373
+  # Protection the structure has by default (from 0 to 1)
   BaseShield: 0
+  # Maximum protection the structure can have (from 0 to 1)
   MaxShield: 0

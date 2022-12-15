@@ -3,6 +3,7 @@ using BaseGuard.Extensions;
 using BaseGuard.Models;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
+using MoreLinq;
 using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;
@@ -161,7 +162,8 @@ namespace BaseGuard.Services
                 return new List<Guard>();
 
             return guards
-                .Where(guard => guard.IsActive);
+               .Where(guard => guard.IsActive)
+               .DistinctBy(guard => guard.AssetId);
         }
 
         public void AddGuard(ushort assetId, uint instanceId, Vector3 position, bool isActive)
@@ -182,6 +184,8 @@ namespace BaseGuard.Services
                     else
                         _buildableGuardsProvider.TryAdd(id, new HashSet<Guard> { guard });
                 }
+
+                _guardProvider.TryAdd(instanceId, guard);
             });
         }
 
@@ -197,7 +201,10 @@ namespace BaseGuard.Services
 
         public void RemoveBuilable(uint instanceId)
         {
-            _threadAdatper.RunOnThreadPool(() => _buildableGuardsProvider.TryRemove(instanceId, out var _));
+            _threadAdatper.RunOnThreadPool(() =>
+            {
+                _buildableGuardsProvider.TryRemove(instanceId, out var _);
+            });
 
             RemoveGuard(instanceId);
         }

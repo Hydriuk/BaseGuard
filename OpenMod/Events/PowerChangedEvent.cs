@@ -43,13 +43,16 @@ namespace BaseGuard.OpenMod.Events
         public static event PowerUpdatedHandler? PowerUpdated;
 
         // GENERATOR
-        [HarmonyPatch(typeof(InteractableGenerator), nameof(InteractableGenerator.updatePowered))]
+        [HarmonyPatch(typeof(InteractableGenerator), "updateWire")]
         [HarmonyPostfix]
         private static void GeneratorPoweredPostfix(InteractableGenerator __instance)
         {
             BarricadeDrop drop = BarricadeManager.FindBarricadeByRootTransform(__instance.transform);
 
-            PowerUpdated?.Invoke(drop.instanceID, __instance.isPowered);
+            if (drop == null)
+                return;
+
+            PowerUpdated?.Invoke(drop.instanceID, __instance.isPowered && __instance.fuel > 0);
         }
 
         // SAFEZONE

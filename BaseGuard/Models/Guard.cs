@@ -6,7 +6,7 @@ namespace BaseGuard.Models
 {
     public class Guard
     {
-        public ushort Id { get; set; }
+        public ushort AssetId { get; set; }
         public uint InstanceId { get; set; }
         public bool IsActive { get; set; }
         public float Range { get; set; }
@@ -14,7 +14,7 @@ namespace BaseGuard.Models
 
         public Guard(GuardAsset guardAsset, uint instanceId, bool isActive)
         {
-            Id = guardAsset.Id;
+            AssetId = guardAsset.Id;
             InstanceId = instanceId;
             IsActive = isActive;
             Range = guardAsset.Range;

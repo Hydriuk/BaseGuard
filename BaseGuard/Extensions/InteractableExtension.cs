@@ -13,7 +13,7 @@ namespace BaseGuard.Extensions
                 return true;
 
             if (interactable is InteractableGenerator generator)
-                return generator.isPowered;
+                return generator.isPowered && generator.fuel > 0;
 
             if (interactable is InteractableSafezone safezone)
                 return safezone.isPowered && safezone.isWired;

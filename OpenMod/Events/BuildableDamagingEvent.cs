@@ -39,7 +39,6 @@ namespace BaseGuard.OpenMod.Events
             })
                 return Task.CompletedTask;
 
-            var i = @event.DamageAmount;
             @event.DamageAmount = _damageController.ReduceDamage(
                 @event.DamageAmount,
                 ushort.Parse(@event.Buildable.Asset.BuildableAssetId),
