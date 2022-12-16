@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 
-namespace BaseGuard.OpenMod.Services
+namespace BaseGuard.OpenMod
 {
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]
     public class ConfigurationProvider : Configuration

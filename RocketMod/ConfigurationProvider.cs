@@ -17,8 +17,30 @@ namespace BaseGuard.RocketMod
             GuardMode = EGuardMode.Base;
             BaseShield = 0.5f;
             ActiveRaidTimer = 120;
-            Guards = new List<GuardAsset>();
-            Overrides = new List<ShieldOverride>();
+            Guards = new List<GuardAsset>() 
+            {
+                new GuardAsset()
+                {
+                    Id = 458,
+                    Range = 16f,
+                    Shield = 0.5f
+                },
+                new GuardAsset()
+                {
+                    Id = 1230,
+                    Range = 64f,
+                    Shield = 1f
+                }
+            };
+            Overrides = new List<ShieldOverride>() 
+            {
+                new ShieldOverride()
+                {
+                    Id = 1373,
+                    BaseShield = 0f,
+                    MaxShield = 0f
+                }
+            };
         }
     }
 }

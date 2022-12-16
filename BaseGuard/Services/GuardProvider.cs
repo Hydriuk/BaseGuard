@@ -15,7 +15,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using ThreadModule.API;
-using ThreadModule.OpenMod;
 using UnityEngine;
 using UnityEngine.Analytics;
 using UnityEngine.SocialPlatforms;
@@ -35,8 +34,6 @@ namespace BaseGuard.Services
         // Configuration
         private readonly Dictionary<ushort, GuardAsset> _guardAssets;
 
-        // TODO add max amount my type
-        private readonly int _maxGuardByType;
         private readonly float _maxRange;
         private readonly float _sqrMaxRange;
 
@@ -45,7 +42,6 @@ namespace BaseGuard.Services
             _threadAdatper = threadAdatper;
 
             _guardAssets = configuration.Guards.ToDictionary(guard => guard.Id);
-            _maxGuardByType = 0;
 
             _maxRange = configuration.Guards.Count > 0 ? configuration.Guards.Max(guard => guard.Range) : 0;
             _sqrMaxRange = Mathf.Pow(_maxRange, 2);
@@ -163,7 +159,8 @@ namespace BaseGuard.Services
 
             return guards
                .Where(guard => guard.IsActive)
-               .DistinctBy(guard => guard.AssetId);
+               .GroupBy(guard => guard.AssetId)
+               .Select(group => group.First());
         }
 
         public void AddGuard(ushort assetId, uint instanceId, Vector3 position, bool isActive)

@@ -32,8 +32,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RocketMod|AnyCPU'">
     <OutputPath>bin\RocketMod\</OutputPath>
+    <DefineConstants>ROCKETMOD</DefineConstants>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="0Harmony, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Lib.Harmony.2.2.2\lib\net48\0Harmony.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Unturned\Unturned_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
@@ -77,12 +81,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigurationProvider.cs" />
-    <Compile Include="Events\BarricadeDamagingEvent.cs" />
-    <Compile Include="Events\StructureDamagingEvent.cs" />
+    <Compile Include="Events\BuildableDamagingEvent.cs" />
+    <Compile Include="Events\BuildableDeployedEvent.cs" />
+    <Compile Include="Events\BuildableDestroyedEvent.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="..\BaseGuard\BaseGuard.projitems" Label="Shared" />
+  <Import Project="..\..\..\_Shared\ThreadModule\ThreadModule.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

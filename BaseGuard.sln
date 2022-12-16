@@ -35,6 +35,7 @@ Global
 		BaseGuard\BaseGuard.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
 		..\..\_Shared\ThreadModule\ThreadModule.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
 		BaseGuard\BaseGuard.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
+		..\..\_Shared\ThreadModule\ThreadModule.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
 		..\..\_Shared\ThreadModule\ThreadModule.projitems*{dcb52946-abfc-446e-a0a0-bc338711d422}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal
