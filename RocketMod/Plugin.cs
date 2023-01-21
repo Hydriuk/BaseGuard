@@ -48,7 +48,7 @@ namespace BaseGuard.RocketMod
             _buildableDestroyedEvent.Dispose();
             _powerChangedEvent.Dispose();
 
-            _harmony.UnpatchAll();
+            _harmony.UnpatchAll("BaseGuard");
         }
     }
 }
