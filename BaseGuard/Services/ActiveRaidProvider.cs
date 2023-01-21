@@ -19,9 +19,9 @@ namespace BaseGuard.Services
         private readonly Dictionary<CSteamID, float> _activeRaids = new Dictionary<CSteamID, float>();
         private readonly float _raidActiveTime;
 
-        public ActiveRaidProvider()
+        public ActiveRaidProvider(IConfigurationProvider configuration)
         {
-            _raidActiveTime = 120;
+            _raidActiveTime = configuration.ActiveRaidTimer;
         }
 
         public bool TryActivateRaid(CSteamID playerId, CSteamID groupId)

@@ -27,7 +27,7 @@ namespace BaseGuard.RocketMod
         protected override void Load()
         {
             _configurationProvider = Configuration.Instance;
-            _activeRaidProvider = new ActiveRaidProvider();
+            _activeRaidProvider = new ActiveRaidProvider(_configurationProvider);
             _threadAdapter = new ThreadAdapter();
             _guardProvider = new GuardProvider(_configurationProvider, _threadAdapter);
             _damageController = new DamageController(_configurationProvider, _activeRaidProvider, _guardProvider);
