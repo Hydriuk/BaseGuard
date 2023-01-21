@@ -2,9 +2,6 @@
 using OpenMod.API.Ioc;
 #endif
 using Steamworks;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 
 namespace BaseGuard.API
@@ -14,6 +11,15 @@ namespace BaseGuard.API
 #endif
     public interface IDamageController
     {
-        ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, Vector3 position, CSteamID playerId, CSteamID groupId);
+        /// <summary>
+        /// Reduce damage of a buildable
+        /// </summary>
+        /// <param name="damage"> Base damage amount </param>
+        /// <param name="assetId"> Asset id of the buildable </param>
+        /// <param name="buildableInstanceId"> Instance id of the buildable </param>
+        /// <param name="playerId"> Id of the buildable's owner </param>
+        /// <param name="groupId"> Id of the buildable's group </param>
+        /// <returns> The reduced damage </returns>
+        ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, CSteamID playerId, CSteamID groupId);
     }
 }

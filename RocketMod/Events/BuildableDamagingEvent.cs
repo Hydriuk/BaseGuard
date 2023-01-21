@@ -2,10 +2,6 @@
 using SDG.Unturned;
 using Steamworks;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BaseGuard.RocketMod.Events
@@ -50,7 +46,6 @@ namespace BaseGuard.RocketMod.Events
                 pendingTotalDamage,
                 drop.asset.id,
                 data.instanceID,
-                data.point,
                 new CSteamID(data.owner),
                 new CSteamID(data.group)
             );
@@ -78,7 +73,6 @@ namespace BaseGuard.RocketMod.Events
                 pendingTotalDamage,
                 drop.asset.id,
                 data.instanceID,
-                data.point,
                 new CSteamID(data.owner),
                 new CSteamID(data.group)
             );

@@ -1,15 +1,7 @@
 ﻿using BaseGuard.API;
 using HarmonyLib;
-using Microsoft.Extensions.DependencyInjection;
-using OpenMod.API.Ioc;
-using OpenMod.Core.Eventing;
 using SDG.Unturned;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BaseGuard.OpenMod.Events
 {
@@ -24,7 +16,7 @@ namespace BaseGuard.OpenMod.Events
             _guardProvider = guardProvider;
 
             PowerPatches.PowerUpdated += OnPowerUpdated;
-        }   
+        }
 
         public void Dispose()
         {
@@ -73,7 +65,7 @@ namespace BaseGuard.OpenMod.Events
 
             PowerUpdated?.Invoke(drop.instanceID, __instance.isPowered && __instance.isWired);
         }
-        
+
         // OXYGENATOR
         [HarmonyPatch(typeof(InteractableOxygenator), nameof(InteractableOxygenator.updatePowered))]
         [HarmonyPostfix]

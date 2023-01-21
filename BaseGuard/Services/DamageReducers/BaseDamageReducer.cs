@@ -1,9 +1,7 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace BaseGuard.Services.DamageReducers
@@ -20,9 +18,9 @@ namespace BaseGuard.Services.DamageReducers
             _guardOverrides = configuration.Overrides.ToDictionary(guard => guard.Id);
         }
 
-        public virtual float ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, Vector3 position)
+        public virtual float ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId)
         {
-            if(_guardOverrides.TryGetValue(assetId, out var guardOverride))
+            if (_guardOverrides.TryGetValue(assetId, out var guardOverride))
                 return damage * (1 - guardOverride.BaseShield);
             else
                 return damage * (1 - _baseShield);

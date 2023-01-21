@@ -1,8 +1,6 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace BaseGuard
 {

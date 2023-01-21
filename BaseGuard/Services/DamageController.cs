@@ -7,11 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
 using Steamworks;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -64,22 +61,22 @@ namespace BaseGuard.Services
         }
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="buildableInstanceId"></param>
         /// <param name="position"></param>
         /// <param name="playerId"> Id of the player who owns the buildable </param>
         /// <param name="groupId"> Id of the group that owns the builable </param>
         /// <returns></returns>
-        public ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, Vector3 position, CSteamID playerId, CSteamID groupId)
+        public ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, CSteamID playerId, CSteamID groupId)
         {
             if (!_guardActivator.TryActivateGuard(playerId, groupId))
                 return damage;
 
-            float newDamage = _damageReducer.ReduceDamage(damage, assetId, buildableInstanceId, position);
+            float newDamage = _damageReducer.ReduceDamage(damage, assetId, buildableInstanceId);
 
             // Apply max override
-            if (_guardOverrides.TryGetValue(assetId, out var shieldOverride)) 
+            if (_guardOverrides.TryGetValue(assetId, out var shieldOverride))
             {
                 float minDamage = damage * (1 - shieldOverride.MaxShield);
 

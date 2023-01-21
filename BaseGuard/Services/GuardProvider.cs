@@ -10,14 +10,10 @@ using SDG.Unturned;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using ThreadModule.API;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.SocialPlatforms;
 
 namespace BaseGuard.Services
 {
@@ -27,7 +23,7 @@ namespace BaseGuard.Services
     public class GuardProvider : IGuardProvider
     {
         private readonly IThreadAdatper _threadAdatper;
-        
+
         private readonly ConcurrentDictionary<uint, HashSet<Guard>> _buildableGuardsProvider = new ConcurrentDictionary<uint, HashSet<Guard>>();
         private readonly ConcurrentDictionary<uint, Guard> _guardProvider = new ConcurrentDictionary<uint, Guard>();
 
@@ -128,7 +124,7 @@ namespace BaseGuard.Services
 
                         if (_guardProvider.TryGetValue(protectedDrop.instanceID, out Guard guard))
                         {
-                            if(Vector3.Distance(position, barricade.transform.position) < guard.Range)
+                            if (Vector3.Distance(position, barricade.transform.position) < guard.Range)
                                 guards.Add(guard);
                         }
                     }
@@ -145,14 +141,14 @@ namespace BaseGuard.Services
                     }
                     return guards;
                 }
-                catch(InvalidOperationException)
+                catch (InvalidOperationException)
                 {
                     Thread.Sleep(100);
                 }
             }
         }
 
-        public IEnumerable<Guard> GetGuards(uint instanceId, Vector3 position)
+        public IEnumerable<Guard> GetGuards(uint instanceId)
         {
             if (!_buildableGuardsProvider.TryGetValue(instanceId, out HashSet<Guard> guards))
                 return new List<Guard>();
@@ -216,7 +212,6 @@ namespace BaseGuard.Services
                 foreach (var guards in _buildableGuardsProvider.Values)
                     guards.Remove(guard);
             });
-
         }
 
         public void UpdateGuard(uint instanceId, bool active)

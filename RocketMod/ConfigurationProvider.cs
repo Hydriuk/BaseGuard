@@ -1,11 +1,7 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
 using Rocket.API;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BaseGuard.RocketMod
 {
@@ -17,7 +13,7 @@ namespace BaseGuard.RocketMod
             GuardMode = EGuardMode.Base;
             BaseShield = 0.5f;
             ActiveRaidTimer = 120;
-            Guards = new List<GuardAsset>() 
+            Guards = new List<GuardAsset>()
             {
                 new GuardAsset()
                 {
@@ -32,7 +28,7 @@ namespace BaseGuard.RocketMod
                     Shield = 1f
                 }
             };
-            Overrides = new List<ShieldOverride>() 
+            Overrides = new List<ShieldOverride>()
             {
                 new ShieldOverride()
                 {

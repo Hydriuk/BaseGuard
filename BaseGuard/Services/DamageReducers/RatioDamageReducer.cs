@@ -1,9 +1,7 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace BaseGuard.Services.DamageReducers
@@ -17,11 +15,11 @@ namespace BaseGuard.Services.DamageReducers
             _guardProvider = guardProvider;
         }
 
-        public override float ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, Vector3 position)
+        public override float ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId)
         {
-            float newDamage = base.ReduceDamage(damage, assetId, buildableInstanceId, position); ;
+            float newDamage = base.ReduceDamage(damage, assetId, buildableInstanceId); ;
 
-            IEnumerable<Guard> guards = _guardProvider.GetGuards(buildableInstanceId, position);
+            IEnumerable<Guard> guards = _guardProvider.GetGuards(buildableInstanceId);
             if (guards == null || guards.Count() == 0)
                 return newDamage;
 

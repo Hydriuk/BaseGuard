@@ -11,7 +11,6 @@ namespace BaseGuard.RocketMod
 {
     public class Plugin : RocketPlugin<ConfigurationProvider>
     {
-
         private IActiveRaidProvider _activeRaidProvider;
         private IDamageController _damageController;
         private IGuardProvider _guardProvider;
@@ -47,6 +46,7 @@ namespace BaseGuard.RocketMod
             _buildableDamagingEvent.Dispose();
             _buildableDeployedEvent.Dispose();
             _buildableDestroyedEvent.Dispose();
+            _powerChangedEvent.Dispose();
 
             _harmony.UnpatchAll();
         }

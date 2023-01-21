@@ -12,11 +12,11 @@ ActivationMode: Offline
 #   Base: Only the configured BaseShield is applied
 #   Cumulative : In range guards shield value are added
 #   Ratio : In range guards shield value are multiplied (0.5 and 0.5 will give 0.75 total shield value)
-GuardMode: Base
+GuardMode: Ratio
 
 # Base protection to apply
 # Values range from 0 to 1
-BaseShield: 0.2
+BaseShield: 0
 
 # Only useful if ActivationMode is set to Offline
 # If a player disconnects while being raided, his raiders can continue to raid his base.
@@ -34,7 +34,7 @@ Guards:
   Shield: 0.5
 
 - Id: 1230
-  Range: 32
+  Range: 64
   Shield: 1
 
 # Overrides a protection for a structure / barricade

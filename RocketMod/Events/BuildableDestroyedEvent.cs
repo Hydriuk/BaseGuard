@@ -1,12 +1,7 @@
 ﻿using BaseGuard.API;
 using HarmonyLib;
-using JetBrains.Annotations;
 using SDG.Unturned;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BaseGuard.RocketMod.Events
 {
@@ -28,7 +23,6 @@ namespace BaseGuard.RocketMod.Events
 
         public void OnBuildableDestroyed(uint instanceId)
         {
-            Console.WriteLine("remove build");
             _guardProvider.RemoveBuilable(instanceId);
         }
     }

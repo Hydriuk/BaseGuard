@@ -1,12 +1,9 @@
 ﻿using BaseGuard.API;
 using BaseGuard.OpenMod.Events;
 using Cysharp.Threading.Tasks;
-using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 using OpenMod.API.Plugins;
 using OpenMod.Unturned.Plugins;
 using System;
-
 
 [assembly: PluginMetadata("BaseGuard", DisplayName = "BaseGuard", Author = "Hydriuk")]
 
