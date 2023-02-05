@@ -19,10 +19,16 @@ GuardMode: Ratio
 BaseShield: 0
 
 # Only useful if ActivationMode is set to Offline
-# If a player disconnects while being raided, his raiders can continue to raid his base.
-# This value defines how long it needs not to take any damage for it to be protected once the player disconnects.
+# Time with no damage until a raid ends after all the whole raided group disconnected before protection starts.
 # Value is in seconds
 ActiveRaidTimer: 120
+
+# Minimum time between two messages sent to the player by the plugin
+# Value is in seconds
+DamageWarnCooldown: 10
+
+# Icon URL used for messages
+ChatIcon: https://i.imgur.com/V6Jc0S7.png
 
 # Protection barricades and structures
 Guards:

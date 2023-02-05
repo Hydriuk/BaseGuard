@@ -20,6 +20,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="translations.yaml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="OpenMod.Unturned" Version="3.3.8" />
     <PackageReference Include="Legacy2CPSWorkaround" Version="1.0.0">
       <PrivateAssets>All</PrivateAssets>
@@ -32,6 +36,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="config.yaml" />
+    <EmbeddedResource Include="translations.yaml" />
   </ItemGroup>
 
   <Target Name="ChangeAliasesOfNugetRefs" BeforeTargets="FindReferenceAssembliesForReferences;ResolveReferences">
@@ -42,5 +47,7 @@
   <Import Project="..\BaseGuard\BaseGuard.projitems" Label="Shared" />
 
   <Import Project="..\..\..\_Shared\ThreadModule\ThreadModule.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\_Shared\TranslationsModule\TranslationsModule\TranslationsModule.projitems" Label="Shared" />
 
 </Project>

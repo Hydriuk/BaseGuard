@@ -13,6 +13,10 @@ namespace BaseGuard
         public float BaseShield { get; set; }
 
         public int ActiveRaidTimer { get; set; }
+        
+        public int DamageWarnCooldown { get; set; }
+
+        public string ChatIcon { get; set; } = string.Empty;
 
         public List<GuardAsset> Guards { get; set; } = new List<GuardAsset>();
 

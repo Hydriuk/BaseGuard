@@ -47,7 +47,8 @@ namespace BaseGuard.RocketMod.Events
                 drop.asset.id,
                 data.instanceID,
                 new CSteamID(data.owner),
-                new CSteamID(data.group)
+                new CSteamID(data.group),
+                instigatorSteamID
             );
         }
 
@@ -74,7 +75,8 @@ namespace BaseGuard.RocketMod.Events
                 drop.asset.id,
                 data.instanceID,
                 new CSteamID(data.owner),
-                new CSteamID(data.group)
+                new CSteamID(data.group),
+                instigatorSteamID
             );
         }
     }

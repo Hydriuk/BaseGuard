@@ -6,10 +6,10 @@ using BaseGuard.Services.GuardActivators;
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
+using SDG.Unturned;
 using Steamworks;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace BaseGuard.Services
@@ -21,10 +21,17 @@ namespace BaseGuard.Services
     {
         private readonly IGuardActivator _guardActivator;
         private readonly IDamageReducer _damageReducer;
+        private readonly IDamageWarner _damageWarner;
         private readonly Dictionary<ushort, ShieldOverride> _guardOverrides;
 
-        public DamageController(IConfigurationProvider configuration, IActiveRaidProvider activeRaidProvider, IGuardProvider guardProvider)
+        public DamageController(
+            IConfigurationProvider configuration, 
+            IActiveRaidProvider activeRaidProvider, 
+            IGuardProvider guardProvider, 
+            IDamageWarner damageWarner)
         {
+            _damageWarner = damageWarner;
+
             _guardOverrides = configuration.Overrides.ToDictionary(guard => guard.Id);
 
             switch (configuration.ActivationMode)
@@ -68,7 +75,7 @@ namespace BaseGuard.Services
         /// <param name="playerId"> Id of the player who owns the buildable </param>
         /// <param name="groupId"> Id of the group that owns the builable </param>
         /// <returns></returns>
-        public ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, CSteamID playerId, CSteamID groupId)
+        public ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, CSteamID playerId, CSteamID groupId, CSteamID instigatorId)
         {
             if (!_guardActivator.TryActivateGuard(playerId, groupId))
                 return damage;
@@ -81,14 +88,13 @@ namespace BaseGuard.Services
                 float minDamage = damage * (1 - shieldOverride.MaxShield);
 
                 if (newDamage < minDamage)
-                    damage = (ushort)minDamage;
-                else
-                    damage = (ushort)newDamage;
+                    newDamage = minDamage;
             }
-            else
-            {
-                damage = (ushort)newDamage;
-            }
+
+            if(instigatorId != CSteamID.Nil)
+                _damageWarner.TryWarn(PlayerTool.getPlayer(instigatorId), damage, newDamage);
+
+            damage = (ushort)newDamage;
 
             if (Random.value < newDamage % 1)
                 damage++;

@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)API\IConfigurationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IDamageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IDamageReducer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)API\IDamageWarner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IGuardActivator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IActiveRaidProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IGuardProvider.cs" />
@@ -26,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\CumulativeDamageReducer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\BaseDamageReducer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\DamageWarner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\OfflineGuardActivator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\PermanentGuardActivator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\UnabledGuardActivator.cs" />

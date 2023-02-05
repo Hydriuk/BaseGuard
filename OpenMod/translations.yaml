@@ -1,0 +1,4 @@
+﻿# BaseGuard - Transaltions file
+
+DamageCanceled: This structure is under protection, you cannot damage it.
+DamageReduced: This structure is under protection. Damage dealt on this structure is reduced by {Percentage}%.

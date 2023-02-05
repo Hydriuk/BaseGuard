@@ -30,6 +30,13 @@ This plugin allows to protect structures and barricades by a configured amount. 
   <!-- His base will be protected after this (ActiveRaidTimer) seconds without taking damage -->
   <ActiveRaidTimer>120</ActiveRaidTimer>
 
+  <!-- Minimum time between two messages sent to the player by the plugin -->
+  <!-- Value is in seconds -->
+  <DamageWarnCooldown>10</DamageWarnCooldown>
+
+  <!-- Icon URL used for messages -->
+  <ChatIcon>https://i.imgur.com/V6Jc0S7.png</ChatIcon>
+
   <!-- Barricades and structures guards -->
   <Guards>
     <GuardAsset>
@@ -88,6 +95,13 @@ BaseShield: 0
 # His base will be protected after this (ActiveRaidTimer) seconds without taking damage
 ActiveRaidTimer: 120
 
+# Minimum time between two messages sent to the player by the plugin
+# Value is in seconds
+DamageWarnCooldown: 10
+
+# Icon URL used for messages
+ChatIcon: https://i.imgur.com/V6Jc0S7.png
+
 # Barricades and structures guards
 Guards:
   # Id of the guard
@@ -136,6 +150,14 @@ Overrides:
 `ActiveRaidTimer` : *Only used with `ActivationMode: Offline`*.  
 Prevents players from protecting their base while being raided by disconnecting. Their base won't be protected until the amount of seconds defined in `ActiveRaidTimer` has passed without their base taking damage.  
 *Example* : `ActiveRaidTimer: 120` means that if a player disconnects while being raided, the raiders will be able to continue to raid as long as they deal a damage to one of the player's structure / barricade every two minutes.
+
+---
+
+DamageWarnCooldown: When a player tries to damage a protected structure, he will receive a warning. To prevent chat spam, this value tells the plugin to wait between messages. Its value is in seconds.
+
+---
+
+ChatIcon: Icon used when the plugin sends a message to a player
 
 ---
 

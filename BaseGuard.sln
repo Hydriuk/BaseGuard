@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketMod", "RocketMod\Rock
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ThreadModule", "..\..\_Shared\ThreadModule\ThreadModule.shproj", "{DCB52946-ABFC-446E-A0A0-BC338711D422}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TranslationsModule", "..\..\_Shared\TranslationsModule\TranslationsModule\TranslationsModule.shproj", "{CF1938CA-F0F5-44AC-A2FA-5E10FA7829F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		OpenMod|Any CPU = OpenMod|Any CPU
@@ -34,8 +36,11 @@ Global
 		BaseGuard\BaseGuard.projitems*{75514b43-5d27-47cf-9784-644270f2c98d}*SharedItemsImports = 13
 		BaseGuard\BaseGuard.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
 		..\..\_Shared\ThreadModule\ThreadModule.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
+		..\..\_Shared\TranslationsModule\TranslationsModule\TranslationsModule.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
+		..\..\_Shared\TranslationsModule\TranslationsModule\TranslationsModule.projitems*{cf1938ca-f0f5-44ac-a2fa-5e10fa7829f1}*SharedItemsImports = 13
 		BaseGuard\BaseGuard.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
 		..\..\_Shared\ThreadModule\ThreadModule.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
+		..\..\_Shared\TranslationsModule\TranslationsModule\TranslationsModule.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
 		..\..\_Shared\ThreadModule\ThreadModule.projitems*{dcb52946-abfc-446e-a0a0-bc338711d422}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

@@ -20,6 +20,6 @@ namespace BaseGuard.API
         /// <param name="playerId"> Id of the buildable's owner </param>
         /// <param name="groupId"> Id of the buildable's group </param>
         /// <returns> The reduced damage </returns>
-        ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, CSteamID playerId, CSteamID groupId);
+        ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, CSteamID playerId, CSteamID groupId, CSteamID instigatorId);
     }
 }

@@ -17,6 +17,9 @@ namespace BaseGuard.API
         float BaseShield { get; }
         int ActiveRaidTimer { get; }
 
+        int DamageWarnCooldown { get; }
+        string ChatIcon { get; } 
+
         List<GuardAsset> Guards { get; }
         List<ShieldOverride> Overrides { get; }
     }

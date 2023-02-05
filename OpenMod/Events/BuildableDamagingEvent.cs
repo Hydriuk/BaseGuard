@@ -4,7 +4,6 @@ using OpenMod.Unturned.Building.Events;
 using SDG.Unturned;
 using Steamworks;
 using System.Threading.Tasks;
-using UnityEngine;
 
 namespace BaseGuard.OpenMod.Events
 {
@@ -42,7 +41,8 @@ namespace BaseGuard.OpenMod.Events
                 ushort.Parse(@event.Buildable.Asset.BuildableAssetId),
                 uint.Parse(@event.Buildable.BuildableInstanceId),
                 new CSteamID(ulong.Parse(@event.Buildable.Ownership.OwnerPlayerId)),
-                new CSteamID(ulong.Parse(@event.Buildable.Ownership.OwnerGroupId))
+                new CSteamID(ulong.Parse(@event.Buildable.Ownership.OwnerGroupId)),
+                @event.Instigator?.SteamId ?? CSteamID.Nil
             );
 
             return Task.CompletedTask;
