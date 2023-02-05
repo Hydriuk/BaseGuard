@@ -77,26 +77,45 @@ namespace BaseGuard.Services
         /// <returns></returns>
         public ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, CSteamID playerId, CSteamID groupId, CSteamID instigatorId)
         {
-            if (!_guardActivator.TryActivateGuard(playerId, groupId))
-                return damage;
+            float newDamage = damage;
 
-            float newDamage = _damageReducer.ReduceDamage(damage, assetId, buildableInstanceId);
+            if(_guardActivator.TryActivateGuard(playerId, groupId))
+                newDamage = _damageReducer.ReduceDamage(damage, assetId, buildableInstanceId);
 
             // Apply max override
-            if (_guardOverrides.TryGetValue(assetId, out var shieldOverride))
-            {
-                float minDamage = damage * (1 - shieldOverride.MaxShield);
+            newDamage = ApplyOverride(damage, newDamage, assetId);
 
-                if (newDamage < minDamage)
-                    newDamage = minDamage;
-            }
-
-            if(instigatorId != CSteamID.Nil)
+            if (instigatorId != CSteamID.Nil)
                 _damageWarner.TryWarn(PlayerTool.getPlayer(instigatorId), damage, newDamage);
 
-            damage = (ushort)newDamage;
+            damage = ConvertDamage(newDamage);
 
-            if (Random.value < newDamage % 1)
+            return damage;
+        }
+
+        private float ApplyOverride(float baseDamage, float currentDamage, ushort assetId)
+        {
+            if (!_guardOverrides.TryGetValue(assetId, out var shieldOverride))
+                return currentDamage;
+
+            // float minDamage = baseDamage * (1 - shieldOverride.MinShield);
+
+            float maxDamage = baseDamage * (1 - shieldOverride.MaxShield);
+
+            //if (currentDamage < minDamage)
+            //    return minShield
+
+            //if (currentDamage > maxDamage)
+            //    return maxDamage;
+
+            return currentDamage > maxDamage ? maxDamage : currentDamage;
+        }
+
+        private ushort ConvertDamage(float damageToConvert)
+        {
+            ushort damage = (ushort)damageToConvert;
+
+            if (Random.value < damageToConvert % 1)
                 damage++;
 
             return damage;
