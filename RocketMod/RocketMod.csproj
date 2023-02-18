@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -92,6 +94,6 @@
   </ItemGroup>
   <Import Project="..\BaseGuard\BaseGuard.projitems" Label="Shared" />
   <Import Project="..\..\..\_Shared\ThreadModule\ThreadModule.projitems" Label="Shared" />
-  <Import Project="..\..\..\_Shared\TranslationsModule\TranslationsModule\TranslationsModule.projitems" Label="Shared" />
+  <Import Project="..\..\..\_Shared\TranslationsModule\TranslationsModule.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,10 +1,12 @@
 ﻿using BaseGuard.API;
+using BaseGuard.Models;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;
 using Steamworks;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,14 +20,38 @@ namespace BaseGuard.Services
         // FYI https://theburningmonk.com/2011/03/hashset-vs-list-vs-dictionary/
         private readonly Dictionary<CSteamID, float> _activeRaids = new Dictionary<CSteamID, float>();
         private readonly float _raidActiveTime;
+        private readonly Func<CSteamID, bool> _protectGroup;
 
         public ActiveRaidProvider(IConfigurationProvider configuration)
         {
             _raidActiveTime = configuration.ActiveRaidTimer;
+
+            switch (configuration.ProtectedGroups)
+            {
+                case EGroupType.NoGroup:
+                    _protectGroup = groupId => groupId == CSteamID.Nil;
+                    break;
+
+                case EGroupType.InGameGroup:
+                    _protectGroup = groupId => groupId.GetEAccountType() == EAccountType.k_EAccountTypeConsoleUser;
+                    break;
+
+                case EGroupType.SteamGroup:
+                    _protectGroup = groupId => groupId.GetEAccountType() == EAccountType.k_EAccountTypeClan;
+                    break;
+
+                case EGroupType.All:
+                default:
+                    _protectGroup = groupId => true;
+                    break;
+            }
         }
 
         public bool TryActivateRaid(CSteamID playerId, CSteamID groupId)
         {
+            if (!_protectGroup(groupId))
+                return true;
+
             float time = Time.realtimeSinceStartup;
 
             // Update the player's raid
@@ -72,6 +98,7 @@ namespace BaseGuard.Services
                     break;
             }
 
+            Console.WriteLine(isPlayerSet || isGroupSet);
             // Check if raid is active
             return isPlayerSet || isGroupSet;
         }

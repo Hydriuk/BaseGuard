@@ -13,6 +13,8 @@ namespace BaseGuard
         public float BaseShield { get; set; }
 
         public int ActiveRaidTimer { get; set; }
+
+        public EGroupType ProtectedGroups { get; set; }
         
         public int DamageWarnCooldown { get; set; }
 

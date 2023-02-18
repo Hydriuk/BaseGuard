@@ -48,6 +48,6 @@
 
   <Import Project="..\..\..\_Shared\ThreadModule\ThreadModule.projitems" Label="Shared" />
 
-  <Import Project="..\..\..\_Shared\TranslationsModule\TranslationsModule\TranslationsModule.projitems" Label="Shared" />
+  <Import Project="..\..\..\_Shared\TranslationsModule\TranslationsModule.projitems" Label="Shared" />
 
 </Project>
