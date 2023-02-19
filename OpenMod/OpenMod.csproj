@@ -16,7 +16,15 @@
     <InformationalVersion>0.1.0</InformationalVersion>
     <PackageVersion>0.1.0</PackageVersion>
     <AssemblyName>BaseGuard.OpenMod</AssemblyName>
-    <Configurations>Debug;Release;OpenMod</Configurations>
+    <Configurations>RocketMod;OpenMod</Configurations>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RocketMod|AnyCPU'">
+    <DefineConstants></DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='OpenMod|AnyCPU'">
+    <DefineConstants></DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="LiteDB" Version="5.0.15" />
     <PackageReference Include="OpenMod.Unturned" Version="3.3.8" />
     <PackageReference Include="Legacy2CPSWorkaround" Version="1.0.0">
       <PrivateAssets>All</PrivateAssets>
@@ -49,5 +58,7 @@
   <Import Project="..\..\..\_Shared\ThreadModule\ThreadModule.projitems" Label="Shared" />
 
   <Import Project="..\..\..\_Shared\TranslationsModule\TranslationsModule.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\_Shared\EnvironmentModule\EnvironmentModule.projitems" Label="Shared" />
 
 </Project>

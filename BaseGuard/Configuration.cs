@@ -14,6 +14,8 @@ namespace BaseGuard
 
         public int ActiveRaidTimer { get; set; }
 
+        public int HistoryHoldTime { get; set; }
+
         public EGroupType ProtectedGroups { get; set; }
         
         public int DamageWarnCooldown { get; set; }

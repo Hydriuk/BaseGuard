@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)API\IDamageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IDamageReducer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IDamageWarner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)API\IGroupHistoryStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IGuardActivator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IActiveRaidProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IGuardProvider.cs" />
@@ -24,11 +25,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\EGuardMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Guard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GuardAsset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ShieldOverride.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\CumulativeDamageReducer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\BaseDamageReducer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageWarner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\GroupHistoryStore.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\OfflineGuardActivator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\PermanentGuardActivator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardActivators\UnabledGuardActivator.cs" />

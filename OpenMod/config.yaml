@@ -23,6 +23,10 @@ BaseShield: 0
 # Value is in seconds
 ActiveRaidTimer: 120
 
+# There can be up to a 30min diff for the group history live
+# Hours
+GroupHistoryLiveTime: 30
+
 # Minimum time between two messages sent to the player by the plugin
 # Value is in seconds
 DamageWarnCooldown: 10

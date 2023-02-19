@@ -2,8 +2,11 @@
 using BaseGuard.Events;
 using BaseGuard.RocketMod.Events;
 using BaseGuard.Services;
+using EnvironmentModule.API;
+using EnvironmentModule.RocketMod;
 using HarmonyLib;
 using Rocket.API.Collections;
+using Rocket.Core;
 using Rocket.Core.Plugins;
 using ThreadModule.API;
 using ThreadModule.RocketMod;
@@ -21,11 +24,14 @@ namespace BaseGuard.RocketMod
         private IConfigurationProvider _configurationProvider;
         private ITranslationsAdapter _translations;
         private IDamageWarner _damageWarner;
+        private IGroupHistoryStore _groupHistoryStore;
+        private IEnvironmentProvider _environmentProvider;
 
         private BuildableDamagingEvent _buildableDamagingEvent;
         private BuildableDeployedEvent _buildableDeployedEvent;
         private BuildableDestroyedEvent _buildableDestroyedEvent;
         private PowerChangedEvent _powerChangedEvent;
+        private GroupChangedEvent _groupChangedEvent;
 
         private Harmony _harmony;
 
@@ -33,9 +39,11 @@ namespace BaseGuard.RocketMod
         {
             _configurationProvider = Configuration.Instance;
             _translations = new TranslationsAdapter(Translations.Instance);
-            _damageWarner = new DamageWarner(_configurationProvider, _translations); 
-            _activeRaidProvider = new ActiveRaidProvider(_configurationProvider);
+            _damageWarner = new DamageWarner(_configurationProvider, _translations);
+            _environmentProvider = new EnvironmentProvider(this);
             _threadAdapter = new ThreadAdapter();
+            _groupHistoryStore = new GroupHistoryStore(_configurationProvider, _environmentProvider, _threadAdapter);
+            _activeRaidProvider = new ActiveRaidProvider(_configurationProvider, _groupHistoryStore);
             _guardProvider = new GuardProvider(_configurationProvider, _threadAdapter);
             _damageController = new DamageController(_configurationProvider, _activeRaidProvider, _guardProvider, _damageWarner);
 
@@ -43,6 +51,7 @@ namespace BaseGuard.RocketMod
             _buildableDeployedEvent = new BuildableDeployedEvent(_guardProvider);
             _buildableDestroyedEvent = new BuildableDestroyedEvent(_guardProvider);
             _powerChangedEvent = new PowerChangedEvent(_guardProvider);
+            _groupChangedEvent = new GroupChangedEvent(_groupHistoryStore);
 
             _harmony = new Harmony("BaseGuard");
             _harmony.PatchAll();
@@ -50,10 +59,13 @@ namespace BaseGuard.RocketMod
 
         protected override void Unload()
         {
+            _groupHistoryStore.Dispose();
+
             _buildableDamagingEvent.Dispose();
             _buildableDeployedEvent.Dispose();
             _buildableDestroyedEvent.Dispose();
             _powerChangedEvent.Dispose();
+            _groupChangedEvent.Dispose();
 
             _harmony.UnpatchAll("BaseGuard");
         }

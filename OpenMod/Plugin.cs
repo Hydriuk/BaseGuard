@@ -1,6 +1,7 @@
 ﻿using BaseGuard.API;
 using BaseGuard.OpenMod.Events;
 using Cysharp.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Plugins;
 using OpenMod.Unturned.Plugins;
 using System;
@@ -13,9 +14,20 @@ namespace BaseGuard.OpenMod
     {
         private readonly PowerChangedEvent _powerChangedEvent;
 
-        public Plugin(IServiceProvider serviceProvider, IConfigurationProvider configuration, IGuardProvider guardProvider) : base(serviceProvider)
+        private readonly IServiceProvider _serviceProvider;
+
+        public Plugin(IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            _powerChangedEvent = new PowerChangedEvent(guardProvider);
+            _serviceProvider = serviceProvider;
+
+            _powerChangedEvent = new PowerChangedEvent((IGuardProvider)serviceProvider.GetService(typeof(IGuardProvider)));
+        }
+
+        protected override UniTask OnLoadAsync()
+        {
+            _serviceProvider.GetRequiredService<IGroupHistoryStore>();
+
+            return UniTask.CompletedTask;
         }
 
         protected override UniTask OnUnloadAsync()

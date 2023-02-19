@@ -8,6 +8,8 @@ using SDG.Unturned;
 using Steamworks;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
 
 namespace BaseGuard.Services
@@ -17,13 +19,16 @@ namespace BaseGuard.Services
 #endif
     public class ActiveRaidProvider : IActiveRaidProvider
     {
+        private readonly IGroupHistoryStore _groupHistoryStore;
+        
         // FYI https://theburningmonk.com/2011/03/hashset-vs-list-vs-dictionary/
         private readonly Dictionary<CSteamID, float> _activeRaids = new Dictionary<CSteamID, float>();
         private readonly float _raidActiveTime;
         private readonly Func<CSteamID, bool> _protectGroup;
 
-        public ActiveRaidProvider(IConfigurationProvider configuration)
+        public ActiveRaidProvider(IConfigurationProvider configuration, IGroupHistoryStore groupHistoryStore)
         {
+            _groupHistoryStore = groupHistoryStore;
             _raidActiveTime = configuration.ActiveRaidTimer;
 
             switch (configuration.ProtectedGroups)
@@ -94,11 +99,16 @@ namespace BaseGuard.Services
                     isPlayerSet = true;
                 }
 
+                if (!isGroupSet && _groupHistoryStore.PlayerWasInGroup(sPlayer.playerID.steamID, groupId))
+                {
+                    _activeRaids.Add(groupId, Time.realtimeSinceStartup);
+                    isGroupSet = true;
+                }
+
                 if (isPlayerSet && isGroupSet)
                     break;
             }
 
-            Console.WriteLine(isPlayerSet || isGroupSet);
             // Check if raid is active
             return isPlayerSet || isGroupSet;
         }

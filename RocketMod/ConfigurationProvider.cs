@@ -13,6 +13,8 @@ namespace BaseGuard.RocketMod
             GuardMode = EGuardMode.Base;
             BaseShield = 0.5f;
             ActiveRaidTimer = 120;
+            HistoryHoldTime = 108000;
+            ProtectedGroups = EGroupType.All;
             DamageWarnCooldown = 10;
             ChatIcon = "https://i.imgur.com/V6Jc0S7.png";
             Guards = new List<GuardAsset>()
