@@ -1,11 +1,11 @@
 ﻿using BaseGuard.API;
+using Hydriuk.Unturned.SharedModules.Adapters;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;
 using System.Collections.Generic;
-using TranslationsModule.API;
 using UnityEngine;
 
 namespace BaseGuard.Services
@@ -22,12 +22,12 @@ namespace BaseGuard.Services
 
         private readonly Dictionary<Player, float> _lastWarnTimeProvider = new Dictionary<Player, float>();
 
-        public DamageWarner(IConfigurationProvider configuration, ITranslationsAdapter translations)
+        public DamageWarner(IConfigurationAdapter<Configuration> confAdapter, ITranslationsAdapter translations)
         {
             _translationsAdapter = translations;
 
-            _coolddown = configuration.DamageWarnCooldown;
-            _chatIcon = configuration.ChatIcon;
+            _coolddown = confAdapter.Configuration.DamageWarnCooldown;
+            _chatIcon = confAdapter.Configuration.ChatIcon;
         }
 
         public void TryWarn(Player player, float oldDamage, float newDamage)

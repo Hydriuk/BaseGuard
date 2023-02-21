@@ -1,10 +1,10 @@
-﻿using BaseGuard.API;
-using BaseGuard.Models;
+﻿using BaseGuard.Models;
+using Hydriuk.Unturned.SharedModules.Adapters;
 using System.Collections.Generic;
 
 namespace BaseGuard
 {
-    public class Configuration : IConfigurationProvider
+    public class Configuration : IPluginConfiguration
     {
         public EActivationMode ActivationMode { get; set; }
 
@@ -17,7 +17,7 @@ namespace BaseGuard
         public int HistoryHoldTime { get; set; }
 
         public EGroupType ProtectedGroups { get; set; }
-        
+
         public int DamageWarnCooldown { get; set; }
 
         public string ChatIcon { get; set; } = string.Empty;

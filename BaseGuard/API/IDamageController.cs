@@ -2,7 +2,6 @@
 using OpenMod.API.Ioc;
 #endif
 using Steamworks;
-using UnityEngine;
 
 namespace BaseGuard.API
 {

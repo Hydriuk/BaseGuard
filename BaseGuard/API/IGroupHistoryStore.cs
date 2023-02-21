@@ -3,8 +3,6 @@ using OpenMod.API.Ioc;
 #endif
 using Steamworks;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BaseGuard.API
 {

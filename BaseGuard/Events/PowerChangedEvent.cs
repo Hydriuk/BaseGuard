@@ -32,11 +32,7 @@ namespace BaseGuard.Events
     [HarmonyPatch]
     public class PowerPatches
     {
-#if OPENMOD
         public static event PowerUpdatedHandler? PowerUpdated;
-#elif ROCKETMOD
-        public static event PowerUpdatedHandler PowerUpdated;
-#endif
 
         // GENERATOR
         [HarmonyPatch(typeof(InteractableGenerator), "updateWire")]

@@ -1,6 +1,6 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
-using EnvironmentModule.API;
+using Hydriuk.Unturned.SharedModules.Adapters;
 using LiteDB;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
@@ -8,15 +8,8 @@ using OpenMod.API.Ioc;
 #endif
 using Steamworks;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using ThreadModule.API;
-using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace BaseGuard.Services
 {
@@ -34,15 +27,15 @@ namespace BaseGuard.Services
 
         private readonly int _historyHoldingTime;
 
-        public GroupHistoryStore(IConfigurationProvider configuration, IEnvironmentProvider environment, IThreadAdatper threadAdatper) 
+        public GroupHistoryStore(IConfigurationAdapter<Configuration> confAdapter, IEnvironmentAdapter environmentAdapter, IThreadAdatper threadAdatper)
         {
             _threadAdapter = threadAdatper;
-            _historyHoldingTime = configuration.HistoryHoldTime;
+            _historyHoldingTime = confAdapter.Configuration.HistoryHoldTime;
 
             if (_historyHoldingTime == 0)
                 return;
 
-            _database = new LiteDatabase(Path.Combine(environment.Directory, "groupHistory.db"));
+            _database = new LiteDatabase(Path.Combine(environmentAdapter.Directory, "groupHistory.db"));
             _groupHistory = _database.GetCollection<GroupQuit>();
 
             _groupHistory.EnsureIndex(group => group.PlayerId);

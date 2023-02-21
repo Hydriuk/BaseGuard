@@ -1,8 +1,8 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
+using Hydriuk.Unturned.SharedModules.Adapters;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace BaseGuard.Services.DamageReducers
 {
@@ -12,10 +12,10 @@ namespace BaseGuard.Services.DamageReducers
 
         private readonly Dictionary<ushort, ShieldOverride> _guardOverrides;
 
-        public BaseDamageReducer(IConfigurationProvider configuration)
+        public BaseDamageReducer(IConfigurationAdapter<Configuration> confAdapter)
         {
-            _baseShield = configuration.BaseShield;
-            _guardOverrides = configuration.Overrides.ToDictionary(guard => guard.Id);
+            _baseShield = confAdapter.Configuration.BaseShield;
+            _guardOverrides = confAdapter.Configuration.Overrides.ToDictionary(guard => guard.Id);
         }
 
         public virtual float ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId)

@@ -2,30 +2,26 @@
 using BaseGuard.Events;
 using BaseGuard.RocketMod.Events;
 using BaseGuard.Services;
-using EnvironmentModule.API;
-using EnvironmentModule.RocketMod;
 using HarmonyLib;
+using Hydriuk.Unturned.RocketModModules.Adapters;
+using Hydriuk.Unturned.SharedModules.Adapters;
 using Rocket.API.Collections;
-using Rocket.Core;
 using Rocket.Core.Plugins;
-using ThreadModule.API;
-using ThreadModule.RocketMod;
-using TranslationsModule.API;
-using TranslationsModule.RocketMod;
+using RocketMod;
 
 namespace BaseGuard.RocketMod
 {
-    public class Plugin : RocketPlugin<ConfigurationProvider>
+    public class Plugin : RocketPlugin<RocketConfiguration>
     {
         private IActiveRaidProvider _activeRaidProvider;
         private IDamageController _damageController;
         private IGuardProvider _guardProvider;
         private IThreadAdatper _threadAdapter;
-        private IConfigurationProvider _configurationProvider;
+        private IConfigurationAdapter<Configuration> _configurationAdapter;
         private ITranslationsAdapter _translations;
         private IDamageWarner _damageWarner;
         private IGroupHistoryStore _groupHistoryStore;
-        private IEnvironmentProvider _environmentProvider;
+        private IEnvironmentAdapter _environmentAdapter;
 
         private BuildableDamagingEvent _buildableDamagingEvent;
         private BuildableDeployedEvent _buildableDeployedEvent;
@@ -37,16 +33,15 @@ namespace BaseGuard.RocketMod
 
         protected override void Load()
         {
-            _configurationProvider = Configuration.Instance;
+            _configurationAdapter = Configuration.Instance;
             _translations = new TranslationsAdapter(Translations.Instance);
-            _damageWarner = new DamageWarner(_configurationProvider, _translations);
-            _environmentProvider = new EnvironmentProvider(this);
+            _damageWarner = new DamageWarner(_configurationAdapter, _translations);
+            _environmentAdapter = new EnvironmentAdapter(this);
             _threadAdapter = new ThreadAdapter();
-            _groupHistoryStore = new GroupHistoryStore(_configurationProvider, _environmentProvider, _threadAdapter);
-            _activeRaidProvider = new ActiveRaidProvider(_configurationProvider, _groupHistoryStore);
-            _guardProvider = new GuardProvider(_configurationProvider, _threadAdapter);
-            _damageController = new DamageController(_configurationProvider, _activeRaidProvider, _guardProvider, _damageWarner);
-
+            _groupHistoryStore = new GroupHistoryStore(_configurationAdapter, _environmentAdapter, _threadAdapter);
+            _activeRaidProvider = new ActiveRaidProvider(_configurationAdapter, _groupHistoryStore);
+            _guardProvider = new GuardProvider(_configurationAdapter, _threadAdapter);
+            _damageController = new DamageController(_configurationAdapter, _activeRaidProvider, _guardProvider, _damageWarner);
             _buildableDamagingEvent = new BuildableDamagingEvent(_damageController);
             _buildableDeployedEvent = new BuildableDeployedEvent(_guardProvider);
             _buildableDestroyedEvent = new BuildableDestroyedEvent(_guardProvider);
@@ -60,7 +55,6 @@ namespace BaseGuard.RocketMod
         protected override void Unload()
         {
             _groupHistoryStore.Dispose();
-
             _buildableDamagingEvent.Dispose();
             _buildableDeployedEvent.Dispose();
             _buildableDestroyedEvent.Dispose();

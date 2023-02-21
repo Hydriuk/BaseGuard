@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace BaseGuard.API
+﻿namespace BaseGuard.API
 {
     public interface IDamageReducer
     {

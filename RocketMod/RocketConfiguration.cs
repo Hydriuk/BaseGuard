@@ -1,12 +1,17 @@
-﻿using BaseGuard.API;
+﻿using BaseGuard;
 using BaseGuard.Models;
+using Hydriuk.Unturned.SharedModules.Adapters;
 using Rocket.API;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
-namespace BaseGuard.RocketMod
+namespace RocketMod
 {
-    public class ConfigurationProvider : Configuration, IConfigurationProvider, IRocketPluginConfiguration
+    public class RocketConfiguration : Configuration, IConfigurationAdapter<Configuration>, IRocketPluginConfiguration
     {
+        [XmlIgnore]
+        public Configuration Configuration { get => this; }
+
         public void LoadDefaults()
         {
             ActivationMode = EActivationMode.Offline;

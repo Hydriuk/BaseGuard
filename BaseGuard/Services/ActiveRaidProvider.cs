@@ -1,5 +1,6 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
+using Hydriuk.Unturned.SharedModules.Adapters;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
@@ -8,8 +9,6 @@ using SDG.Unturned;
 using Steamworks;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using UnityEngine;
 
 namespace BaseGuard.Services
@@ -20,18 +19,18 @@ namespace BaseGuard.Services
     public class ActiveRaidProvider : IActiveRaidProvider
     {
         private readonly IGroupHistoryStore _groupHistoryStore;
-        
+
         // FYI https://theburningmonk.com/2011/03/hashset-vs-list-vs-dictionary/
         private readonly Dictionary<CSteamID, float> _activeRaids = new Dictionary<CSteamID, float>();
         private readonly float _raidActiveTime;
         private readonly Func<CSteamID, bool> _protectGroup;
 
-        public ActiveRaidProvider(IConfigurationProvider configuration, IGroupHistoryStore groupHistoryStore)
+        public ActiveRaidProvider(IConfigurationAdapter<Configuration> confAdapter, IGroupHistoryStore groupHistoryStore)
         {
             _groupHistoryStore = groupHistoryStore;
-            _raidActiveTime = configuration.ActiveRaidTimer;
+            _raidActiveTime = confAdapter.Configuration.ActiveRaidTimer;
 
-            switch (configuration.ProtectedGroups)
+            switch (confAdapter.Configuration.ProtectedGroups)
             {
                 case EGroupType.NoGroup:
                     _protectGroup = groupId => groupId == CSteamID.Nil;

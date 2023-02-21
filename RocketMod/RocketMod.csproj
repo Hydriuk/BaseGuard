@@ -4,41 +4,38 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D391A6CD-6C47-4DFB-BB95-ABE2B56472CA}</ProjectGuid>
+    <ProjectGuid>{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BaseGuard.RocketMod</RootNamespace>
     <AssemblyName>BaseGuard.RocketMod</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'RocketMod|AnyCPU'">
-    <OutputPath>bin\RocketMod\</OutputPath>
-    <DefineConstants>ROCKETMOD</DefineConstants>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'OpenMod|AnyCPU'">
-    <OutputPath>bin\OpenMod\</OutputPath>
-    <DefineConstants>
-    </DefineConstants>
-    <Optimize>true</Optimize>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.2.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Lib.Harmony.2.2.2\lib\net48\0Harmony.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Unturned\Unturned_Data\Managed\Assembly-CSharp.dll</HintPath>
@@ -50,6 +47,7 @@
     </Reference>
     <Reference Include="LiteDB, Version=5.0.15.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\packages\LiteDB.5.0.15\lib\net45\LiteDB.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Rocket.API">
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Unturned\Extras\Rocket.Unturned\Rocket.API.dll</HintPath>
@@ -85,23 +83,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConfigurationProvider.cs" />
     <Compile Include="Events\BuildableDamagingEvent.cs" />
     <Compile Include="Events\BuildableDeployedEvent.cs" />
     <Compile Include="Events\BuildableDestroyedEvent.cs" />
     <Compile Include="Events\GroupChangedEvent.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RocketConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
-  </ItemGroup>
   <Import Project="..\BaseGuard\BaseGuard.projitems" Label="Shared" />
-  <Import Project="..\..\..\_Shared\ThreadModule\ThreadModule.projitems" Label="Shared" />
-  <Import Project="..\..\..\_Shared\TranslationsModule\TranslationsModule.projitems" Label="Shared" />
-  <Import Project="..\..\..\_Shared\EnvironmentModule\EnvironmentModule.projitems" Label="Shared" />
+  <Import Project="..\..\..\_Shared\RocketModModules\RocketModModules.projitems" Label="Shared" />
+  <Import Project="..\..\..\_Shared\SharedModules\SharedModules.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -2,6 +2,7 @@
 using BaseGuard.Models;
 using BaseGuard.Services.DamageReducers;
 using BaseGuard.Services.GuardActivators;
+using Hydriuk.Unturned.SharedModules.Adapters;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
@@ -25,16 +26,16 @@ namespace BaseGuard.Services
         private readonly Dictionary<ushort, ShieldOverride> _guardOverrides;
 
         public DamageController(
-            IConfigurationProvider configuration, 
-            IActiveRaidProvider activeRaidProvider, 
-            IGuardProvider guardProvider, 
+            IConfigurationAdapter<Configuration> confAdapter,
+            IActiveRaidProvider activeRaidProvider,
+            IGuardProvider guardProvider,
             IDamageWarner damageWarner)
         {
             _damageWarner = damageWarner;
 
-            _guardOverrides = configuration.Overrides.ToDictionary(guard => guard.Id);
+            _guardOverrides = confAdapter.Configuration.Overrides.ToDictionary(guard => guard.Id);
 
-            switch (configuration.ActivationMode)
+            switch (confAdapter.Configuration.ActivationMode)
             {
                 case EActivationMode.Permanent:
                     _guardActivator = new PermanentGuardActivator();
@@ -50,19 +51,19 @@ namespace BaseGuard.Services
                     break;
             }
 
-            switch (configuration.GuardMode)
+            switch (confAdapter.Configuration.GuardMode)
             {
                 case EGuardMode.Ratio:
-                    _damageReducer = new RatioDamageReducer(configuration, guardProvider);
+                    _damageReducer = new RatioDamageReducer(confAdapter, guardProvider);
                     break;
 
                 case EGuardMode.Cumulative:
-                    _damageReducer = new CumulativeDamageReducer(configuration, guardProvider);
+                    _damageReducer = new CumulativeDamageReducer(confAdapter, guardProvider);
                     break;
 
                 case EGuardMode.Base:
                 default:
-                    _damageReducer = new BaseDamageReducer(configuration);
+                    _damageReducer = new BaseDamageReducer(confAdapter);
                     break;
             }
         }
@@ -79,7 +80,7 @@ namespace BaseGuard.Services
         {
             float newDamage = damage;
 
-            if(_guardActivator.TryActivateGuard(playerId, groupId))
+            if (_guardActivator.TryActivateGuard(playerId, groupId))
                 newDamage = _damageReducer.ReduceDamage(damage, assetId, buildableInstanceId);
 
             // Apply max override

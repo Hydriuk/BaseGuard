@@ -7,26 +7,37 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "BaseGuard", "BaseGuard\Base
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OpenMod", "OpenMod\OpenMod.csproj", "{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketMod", "RocketMod\RocketMod.csproj", "{D391A6CD-6C47-4DFB-BB95-ABE2B56472CA}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "OpenModModules", "..\..\_Shared\OpenModModules\OpenModModules.shproj", "{1A7199DD-ACBD-4DC9-BB6B-3F35582A7E2D}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ThreadModule", "..\..\_Shared\ThreadModule\ThreadModule.shproj", "{DCB52946-ABFC-446E-A0A0-BC338711D422}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "RocketModModules", "..\..\_Shared\RocketModModules\RocketModModules.shproj", "{73B36C1F-7B23-4547-88E0-8E0EBB3B9635}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TranslationsModule", "..\..\_Shared\TranslationsModule\TranslationsModule.shproj", "{CF1938CA-F0F5-44AC-A2FA-5E10FA7829F1}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SharedModules", "..\..\_Shared\SharedModules\SharedModules.shproj", "{9C68ABD2-3E7D-4D8D-B30A-0C48A236898D}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "EnvironmentModule", "..\..\_Shared\EnvironmentModule\EnvironmentModule.shproj", "{83FAD460-E17F-49BD-88FB-D0EC2E08C649}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketMod", "RocketMod\RocketMod.csproj", "{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
 		OpenMod|Any CPU = OpenMod|Any CPU
+		Release|Any CPU = Release|Any CPU
 		RocketMod|Any CPU = RocketMod|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.Debug|Any CPU.ActiveCfg = RocketMod|Any CPU
+		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.Debug|Any CPU.Build.0 = RocketMod|Any CPU
 		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.OpenMod|Any CPU.ActiveCfg = OpenMod|Any CPU
 		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.OpenMod|Any CPU.Build.0 = OpenMod|Any CPU
+		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.Release|Any CPU.ActiveCfg = RocketMod|Any CPU
+		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.Release|Any CPU.Build.0 = RocketMod|Any CPU
 		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.RocketMod|Any CPU.ActiveCfg = OpenMod|Any CPU
-		{D391A6CD-6C47-4DFB-BB95-ABE2B56472CA}.OpenMod|Any CPU.ActiveCfg = RocketMod|Any CPU
-		{D391A6CD-6C47-4DFB-BB95-ABE2B56472CA}.RocketMod|Any CPU.ActiveCfg = RocketMod|Any CPU
-		{D391A6CD-6C47-4DFB-BB95-ABE2B56472CA}.RocketMod|Any CPU.Build.0 = RocketMod|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.OpenMod|Any CPU.ActiveCfg = Debug|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.OpenMod|Any CPU.Build.0 = Debug|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.RocketMod|Any CPU.ActiveCfg = Release|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.RocketMod|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -35,17 +46,17 @@ Global
 		SolutionGuid = {91914F6B-F3B7-4B59-8A9D-3484CB764855}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		..\..\_Shared\OpenModModules\OpenModModules.projitems*{1a7199dd-acbd-4dc9-bb6b-3f35582a7e2d}*SharedItemsImports = 13
+		BaseGuard\BaseGuard.projitems*{551bfab0-9dfe-4abf-87a5-3de28398f48b}*SharedItemsImports = 4
+		..\..\_Shared\RocketModModules\RocketModModules.projitems*{551bfab0-9dfe-4abf-87a5-3de28398f48b}*SharedItemsImports = 4
+		..\..\_Shared\SharedModules\SharedModules.projitems*{551bfab0-9dfe-4abf-87a5-3de28398f48b}*SharedItemsImports = 4
+		..\..\_Shared\RocketModModules\RocketModModules.projitems*{73b36c1f-7b23-4547-88e0-8e0ebb3b9635}*SharedItemsImports = 13
 		BaseGuard\BaseGuard.projitems*{75514b43-5d27-47cf-9784-644270f2c98d}*SharedItemsImports = 13
-		..\..\_Shared\EnvironmentModule\EnvironmentModule.projitems*{83fad460-e17f-49bd-88fb-d0ec2e08c649}*SharedItemsImports = 13
 		BaseGuard\BaseGuard.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
 		..\..\_Shared\EnvironmentModule\EnvironmentModule.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
-		..\..\_Shared\ThreadModule\ThreadModule.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
+		..\..\_Shared\OpenModModules\OpenModModules.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
+		..\..\_Shared\SharedModules\SharedModules.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
 		..\..\_Shared\TranslationsModule\TranslationsModule.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
-		..\..\_Shared\TranslationsModule\TranslationsModule.projitems*{cf1938ca-f0f5-44ac-a2fa-5e10fa7829f1}*SharedItemsImports = 13
-		BaseGuard\BaseGuard.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
-		..\..\_Shared\EnvironmentModule\EnvironmentModule.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
-		..\..\_Shared\ThreadModule\ThreadModule.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
-		..\..\_Shared\TranslationsModule\TranslationsModule.projitems*{d391a6cd-6c47-4dfb-bb95-abe2b56472ca}*SharedItemsImports = 4
-		..\..\_Shared\ThreadModule\ThreadModule.projitems*{dcb52946-abfc-446e-a0a0-bc338711d422}*SharedItemsImports = 13
+		..\..\_Shared\SharedModules\SharedModules.projitems*{9c68abd2-3e7d-4d8d-b30a-0c48a236898d}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

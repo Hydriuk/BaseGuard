@@ -1,5 +1,6 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
+using Hydriuk.Unturned.SharedModules.Adapters;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace BaseGuard.Services.DamageReducers
     {
         private readonly IGuardProvider _guardProvider;
 
-        public CumulativeDamageReducer(IConfigurationProvider configuration, IGuardProvider guardProvider) : base(configuration)
+        public CumulativeDamageReducer(IConfigurationAdapter<Configuration> confAdapter, IGuardProvider guardProvider) : base(confAdapter)
         {
             _guardProvider = guardProvider;
         }

@@ -9,7 +9,6 @@
     <Import_RootNamespace>BaseGuard</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)API\IConfigurationProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IDamageController.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IDamageReducer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IDamageWarner.cs" />

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net481</TargetFramework>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageTags>openmod openmod-plugin unturned</PackageTags>
     <RootNamespace>BaseGuard.OpenMod</RootNamespace>
@@ -55,10 +55,12 @@
 
   <Import Project="..\BaseGuard\BaseGuard.projitems" Label="Shared" />
 
-  <Import Project="..\..\..\_Shared\ThreadModule\ThreadModule.projitems" Label="Shared" />
-
   <Import Project="..\..\..\_Shared\TranslationsModule\TranslationsModule.projitems" Label="Shared" />
 
   <Import Project="..\..\..\_Shared\EnvironmentModule\EnvironmentModule.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\_Shared\OpenModModules\OpenModModules.projitems" Label="Shared" />
+
+  <Import Project="..\..\..\_Shared\SharedModules\SharedModules.projitems" Label="Shared" />
 
 </Project>

@@ -1,6 +1,7 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Extensions;
 using BaseGuard.Models;
+using Hydriuk.Unturned.SharedModules.Adapters;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using MoreLinq;
@@ -12,7 +13,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using ThreadModule.API;
 using UnityEngine;
 
 namespace BaseGuard.Services
@@ -33,13 +33,13 @@ namespace BaseGuard.Services
         private readonly float _maxRange;
         private readonly float _sqrMaxRange;
 
-        public GuardProvider(IConfigurationProvider configuration, IThreadAdatper threadAdatper)
+        public GuardProvider(IConfigurationAdapter<Configuration> confAdapter, IThreadAdatper threadAdatper)
         {
             _threadAdatper = threadAdatper;
 
-            _guardAssets = configuration.Guards.ToDictionary(guard => guard.Id);
+            _guardAssets = confAdapter.Configuration.Guards.ToDictionary(guard => guard.Id);
 
-            _maxRange = configuration.Guards.Count > 0 ? configuration.Guards.Max(guard => guard.Range) : 0;
+            _maxRange = confAdapter.Configuration.Guards.Count > 0 ? confAdapter.Configuration.Guards.Max(guard => guard.Range) : 0;
             _sqrMaxRange = Mathf.Pow(_maxRange, 2);
 
             if (Level.isLoaded)
