@@ -16,7 +16,7 @@ namespace BaseGuard.Services
 #if OPENMOD
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]
 #endif
-    public class GroupHistoryStore : IGroupHistoryStore, IDisposable
+    public class GroupHistoryStore : IGroupHistoryStore
     {
         private readonly IThreadAdatper _threadAdapter;
 
@@ -25,16 +25,16 @@ namespace BaseGuard.Services
 
         private readonly Timer? _clearTimer;
 
-        private readonly int _historyHoldingTime;
+        private readonly int _historyDuration;
 
         private bool _isClearing { get; set; }
 
         public GroupHistoryStore(IConfigurationAdapter<Configuration> confAdapter, IEnvironmentAdapter environmentAdapter, IThreadAdatper threadAdatper)
         {
             _threadAdapter = threadAdatper;
-            _historyHoldingTime = confAdapter.Configuration.HistoryHoldTime;
+            _historyDuration = confAdapter.Configuration.GroupHistoryDuration;
 
-            if (_historyHoldingTime == 0)
+            if (_historyDuration == 0)
                 return;
 
             _database = new LiteDatabase(Path.Combine(environmentAdapter.Directory, "groupHistory.db"));
@@ -60,7 +60,7 @@ namespace BaseGuard.Services
 
         public void ClearHistory()
         {
-            _groupHistory?.DeleteMany(group => group.QuitTime.AddHours(_historyHoldingTime) < DateTime.Now);
+            _groupHistory?.DeleteMany(group => group.QuitTime.AddHours(_historyDuration) < DateTime.Now);
             _isClearing = false;
         }
 

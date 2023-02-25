@@ -1,57 +1,79 @@
 # BuildGuard - Configuration file
+# More information : https://unturnedstore.com/products/1380
 
-# Control for protection activation.
-# Values can be :
-#   Unabled: No protection
-#   Offline: Protection is active when players are offline
-#   Permanent: Protection is alwyas active
-ActivationMode: Offline
+# # # # # # # # # # # # # # # # # # # # #
+# 
+#    Protection controls
+#
+# # # # # # #
+#
+# Controls general protection activation
+ActivationMode: Offline # Unabled - Offline - Permanent
+#
+# Protection applied when protection is activated.
+BaseShield: 0 # from 0 to 1
+#
+# Controls protection activation depending on the group's type
+ProtectedGroups: Any # NoGroup - InGameGroup - SteamGroup - Any
+#
+# Change protection for specific structures / barricades
+Overrides:
+- Id: 1373
+  BaseShield: 0 # from 0 to 1
+  MaxShield: 0 # from 0 to 1
+#
+# # # # # # #
 
-# Control for protection calculation.
-# Values can be :
-#   Base: Only the configured BaseShield is applied
-#   Cumulative : In range guards shield value are added
-#   Ratio : In range guards shield value are multiplied (0.5 and 0.5 will give 0.75 total shield value)
-GuardMode: Ratio
 
-# Base protection to apply
-# Values range from 0 to 1
-BaseShield: 0
-
-# Only useful if ActivationMode is set to Offline
-# Time with no damage until a raid ends after all the whole raided group disconnected before protection starts.
-# Value is in seconds
-ActiveRaidTimer: 120
-
-# There can be up to a 30min diff for the group history live
-# Hours
-GroupHistoryLiveTime: 30
-
-# Minimum time between two messages sent to the player by the plugin
-# Value is in seconds
-DamageWarnCooldown: 10
-
-# Icon URL used for messages
-ChatIcon: https://i.imgur.com/V6Jc0S7.png
-
-# Protection barricades and structures
+# # # # # # # # # # # # # # # # # # # # #
+#
+#    Guards
+#
+# # # # # # #
+#
+# Controls protection calculation
+GuardMode: Ratio # Base - Cumulative - Ratio
+#
+# Guards list
 Guards:
-  # Id of the barricade
 - Id: 458
-  # Protection range (meters)
-  Range:  16
-  # Protection amount (from 0 to 1)
-  Shield: 0.5
-
+  Range:  16 # in meters
+  Shield: 0.5 # from 0 to 1
 - Id: 1230
   Range: 64
   Shield: 1
+#
+# # # # # # #
 
-# Overrides a protection for a structure / barricade
-Overrides:
-  # Id of the overrided structure or barricade
-- Id: 1373
-  # Protection the structure has by default (from 0 to 1)
-  BaseShield: 0
-  # Maximum protection the structure can have (from 0 to 1)
-  MaxShield: 0
+
+# # # # # # # # # # # # # # # # # # # # #
+#
+#    Chat messages
+#
+# # # # # # #
+#
+# Time needed before a new message can be sent by the plugin
+DamageWarnCooldown: 10 # in seconds
+#
+# Icon URL used for messages
+ChatIcon: https://i.imgur.com/V6Jc0S7.png
+#
+# # # # # # #
+  
+
+# # # # # # # # # # # # # # # # # # # # #
+# 
+#  Anti abuse rules
+#
+# # # # # # #
+#
+# How long a player is still considered part of a group after quitting it
+GroupHistoryDuration: 48 # in hours
+# 
+# Offline mode: How long does it takes for a base to be protected after being damaged when all group players disconnected
+ActiveRaidTimer: 120 # in seconds
+#
+# Offline mode: How long does offline protection lasts
+ProtectionDuration: 24 # in hours - set value to -1 to disable
+#
+# # # # # # #

@@ -22,6 +22,7 @@ namespace BaseGuard.RocketMod
         private IDamageWarner _damageWarner;
         private IGroupHistoryStore _groupHistoryStore;
         private IEnvironmentAdapter _environmentAdapter;
+        private IProtectionDecayProvider _protectionDecayProvider;
 
         private BuildableDamagingEvent _buildableDamagingEvent;
         private BuildableDeployedEvent _buildableDeployedEvent;
@@ -38,8 +39,9 @@ namespace BaseGuard.RocketMod
             _damageWarner = new DamageWarner(_configurationAdapter, _translations);
             _environmentAdapter = new EnvironmentAdapter(this);
             _threadAdapter = new ThreadAdapter();
+            _protectionDecayProvider = new ProtectionDecayProvider(_environmentAdapter, _configurationAdapter);
             _groupHistoryStore = new GroupHistoryStore(_configurationAdapter, _environmentAdapter, _threadAdapter);
-            _activeRaidProvider = new ActiveRaidProvider(_configurationAdapter, _groupHistoryStore);
+            _activeRaidProvider = new ActiveRaidProvider(_configurationAdapter, _groupHistoryStore, _protectionDecayProvider);
             _guardProvider = new GuardProvider(_configurationAdapter, _threadAdapter);
             _damageController = new DamageController(_configurationAdapter, _activeRaidProvider, _guardProvider, _damageWarner);
             _buildableDamagingEvent = new BuildableDamagingEvent(_damageController);
@@ -60,6 +62,7 @@ namespace BaseGuard.RocketMod
             _buildableDestroyedEvent.Dispose();
             _powerChangedEvent.Dispose();
             _groupChangedEvent.Dispose();
+            _protectionDecayProvider.Dispose();
 
             _harmony.UnpatchAll("BaseGuard");
         }

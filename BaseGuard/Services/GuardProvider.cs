@@ -4,7 +4,6 @@ using BaseGuard.Models;
 using Hydriuk.Unturned.SharedModules.Adapters;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
-using MoreLinq;
 using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;

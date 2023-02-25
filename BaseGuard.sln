@@ -17,27 +17,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RocketMod", "RocketMod\Rock
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
 		OpenMod|Any CPU = OpenMod|Any CPU
-		Release|Any CPU = Release|Any CPU
 		RocketMod|Any CPU = RocketMod|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.Debug|Any CPU.ActiveCfg = RocketMod|Any CPU
-		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.Debug|Any CPU.Build.0 = RocketMod|Any CPU
 		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.OpenMod|Any CPU.ActiveCfg = OpenMod|Any CPU
 		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.OpenMod|Any CPU.Build.0 = OpenMod|Any CPU
-		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.Release|Any CPU.ActiveCfg = RocketMod|Any CPU
-		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.Release|Any CPU.Build.0 = RocketMod|Any CPU
-		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.RocketMod|Any CPU.ActiveCfg = OpenMod|Any CPU
-		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.OpenMod|Any CPU.ActiveCfg = Debug|Any CPU
-		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.OpenMod|Any CPU.Build.0 = Debug|Any CPU
-		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.RocketMod|Any CPU.ActiveCfg = Release|Any CPU
-		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.RocketMod|Any CPU.Build.0 = Release|Any CPU
+		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.RocketMod|Any CPU.ActiveCfg = RocketMod|Any CPU
+		{8DEFCF8E-4CC0-461E-84E9-08885ECA9B83}.RocketMod|Any CPU.Build.0 = RocketMod|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.OpenMod|Any CPU.ActiveCfg = OpenMod|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.OpenMod|Any CPU.Build.0 = OpenMod|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.RocketMod|Any CPU.ActiveCfg = RocketMod|Any CPU
+		{551BFAB0-9DFE-4ABF-87A5-3DE28398F48B}.RocketMod|Any CPU.Build.0 = RocketMod|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

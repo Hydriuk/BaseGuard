@@ -17,11 +17,8 @@ namespace RocketMod
             ActivationMode = EActivationMode.Offline;
             GuardMode = EGuardMode.Base;
             BaseShield = 0.5f;
-            ActiveRaidTimer = 120;
-            HistoryHoldTime = 108000;
-            ProtectedGroups = EGroupType.All;
-            DamageWarnCooldown = 10;
-            ChatIcon = "https://i.imgur.com/V6Jc0S7.png";
+            ProtectedGroups = EGroupType.Any;
+
             Guards = new List<GuardAsset>()
             {
                 new GuardAsset()
@@ -46,6 +43,12 @@ namespace RocketMod
                     MaxShield = 0f
                 }
             };
+
+            DamageWarnCooldown = 10;
+            ChatIcon = "https://i.imgur.com/V6Jc0S7.png";
+
+            RaidDuration = 120;
+            GroupHistoryDuration = 48;
         }
     }
 }

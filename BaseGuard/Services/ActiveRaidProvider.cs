@@ -1,6 +1,7 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
 using Hydriuk.Unturned.SharedModules.Adapters;
+using LiteDB;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
@@ -19,16 +20,18 @@ namespace BaseGuard.Services
     public class ActiveRaidProvider : IActiveRaidProvider
     {
         private readonly IGroupHistoryStore _groupHistoryStore;
+        private readonly IProtectionDecayProvider _protectionDecay;
 
         // FYI https://theburningmonk.com/2011/03/hashset-vs-list-vs-dictionary/
         private readonly Dictionary<CSteamID, float> _activeRaids = new Dictionary<CSteamID, float>();
         private readonly float _raidActiveTime;
         private readonly Func<CSteamID, bool> _protectGroup;
 
-        public ActiveRaidProvider(IConfigurationAdapter<Configuration> confAdapter, IGroupHistoryStore groupHistoryStore)
+        public ActiveRaidProvider(IConfigurationAdapter<Configuration> confAdapter, IGroupHistoryStore groupHistoryStore, IProtectionDecayProvider protectionDecay)
         {
             _groupHistoryStore = groupHistoryStore;
-            _raidActiveTime = confAdapter.Configuration.ActiveRaidTimer;
+            _protectionDecay = protectionDecay;
+            _raidActiveTime = confAdapter.Configuration.RaidDuration;
 
             switch (confAdapter.Configuration.ProtectedGroups)
             {
@@ -44,7 +47,7 @@ namespace BaseGuard.Services
                     _protectGroup = groupId => groupId.GetEAccountType() == EAccountType.k_EAccountTypeClan;
                     break;
 
-                case EGroupType.All:
+                case EGroupType.Any:
                 default:
                     _protectGroup = groupId => true;
                     break;
@@ -54,6 +57,9 @@ namespace BaseGuard.Services
         public bool TryActivateRaid(CSteamID playerId, CSteamID groupId)
         {
             if (!_protectGroup(groupId))
+                return true;
+
+            if (_protectionDecay.HasProtectionDecayed(playerId))
                 return true;
 
             float time = Time.realtimeSinceStartup;
