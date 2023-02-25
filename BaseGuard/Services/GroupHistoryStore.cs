@@ -27,6 +27,8 @@ namespace BaseGuard.Services
 
         private readonly int _historyHoldingTime;
 
+        private bool _isClearing { get; set; }
+
         public GroupHistoryStore(IConfigurationAdapter<Configuration> confAdapter, IEnvironmentAdapter environmentAdapter, IThreadAdatper threadAdatper)
         {
             _threadAdapter = threadAdatper;
@@ -42,7 +44,11 @@ namespace BaseGuard.Services
 
             _clearTimer = new Timer(state =>
             {
-                _threadAdapter.RunOnThreadPool(ClearHistory);
+                if (!_isClearing)
+                {
+                    _isClearing = true;
+                    _threadAdapter.RunOnThreadPool(ClearHistory);
+                }
             }, null, 0, 1000 * 60 * 28);
         }
 
@@ -55,6 +61,7 @@ namespace BaseGuard.Services
         public void ClearHistory()
         {
             _groupHistory?.DeleteMany(group => group.QuitTime.AddHours(_historyHoldingTime) < DateTime.Now);
+            _isClearing = false;
         }
 
         public void OnGroupQuit(CSteamID playerId, CSteamID groupId)
