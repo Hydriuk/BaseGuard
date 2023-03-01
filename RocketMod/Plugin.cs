@@ -29,6 +29,8 @@ namespace BaseGuard.RocketMod
         private BuildableDestroyedEvent _buildableDestroyedEvent;
         private PowerChangedEvent _powerChangedEvent;
         private GroupChangedEvent _groupChangedEvent;
+        private PlayerConnectedEvent _playerConnectedEvent;
+        private PlayerDisconnectedEvent _playerDisconnectedEvent;
 
         private Harmony _harmony;
 
@@ -48,7 +50,9 @@ namespace BaseGuard.RocketMod
             _buildableDeployedEvent = new BuildableDeployedEvent(_guardProvider);
             _buildableDestroyedEvent = new BuildableDestroyedEvent(_guardProvider);
             _powerChangedEvent = new PowerChangedEvent(_guardProvider);
-            _groupChangedEvent = new GroupChangedEvent(_groupHistoryStore);
+            _groupChangedEvent = new GroupChangedEvent(_groupHistoryStore, _protectionDecayProvider);
+            _playerConnectedEvent = new PlayerConnectedEvent(_protectionDecayProvider, _groupHistoryStore);
+            _playerDisconnectedEvent = new PlayerDisconnectedEvent(_protectionDecayProvider, _groupHistoryStore);
 
             _harmony = new Harmony("BaseGuard");
             _harmony.PatchAll();
@@ -62,6 +66,8 @@ namespace BaseGuard.RocketMod
             _buildableDestroyedEvent.Dispose();
             _powerChangedEvent.Dispose();
             _groupChangedEvent.Dispose();
+            _playerConnectedEvent.Dispose();
+            _playerDisconnectedEvent.Dispose();
             _protectionDecayProvider.Dispose();
 
             _harmony.UnpatchAll("BaseGuard");

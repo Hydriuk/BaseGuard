@@ -49,6 +49,7 @@ namespace RocketMod
 
             RaidDuration = 120;
             GroupHistoryDuration = 48;
+            ProtectionDuration = 24;
         }
     }
 }

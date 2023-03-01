@@ -1,7 +1,6 @@
 ﻿using BaseGuard.API;
 using BaseGuard.Models;
 using Hydriuk.Unturned.SharedModules.Adapters;
-using LiteDB;
 #if OPENMOD
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
@@ -24,7 +23,7 @@ namespace BaseGuard.Services
 
         // FYI https://theburningmonk.com/2011/03/hashset-vs-list-vs-dictionary/
         private readonly Dictionary<CSteamID, float> _activeRaids = new Dictionary<CSteamID, float>();
-        private readonly float _raidActiveTime;
+        private readonly double _raidActiveTime;
         private readonly Func<CSteamID, bool> _protectGroup;
 
         public ActiveRaidProvider(IConfigurationAdapter<Configuration> confAdapter, IGroupHistoryStore groupHistoryStore, IProtectionDecayProvider protectionDecay)

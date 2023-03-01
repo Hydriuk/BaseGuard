@@ -8,8 +8,10 @@ using OpenMod.API.Ioc;
 #endif
 using Steamworks;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
+using System.Linq;
 
 namespace BaseGuard.Services
 {
@@ -25,7 +27,7 @@ namespace BaseGuard.Services
 
         private readonly Timer? _clearTimer;
 
-        private readonly int _historyDuration;
+        private readonly double _historyDuration;
 
         private bool _isClearing { get; set; }
 
@@ -67,6 +69,13 @@ namespace BaseGuard.Services
         public void OnGroupQuit(CSteamID playerId, CSteamID groupId)
         {
             _groupHistory?.Insert(new GroupQuit(playerId.m_SteamID, groupId.m_SteamID, DateTime.Now));
+        }
+
+        public IEnumerable<CSteamID> GetPlayerGroups(CSteamID playerId)
+        {
+            return _groupHistory?
+                .Find(history => history.PlayerId == playerId.m_SteamID)
+                .Select(history => new CSteamID(history.GroupId)) ?? new List<CSteamID>();
         }
 
         public bool PlayerWasInGroup(CSteamID playerId, CSteamID groupId)

@@ -17,8 +17,8 @@ namespace BaseGuard
         public int DamageWarnCooldown { get; set; }
         public string ChatIcon { get; set; } = string.Empty;
 
-        public int GroupHistoryDuration { get; set; }
-        public int RaidDuration { get; set; }
-        public int ProtectionDuration { get; set; }
+        public double GroupHistoryDuration { get; set; }
+        public double RaidDuration { get; set; }
+        public double ProtectionDuration { get; set; }
     }
 }

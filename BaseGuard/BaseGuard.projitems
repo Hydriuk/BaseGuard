@@ -25,7 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Models\EGuardMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Guard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GuardAsset.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerTime.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\SteamIdTime.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ShieldOverride.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageController.cs" />

@@ -1,5 +1,5 @@
 ﻿using BaseGuard.API;
-using BaseGuard.OpenMod.Events;
+using BaseGuard.Events;
 using Cysharp.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Plugins;

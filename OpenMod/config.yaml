@@ -14,7 +14,7 @@ ActivationMode: Offline # Unabled - Offline - Permanent
 BaseShield: 0 # from 0 to 1
 #
 # Controls protection activation depending on the group's type
-ProtectedGroups: Any # NoGroup - InGameGroup - SteamGroup - Any
+ProtectedGroups: All # NoGroup - InGameGroup - SteamGroup - Any
 #
 # Change protection for specific structures / barricades
 Overrides:
@@ -68,12 +68,12 @@ ChatIcon: https://i.imgur.com/V6Jc0S7.png
 # # # # # # #
 #
 # How long a player is still considered part of a group after quitting it
-GroupHistoryDuration: 48 # in hours
+GroupHistoryDuration: 48 # in hours - set value to 0 to disable
 # 
 # Offline mode: How long does it takes for a base to be protected after being damaged when all group players disconnected
-ActiveRaidTimer: 120 # in seconds
+RaidDuration: 120 # in seconds - set value to 0 to disable
 #
 # Offline mode: How long does offline protection lasts
-ProtectionDuration: 24 # in hours - set value to -1 to disable
+ProtectionDuration: 24 # in hours - set value to 0 to disable
 #
 # # # # # # #

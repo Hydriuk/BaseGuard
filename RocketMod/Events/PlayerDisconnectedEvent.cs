@@ -1,13 +1,11 @@
 ﻿using BaseGuard.API;
-using OpenMod.API.Eventing;
-using OpenMod.Unturned.Players.Connections.Events;
 using SDG.Unturned;
+using System;
 using System.Linq;
-using System.Threading.Tasks;
 
-namespace BaseGuard.OpenMod.Events
+namespace BaseGuard.RocketMod.Events
 {
-    public class PlayerDisconnectedEvent : IEventListener<UnturnedPlayerDisconnectedEvent>
+    public class PlayerDisconnectedEvent : IDisposable
     {
         private readonly IProtectionDecayProvider _protectionDecayProvider;
         private readonly IGroupHistoryStore _groupHistoryStore;
@@ -16,26 +14,31 @@ namespace BaseGuard.OpenMod.Events
         {
             _protectionDecayProvider = protectionDecayProvider;
             _groupHistoryStore = groupHistoryStore;
+
+            Provider.onEnemyDisconnected += OnPlayerDisconnected;
         }
 
-        public Task HandleEventAsync(object? sender, UnturnedPlayerDisconnectedEvent @event)
+        public void Dispose()
         {
-            _protectionDecayProvider.StartTimer(@event.Player.SteamId);
+            Provider.onEnemyDisconnected -= OnPlayerDisconnected;
+        }
 
-            if (!Provider.clients.Any(sPlayer => sPlayer.player.quests.groupID == @event.Player.Player.quests.groupID))
+        private void OnPlayerDisconnected(SteamPlayer sPlayer)
+        {
+            _protectionDecayProvider.StartTimer(sPlayer.playerID.steamID);
+
+            if (!Provider.clients.Any(sPlayer => sPlayer.player.quests.groupID == sPlayer.player.quests.groupID))
             {
-                _protectionDecayProvider.StartTimer(@event.Player.Player.quests.groupID);
+                _protectionDecayProvider.StartTimer(sPlayer.player.quests.groupID);
             }
 
-            var groupHistory = _groupHistoryStore.GetPlayerGroups(@event.Player.SteamId);
+            var groupHistory = _groupHistoryStore.GetPlayerGroups(sPlayer.playerID.steamID);
             var notConnectedGroups = groupHistory.Where(group => !Provider.clients.Any(sPlayer => sPlayer.player.quests.groupID == group));
 
             foreach (var group in notConnectedGroups)
             {
                 _protectionDecayProvider.StartTimer(group);
             }
-
-            return Task.CompletedTask;
         }
     }
 }

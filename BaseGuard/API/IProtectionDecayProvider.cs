@@ -11,8 +11,8 @@ namespace BaseGuard.API
 #endif
     public interface IProtectionDecayProvider : IDisposable
     {
-        void StartTimer(CSteamID playerId);
-        void DestroyTimer(CSteamID playerId);
-        bool HasProtectionDecayed(CSteamID playerId);
+        void StartTimer(CSteamID steamId);
+        void DestroyTimer(CSteamID steamId);
+        bool HasProtectionDecayed(CSteamID steamId);
     }
 }
