@@ -17,6 +17,7 @@
     <PackageVersion>1.2.0</PackageVersion>
     <AssemblyName>BaseGuard.OpenMod</AssemblyName>
     <Configurations>RocketMod;OpenMod</Configurations>
+    <AssemblyVersion>1.2.0</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RocketMod|AnyCPU'">

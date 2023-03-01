@@ -14,7 +14,7 @@ ActivationMode: Offline # Unabled - Offline - Permanent
 BaseShield: 0 # from 0 to 1
 #
 # Controls protection activation depending on the group's type
-ProtectedGroups: All # NoGroup - InGameGroup - SteamGroup - Any
+ProtectedGroups: All # NoGroup - InGameGroup - SteamGroup - All
 #
 # Change protection for specific structures / barricades
 Overrides:
