@@ -16,6 +16,17 @@ BaseShield: 0 # from 0 to 1
 # Controls protection activation depending on the group's type
 ProtectedGroups: All # NoGroup - InGameGroup - SteamGroup - All
 #
+# Schedule when are protections enabled and disabled. Syntax helper : https://crontab.guru/
+Schedule:
+- Protection: On
+  At: 30 22 * 0-4
+- Protection: Off
+  At: 30 18 * * 1-5
+- Protection: On
+  At: 0 2 * 6,0
+- Protection: Off
+  At: 0 8 * * 6,0
+#
 # Change protection for specific structures / barricades
 Overrides:
 - Id: 1373

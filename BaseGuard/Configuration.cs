@@ -9,6 +9,7 @@ namespace BaseGuard
         public EActivationMode ActivationMode { get; set; }
         public float BaseShield { get; set; }
         public EGroupType ProtectedGroups { get; set; }
+        public List<ScheduledProtection> Schedule { get; set; } = new List<ScheduledProtection>();
         public List<ShieldOverride> Overrides { get; set; } = new List<ShieldOverride>();
 
         public EGuardMode GuardMode { get; set; }

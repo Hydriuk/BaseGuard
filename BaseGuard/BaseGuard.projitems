@@ -17,14 +17,17 @@
     <Compile Include="$(MSBuildThisFileDirectory)API\IActiveRaidProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IGuardProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)API\IProtectionDecayProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)API\IProtectionScheduler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Configuration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\PowerChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\InteractableExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EActivationMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EGroupType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\EGuardMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\EState.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\Guard.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\GuardAsset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ScheduledProtection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SteamIdTime.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\PlayerGroup.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\ShieldOverride.cs" />
@@ -40,5 +43,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\DamageReducers\RatioDamageReducer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\GuardProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\ProtectionDecayProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ProtectionScheduler.cs" />
   </ItemGroup>
 </Project>

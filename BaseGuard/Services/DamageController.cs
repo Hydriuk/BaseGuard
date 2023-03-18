@@ -22,6 +22,7 @@ namespace BaseGuard.Services
     {
         private readonly IGuardActivator _guardActivator;
         private readonly IDamageReducer _damageReducer;
+        private readonly IProtectionScheduler _protectionScheduler;
         private readonly IDamageWarner _damageWarner;
         private readonly Dictionary<ushort, ShieldOverride> _guardOverrides;
 
@@ -29,10 +30,11 @@ namespace BaseGuard.Services
             IConfigurationAdapter<Configuration> confAdapter,
             IActiveRaidProvider activeRaidProvider,
             IGuardProvider guardProvider,
+            IProtectionScheduler protectionScheduler,
             IDamageWarner damageWarner)
         {
             _damageWarner = damageWarner;
-
+            _protectionScheduler = protectionScheduler;
             _guardOverrides = confAdapter.Configuration.Overrides.ToDictionary(guard => guard.Id);
 
             switch (confAdapter.Configuration.ActivationMode)
@@ -78,6 +80,9 @@ namespace BaseGuard.Services
         /// <returns></returns>
         public ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, CSteamID playerId, CSteamID groupId, CSteamID instigatorId)
         {
+            if (!_protectionScheduler.IsActive)
+                return damage;
+
             float newDamage = damage;
 
             if (_guardActivator.TryActivateGuard(playerId, groupId))

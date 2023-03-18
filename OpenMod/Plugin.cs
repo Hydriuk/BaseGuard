@@ -26,6 +26,7 @@ namespace BaseGuard.OpenMod
         protected override UniTask OnLoadAsync()
         {
             _serviceProvider.GetRequiredService<IGroupHistoryStore>();
+            _serviceProvider.GetRequiredService<IProtectionScheduler>();
 
             return UniTask.CompletedTask;
         }

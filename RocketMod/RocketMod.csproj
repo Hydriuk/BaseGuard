@@ -50,6 +50,9 @@
       <HintPath>..\packages\LiteDB.5.0.15\lib\net45\LiteDB.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NCrontab.Signed, Version=3.3.2.0, Culture=neutral, PublicKeyToken=5247b4370afff365, processorArchitecture=MSIL">
+      <HintPath>..\packages\NCrontab.Signed.3.3.2\lib\net35\NCrontab.Signed.dll</HintPath>
+    </Reference>
     <Reference Include="Rocket.API">
       <HintPath>..\..\..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Unturned\Extras\Rocket.Unturned\Rocket.API.dll</HintPath>
       <Private>False</Private>
