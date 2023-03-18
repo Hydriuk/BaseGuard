@@ -25,7 +25,7 @@ namespace BaseGuard.Events
 
         private void OnPowerUpdated(uint instanceId, bool powered)
         {
-            _guardProvider.UpdateGuard(instanceId, powered);
+            _guardProvider.UpdateGuardThreaded(instanceId, powered);
         }
     }
 

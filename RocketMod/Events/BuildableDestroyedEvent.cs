@@ -23,7 +23,7 @@ namespace BaseGuard.RocketMod.Events
 
         public void OnBuildableDestroyed(uint instanceId)
         {
-            _guardProvider.RemoveBuilable(instanceId);
+            _guardProvider.RemoveBuilableThreaded(instanceId);
         }
     }
 
@@ -32,7 +32,7 @@ namespace BaseGuard.RocketMod.Events
     {
         public delegate void BuildableDestroyedHandler(uint instanceId);
 
-        public static event BuildableDestroyedHandler BuildableDestroyed;
+        public static event BuildableDestroyedHandler? BuildableDestroyed;
 
         [HarmonyPatch(typeof(BarricadeManager), nameof(BarricadeManager.ReceiveDestroyBarricade))]
         [HarmonyPrefix]

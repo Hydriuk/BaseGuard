@@ -13,16 +13,19 @@ namespace BaseGuard.RocketMod
 {
     public class Plugin : RocketPlugin<RocketConfiguration>
     {
-        private IActiveRaidProvider _activeRaidProvider;
-        private IDamageController _damageController;
-        private IGuardProvider _guardProvider;
-        private IThreadAdatper _threadAdapter;
-        private IConfigurationAdapter<Configuration> _configurationAdapter;
-        private ITranslationsAdapter _translations;
-        private IDamageWarner _damageWarner;
-        private IGroupHistoryStore _groupHistoryStore;
-        private IEnvironmentAdapter _environmentAdapter;
-        private IProtectionDecayProvider _protectionDecayProvider;
+        public static Plugin Instance;
+
+        public IActiveRaidProvider ActiveRaidProvider;
+        public IDamageController DamageController;
+        public IGuardProvider GuardProvider;
+        public IThreadAdatper ThreadAdapter;
+        public IConfigurationAdapter<Configuration> ConfigurationAdapter;
+        public ITranslationsAdapter TranslationsAdapter;
+        public IDamageWarner DamageWarner;
+        public IGroupHistoryStore GroupHistoryStore;
+        public IEnvironmentAdapter EnvironmentAdapter;
+        public IProtectionDecayProvider ProtectionDecayProvider;
+        public IProtectionScheduler ProtectionScheduler;
 
         private BuildableDamagingEvent _buildableDamagingEvent;
         private BuildableDeployedEvent _buildableDeployedEvent;
@@ -36,23 +39,26 @@ namespace BaseGuard.RocketMod
 
         protected override void Load()
         {
-            _configurationAdapter = Configuration.Instance;
-            _translations = new TranslationsAdapter(Translations.Instance);
-            _damageWarner = new DamageWarner(_configurationAdapter, _translations);
-            _environmentAdapter = new EnvironmentAdapter(this);
-            _threadAdapter = new ThreadAdapter();
-            _protectionDecayProvider = new ProtectionDecayProvider(_environmentAdapter, _configurationAdapter);
-            _groupHistoryStore = new GroupHistoryStore(_configurationAdapter, _environmentAdapter, _threadAdapter);
-            _activeRaidProvider = new ActiveRaidProvider(_configurationAdapter, _groupHistoryStore, _protectionDecayProvider);
-            _guardProvider = new GuardProvider(_configurationAdapter, _threadAdapter);
-            _damageController = new DamageController(_configurationAdapter, _activeRaidProvider, _guardProvider, _damageWarner);
-            _buildableDamagingEvent = new BuildableDamagingEvent(_damageController);
-            _buildableDeployedEvent = new BuildableDeployedEvent(_guardProvider);
-            _buildableDestroyedEvent = new BuildableDestroyedEvent(_guardProvider);
-            _powerChangedEvent = new PowerChangedEvent(_guardProvider);
-            _groupChangedEvent = new GroupChangedEvent(_groupHistoryStore, _protectionDecayProvider);
-            _playerConnectedEvent = new PlayerConnectedEvent(_protectionDecayProvider, _groupHistoryStore);
-            _playerDisconnectedEvent = new PlayerDisconnectedEvent(_protectionDecayProvider, _groupHistoryStore);
+            Instance = this;
+
+            ConfigurationAdapter = Configuration.Instance;
+            TranslationsAdapter = new TranslationsAdapter(base.Translations.Instance);
+            DamageWarner = new DamageWarner(ConfigurationAdapter, TranslationsAdapter);
+            EnvironmentAdapter = new EnvironmentAdapter(this);
+            ThreadAdapter = new ThreadAdapter();
+            ProtectionScheduler = new ProtectionScheduler(ConfigurationAdapter, TranslationsAdapter, ThreadAdapter);
+            ProtectionDecayProvider = new ProtectionDecayProvider(EnvironmentAdapter, ConfigurationAdapter);
+            GroupHistoryStore = new GroupHistoryStore(ConfigurationAdapter, EnvironmentAdapter, ThreadAdapter);
+            ActiveRaidProvider = new ActiveRaidProvider(ConfigurationAdapter, GroupHistoryStore, ProtectionDecayProvider);
+            GuardProvider = new GuardProvider(ConfigurationAdapter, ThreadAdapter);
+            DamageController = new DamageController(ConfigurationAdapter, ActiveRaidProvider, GuardProvider, ProtectionScheduler, DamageWarner);
+            _buildableDamagingEvent = new BuildableDamagingEvent(DamageController);
+            _buildableDeployedEvent = new BuildableDeployedEvent(GuardProvider);
+            _buildableDestroyedEvent = new BuildableDestroyedEvent(GuardProvider);
+            _powerChangedEvent = new PowerChangedEvent(GuardProvider);
+            _groupChangedEvent = new GroupChangedEvent(GroupHistoryStore, ProtectionDecayProvider);
+            _playerConnectedEvent = new PlayerConnectedEvent(ProtectionDecayProvider, GroupHistoryStore);
+            _playerDisconnectedEvent = new PlayerDisconnectedEvent(ProtectionDecayProvider, GroupHistoryStore);
 
             _harmony = new Harmony("BaseGuard");
             _harmony.PatchAll();
@@ -60,7 +66,7 @@ namespace BaseGuard.RocketMod
 
         protected override void Unload()
         {
-            _groupHistoryStore.Dispose();
+            GroupHistoryStore.Dispose();
             _buildableDamagingEvent.Dispose();
             _buildableDeployedEvent.Dispose();
             _buildableDestroyedEvent.Dispose();
@@ -68,7 +74,8 @@ namespace BaseGuard.RocketMod
             _groupChangedEvent.Dispose();
             _playerConnectedEvent.Dispose();
             _playerDisconnectedEvent.Dispose();
-            _protectionDecayProvider.Dispose();
+            ProtectionDecayProvider.Dispose();
+            ProtectionScheduler.Dispose();
 
             _harmony.UnpatchAll("BaseGuard");
         }
@@ -76,7 +83,9 @@ namespace BaseGuard.RocketMod
         public override TranslationList DefaultTranslations => new TranslationList()
         {
             { "DamageCanceled", "This structure is under protection, you cannot damage it." },
-            { "DamageReduced", "This structure is under protection. Damage dealt on this structure is reduced by {Percentage}%." }
+            { "DamageReduced", "This structure is under protection. Damage dealt on this structure is reduced by {Percentage}%." },
+            { "ProtectionActivated", "Protection is now active ! Protection will be deactivated in {Hours}h {Minutes}min" },
+            { "ProtectionDeactivated", "Protection is now deactivated ! Protection will be activated in {Hours}h {Minutes}min" }
         };
     }
 }

@@ -18,7 +18,7 @@ namespace BaseGuard.OpenMod.Events
         {
             uint instanceId = uint.Parse(@event.Buildable.BuildableInstanceId);
 
-            _guardProvider.RemoveBuilable(instanceId);
+            _guardProvider.RemoveBuilableThreaded(instanceId);
 
             return Task.CompletedTask;
         }

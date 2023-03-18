@@ -25,18 +25,13 @@ namespace BaseGuard.RocketMod.Events
 
         private void OnBarricadeDeployed(BarricadeRegion region, BarricadeDrop drop)
         {
-            _guardProvider.AddBuilable(drop.instanceID, drop.model.position);
-
             bool isActive = drop.interactable.IsActive();
-
-            _guardProvider.AddGuard(drop.asset.id, drop.instanceID, drop.model.position, isActive);
+            _guardProvider.AddBuilableThreaded(drop.asset.id, drop.instanceID, drop.model.position, isActive);
         }
 
         private void OnStructureDeployed(StructureRegion region, StructureDrop drop)
         {
-            _guardProvider.AddBuilable(drop.instanceID, drop.model.position);
-
-            _guardProvider.AddGuard(drop.asset.id, drop.instanceID, drop.model.position, true);
+            _guardProvider.AddBuilableThreaded(drop.asset.id, drop.instanceID, drop.model.position, true);
         }
     }
 }

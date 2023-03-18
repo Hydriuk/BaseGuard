@@ -5,7 +5,6 @@ using Hydriuk.Unturned.SharedModules.Adapters;
 using Microsoft.Extensions.DependencyInjection;
 using OpenMod.API.Ioc;
 #endif
-using MoreLinq;
 using NCrontab;
 using System;
 using System.Collections.Generic;
@@ -14,15 +13,13 @@ using System.Timers;
 using System.Threading.Tasks;
 using SDG.Unturned;
 using UnityEngine;
-using SmartFormat.Core.Formatting;
-using System.Reflection;
 
 namespace BaseGuard.Services
 {
 #if OPENMOD
     [PluginServiceImplementation(Lifetime = ServiceLifetime.Singleton)]
 #endif
-    public class ProtectionScheduler : IProtectionScheduler, IDisposable
+    public class ProtectionScheduler : IProtectionScheduler
     {
         public bool IsActive { get; private set; } = true;
 
@@ -49,7 +46,14 @@ namespace BaseGuard.Services
 
             if (_patterns.Count > 0)
             {
-                Pattern lastPattern = _patterns.MaxBy(pattern => pattern.PreviousOccurence).LastOrDefault();
+                // Get max pattern by NextOccurence
+                Pattern lastPattern = _patterns[0];
+                foreach (var pattern in _patterns)
+                {
+                    if (pattern.PreviousOccurence > lastPattern.PreviousOccurence)
+                        lastPattern = pattern;
+                }
+
                 IsActive = lastPattern.State;
 
                 _timer.Start();
@@ -69,32 +73,15 @@ namespace BaseGuard.Services
             int seconds = (int)Math.Round(timeLeft.TotalSeconds);
             timeLeft = new TimeSpan(0, 0, seconds);
 
-            try
+            if (IsActive && !string.IsNullOrWhiteSpace(_translationsAdapter["ProtectionActivated"]))
             {
-                if (IsActive && !string.IsNullOrWhiteSpace(_translationsAdapter["ProtectionActivated"]))
-                {
-                    return _translationsAdapter["ProtectionActivated", GetTimes(timeLeft)];
-                }
-                else if (!IsActive && !string.IsNullOrWhiteSpace(_translationsAdapter["ProtectionDeactivated"]))
-                {
-                    return _translationsAdapter["ProtectionDeactivated", GetTimes(timeLeft)];
-                }
-            }
-            catch(FormattingException e)
-            {
-                PropertyInfo[] timeProperties = GetTimes(timeLeft).GetType().GetProperties();
-                string propertiesString = timeProperties
-                    .Select(property => property.Name)
-                    .Aggregate((acc, curr) => $"{acc} {curr}");
-
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.Error.WriteLine($"[{DateTime.Now.ToString("T")}][BaseGuard] - {e.Message}");
-                Console.WriteLine($"[BaseGuard] - Please, review your BaseGuard translations file.");
-                Console.WriteLine($"[BaseGuard] - One or more of the parameters is wrongly written.");
-                Console.WriteLine($"[BaseGuard] - Available parameters are : {propertiesString}");
-                Console.ResetColor();
+                return _translationsAdapter["ProtectionActivated", GetTimes(timeLeft)];
             }
 
+            if (!IsActive && !string.IsNullOrWhiteSpace(_translationsAdapter["ProtectionDeactivated"]))
+            {
+                return _translationsAdapter["ProtectionDeactivated", GetTimes(timeLeft)];
+            }
 
             return string.Empty;
         }
@@ -125,7 +112,12 @@ namespace BaseGuard.Services
 
         private void UpdatePattern()
         {
-            _nextPattern = _patterns.MinBy(scheduler => scheduler.NextOccurence).FirstOrDefault();
+            // Get min pattern by NextOccurence
+            foreach (var pattern in _patterns)
+            {
+                if(pattern.NextOccurence < _nextPattern.NextOccurence)
+                    _nextPattern =  pattern;
+            }
 
             TimeSpan waitTime = _nextPattern.NextOccurence - DateTime.Now;
             if (waitTime <= TimeSpan.Zero)

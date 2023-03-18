@@ -27,13 +27,11 @@ namespace BaseGuard.OpenMod.Events
             ushort assetId = ushort.Parse(@event.Buildable.Asset.BuildableAssetId);
             uint instanceId = uint.Parse(@event.Buildable.BuildableInstanceId);
 
-            _guardProvider.AddBuilable(instanceId, position);
-
             bool isActive = true;
             if (@event is UnturnedBarricadeDeployedEvent deployedEvent)
                 isActive = deployedEvent.Buildable.Interactable.IsActive();
 
-            _guardProvider.AddGuard(assetId, instanceId, position, isActive);
+            _guardProvider.AddBuilableThreaded(assetId, instanceId, position, isActive);
 
             return Task.CompletedTask;
         }

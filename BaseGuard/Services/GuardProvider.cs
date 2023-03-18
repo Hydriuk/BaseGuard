@@ -55,9 +55,12 @@ namespace BaseGuard.Services
 
         private void InitGuards()
         {
-            foreach (var barricadeRegion in BarricadeManager.BarricadeRegions)
-                foreach (var drop in barricadeRegion.drops)
-                    AddGuard(drop.asset.id, drop.instanceID, drop.model.position, drop.interactable.IsActive());
+            _threadAdatper.RunOnThreadPool(() =>
+            {
+                foreach (var barricadeRegion in BarricadeManager.BarricadeRegions)
+                    foreach (var drop in barricadeRegion.drops)
+                        AddGuard(drop.asset.id, drop.instanceID, drop.model.position, drop.interactable.IsActive());
+            });
         }
 
         private List<uint> FindProtectedBuildables(Vector3 position, float range)
@@ -158,62 +161,67 @@ namespace BaseGuard.Services
                .Select(group => group.First());
         }
 
-        public void AddGuard(ushort assetId, uint instanceId, Vector3 position, bool isActive)
+        public void AddGuardThreaded(ushort assetId, uint instanceId, Vector3 position, bool isActive)
         {
             _threadAdatper.RunOnThreadPool(() =>
             {
-                if (!_guardAssets.TryGetValue(assetId, out GuardAsset guardAsset))
-                    return;
-
-                Guard guard = new Guard(guardAsset, instanceId, isActive);
-
-                List<uint> protectedBuildables = FindProtectedBuildables(position, guardAsset.Range);
-
-                foreach (var id in protectedBuildables)
-                {
-                    if (_buildableGuardsProvider.TryGetValue(id, out HashSet<Guard> guards))
-                        guards.Add(guard);
-                    else
-                        _buildableGuardsProvider.TryAdd(id, new HashSet<Guard> { guard });
-                }
-
-                _guardProvider.TryAdd(instanceId, guard);
+                AddGuard(assetId, instanceId, position, isActive);
             });
         }
 
-        public void AddBuilable(uint instanceId, Vector3 position)
+        private void AddGuard(ushort assetId, uint instanceId, Vector3 position, bool isActive)
+        {
+            if (!_guardAssets.TryGetValue(assetId, out GuardAsset guardAsset))
+                return;
+
+            Guard guard = new Guard(guardAsset, instanceId, isActive);
+
+            List<uint> protectedBuildables = FindProtectedBuildables(position, guardAsset.Range);
+
+            foreach (var id in protectedBuildables)
+            {
+                if (_buildableGuardsProvider.TryGetValue(id, out HashSet<Guard> guards))
+                    guards.Add(guard);
+                else
+                    _buildableGuardsProvider.TryAdd(id, new HashSet<Guard> { guard });
+            }
+
+            _guardProvider.TryAdd(instanceId, guard);
+        }
+
+        public void AddBuilableThreaded(ushort assetId, uint instanceId, Vector3 position, bool isActive)
         {
             _threadAdatper.RunOnThreadPool(() =>
             {
                 HashSet<Guard> guards = FindGuards(position);
 
                 _buildableGuardsProvider.TryAdd(instanceId, guards);
+
+                AddGuard(assetId, instanceId, position, isActive);
             });
         }
 
-        public void RemoveBuilable(uint instanceId)
+        public void RemoveBuilableThreaded(uint instanceId)
         {
             _threadAdatper.RunOnThreadPool(() =>
             {
                 _buildableGuardsProvider.TryRemove(instanceId, out var _);
+
+                RemoveGuard(instanceId);
             });
 
-            RemoveGuard(instanceId);
         }
 
         private void RemoveGuard(uint instanceId)
         {
-            _threadAdatper.RunOnThreadPool(() =>
-            {
-                if (!_guardProvider.TryGetValue(instanceId, out Guard guard))
-                    return;
+            if (!_guardProvider.TryGetValue(instanceId, out Guard guard))
+                return;
 
-                foreach (var guards in _buildableGuardsProvider.Values)
-                    guards.Remove(guard);
-            });
+            foreach (var guards in _buildableGuardsProvider.Values)
+                guards.Remove(guard);
         }
 
-        public void UpdateGuard(uint instanceId, bool active)
+        public void UpdateGuardThreaded(uint instanceId, bool active)
         {
             _threadAdatper.RunOnThreadPool(() =>
             {

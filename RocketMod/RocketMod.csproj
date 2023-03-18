@@ -87,6 +87,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\GuardSchedulerCommand.cs" />
     <Compile Include="Events\BuildableDamagingEvent.cs" />
     <Compile Include="Events\BuildableDeployedEvent.cs" />
     <Compile Include="Events\BuildableDestroyedEvent.cs" />

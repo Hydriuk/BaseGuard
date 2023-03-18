@@ -18,7 +18,7 @@ namespace RocketMod
             GuardMode = EGuardMode.Base;
             BaseShield = 0.5f;
             ProtectedGroups = EGroupType.Any;
-
+            Schedule = new List<ScheduledProtection>() {};
             Guards = new List<GuardAsset>()
             {
                 new GuardAsset()
