@@ -17,36 +17,41 @@ namespace BaseGuard.OpenMod.Commands
     {
         private readonly IProtectionScheduler _protectionScheduler;
         private readonly IThreadAdatper _threadAdatper;
-        private readonly string _chatIconUrl;
+        private readonly string _chatIcon;
 
         public GuardScheduleCommand(
-            IServiceProvider serviceProvider, 
-            IProtectionScheduler protectionScheduler, 
+            IServiceProvider serviceProvider,
+            IProtectionScheduler protectionScheduler,
             IConfigurationAdapter<Configuration> configuration,
             IThreadAdatper threadAdatper) : base(serviceProvider)
         {
             _protectionScheduler = protectionScheduler;
             _threadAdatper = threadAdatper;
-            _chatIconUrl = configuration.Configuration.ChatIcon;
+            _chatIcon = configuration.Configuration.ChatIcon;
         }
 
         protected override UniTask OnExecuteAsync()
         {
-            if(Context.Actor is UnturnedUser user)
+            string message = _protectionScheduler.GetMessage();
+
+            if (string.IsNullOrEmpty(message))
+                return UniTask.CompletedTask;
+
+            if (Context.Actor is UnturnedUser user)
             {
                 _threadAdatper.RunOnMainThread(() =>
                 {
                     ChatManager.serverSendMessage(
-                        _protectionScheduler.GetMessage(),
+                        message,
                         Color.green,
                         toPlayer: user.Player.SteamPlayer,
-                        iconURL: _chatIconUrl
+                        iconURL: _chatIcon
                     );
                 });
-            } 
+            }
             else
             {
-                Console.WriteLine(_protectionScheduler.GetMessage());
+                Console.WriteLine(message);
             }
 
             return UniTask.CompletedTask;

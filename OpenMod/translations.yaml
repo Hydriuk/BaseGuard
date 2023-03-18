@@ -3,5 +3,6 @@
 DamageCanceled: This structure is under protection, you cannot damage it.
 DamageReduced: This structure is under protection. Damage dealt on this structure is reduced by {Percentage}%.
 
-ProtectionActivated: Protection is now active ! Protection will be deactivated in {Hours}h {Minutes}min
-ProtectionDeactivated: Protection is now deactivated ! Protection will be activated in {Hours}h {Minutes}min
+ProtectionActivated: Protection is now active ! Protection will be deactivated in {TotalHours}h {Minutes}min
+ProtectionDeactivated: Protection is now deactivated ! Protection will be activated in {TotalHours}h {Minutes}min
+NoProtectionSchedule: This server does not use protection schedules

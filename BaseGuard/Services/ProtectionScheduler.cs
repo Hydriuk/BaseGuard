@@ -69,16 +69,25 @@ namespace BaseGuard.Services
         {
             TimeSpan timeLeft = _nextPattern.NextOccurence - DateTime.Now;
 
+            if (_patterns.Count == 0)
+            {
+                string message = _translationsAdapter["NoProtectionSchedule"];
+                if (message != "NoProtectionSchedule")
+                    return message;
+                else
+                    return string.Empty;
+            }
+
             // Round to seconds
             int seconds = (int)Math.Round(timeLeft.TotalSeconds);
             timeLeft = new TimeSpan(0, 0, seconds);
 
-            if (IsActive && !string.IsNullOrWhiteSpace(_translationsAdapter["ProtectionActivated"]))
+            if (IsActive && _translationsAdapter["ProtectionActivated"] != "ProtectionActivated")
             {
                 return _translationsAdapter["ProtectionActivated", GetTimes(timeLeft)];
             }
 
-            if (!IsActive && !string.IsNullOrWhiteSpace(_translationsAdapter["ProtectionDeactivated"]))
+            if (!IsActive && _translationsAdapter["ProtectionDeactivated"] != "ProtectionActivated")
             {
                 return _translationsAdapter["ProtectionDeactivated", GetTimes(timeLeft)];
             }
@@ -139,8 +148,9 @@ namespace BaseGuard.Services
         {
             return new
             {
-                RoundedHours = Math.Round(time.TotalHours, 2),
-                RoundedMinutes = Math.Round(time.TotalMinutes, 2),
+                ExactDays = Math.Round(time.TotalHours, 2),
+                ExactHours = Math.Round(time.TotalHours, 2),
+                ExactMinutes = Math.Round(time.TotalMinutes, 2),
                 TotalHours = Math.Floor(time.TotalHours),
                 TotalMinutes = Math.Floor(time.TotalMinutes),
                 TotalSeconds = Math.Floor(time.TotalSeconds),

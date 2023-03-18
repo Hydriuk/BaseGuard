@@ -19,13 +19,13 @@ ProtectedGroups: All # NoGroup - InGameGroup - SteamGroup - All
 # Schedule when are protections enabled and disabled. Syntax helper : https://crontab.guru/
 Schedule:
 - Protection: On
-  At: 30 22 * 0-4
+  At: 0 0 * * 1-5
 - Protection: Off
-  At: 30 18 * * 1-5
+  At: 0 18 * * 1-5
 - Protection: On
-  At: 0 2 * 6,0
+  At: 0 2 * * 6,0
 - Protection: Off
-  At: 0 8 * * 6,0
+  At: 0 10 * * 6,0
 #
 # Change protection for specific structures / barricades
 Overrides:

@@ -3,10 +3,6 @@ using Rocket.Unturned.Player;
 using SDG.Unturned;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Remoting.Contexts;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace BaseGuard.RocketMod.Commands
@@ -27,12 +23,17 @@ namespace BaseGuard.RocketMod.Commands
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
+            string message = Plugin.Instance.ProtectionScheduler.GetMessage();
+
+            if (string.IsNullOrEmpty(message))
+                return;
+
             if (caller is UnturnedPlayer player)
             {
                 Plugin.Instance.ThreadAdapter.RunOnMainThread(() =>
                 {
                     ChatManager.serverSendMessage(
-                        Plugin.Instance.ProtectionScheduler.GetMessage(),
+                        message,
                         Color.green,
                         toPlayer: player.SteamPlayer(),
                         iconURL: Plugin.Instance.ConfigurationAdapter.Configuration.ChatIcon
@@ -41,7 +42,7 @@ namespace BaseGuard.RocketMod.Commands
             }
             else
             {
-                Console.WriteLine(Plugin.Instance.ProtectionScheduler.GetMessage());
+                Console.WriteLine(message);
             }
         }
     }
