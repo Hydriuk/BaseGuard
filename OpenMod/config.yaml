@@ -14,7 +14,7 @@ ActivationMode: Offline # Unabled - Offline - Permanent
 BaseShield: 0 # from 0 to 1
 #
 # Controls protection activation depending on the group's type
-ProtectedGroups: All # NoGroup - InGameGroup - SteamGroup - All
+ProtectedGroups: Any # NoGroup - InGameGroup - SteamGroup - Any
 #
 # Schedule when are protections enabled and disabled. Syntax helper : https://crontab.guru/
 Schedule:

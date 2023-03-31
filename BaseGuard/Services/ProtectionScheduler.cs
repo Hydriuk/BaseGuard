@@ -46,7 +46,7 @@ namespace BaseGuard.Services
 
             if (_patterns.Count > 0)
             {
-                // Get max pattern by NextOccurence
+                // Get max pattern by PreviousOccurence
                 Pattern lastPattern = _patterns[0];
                 foreach (var pattern in _patterns)
                 {
@@ -191,19 +191,16 @@ namespace BaseGuard.Services
                 DateTime lastOccurence;
 
                 lastOccurence = _scheduler.GetNextOccurrences(DateTime.Now.AddHours(-1), DateTime.Now).LastOrDefault();
-                if (lastOccurence != null) return lastOccurence;
+                if (lastOccurence != null && lastOccurence != DateTime.MinValue) return lastOccurence;
 
                 lastOccurence = _scheduler.GetNextOccurrences(DateTime.Now.AddDays(-1), DateTime.Now).LastOrDefault();
-                if (lastOccurence != null) return lastOccurence;
+                if (lastOccurence != null && lastOccurence != DateTime.MinValue) return lastOccurence;
 
                 lastOccurence = _scheduler.GetNextOccurrences(DateTime.Now.AddMonths(-1), DateTime.Now).LastOrDefault();
-                if (lastOccurence != null) return lastOccurence;
+                if (lastOccurence != null && lastOccurence != DateTime.MinValue) return lastOccurence;
 
-                lastOccurence = _scheduler.GetNextOccurrences(DateTime.Now.AddYears(-1), DateTime.Now).LastOrDefault();
-                if (lastOccurence != null) return lastOccurence;
-
-                lastOccurence = _scheduler.GetNextOccurrences(DateTime.Now.AddYears(-12), DateTime.Now).LastOrDefault();
-                if (lastOccurence != null) return lastOccurence;
+                lastOccurence = _scheduler.GetNextOccurrences(DateTime.Now.AddYears(-2), DateTime.Now).LastOrDefault();
+                if (lastOccurence != null && lastOccurence != DateTime.MinValue) return lastOccurence;
 
                 return DateTime.MinValue;
             }
