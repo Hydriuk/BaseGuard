@@ -19,22 +19,29 @@ namespace BaseGuard.OpenMod.Events
         public Task HandleEventAsync(object? sender, UnturnedBuildableDamagingEvent @event)
         {
             // Cancel damage reduction if buildable has no owner
-            if (!@event.Buildable.Ownership.HasOwner ||
+            if (
+                !@event.Buildable.Ownership.HasOwner ||
                 @event.Buildable.Ownership.OwnerPlayerId == null && @event.Buildable.Ownership.OwnerGroupId == null ||
-                @event.Buildable == null)
+                @event.Buildable == null
+            )
+            {
                 return Task.CompletedTask;
+            }
 
             // Cancel damage reduction for technical gameplay damages
             if (@event is
                 {
                     DamageOrigin:
-                EDamageOrigin.Carepackage_Timeout or
-                EDamageOrigin.Charge_Self_Destruct or
-                EDamageOrigin.Horde_Beacon_Self_Destruct or
-                EDamageOrigin.Plant_Harvested or
-                EDamageOrigin.VehicleDecay
-                })
+                        EDamageOrigin.Carepackage_Timeout or
+                        EDamageOrigin.Charge_Self_Destruct or
+                        EDamageOrigin.Horde_Beacon_Self_Destruct or
+                        EDamageOrigin.Plant_Harvested or
+                        EDamageOrigin.VehicleDecay
+                }
+            )
+            {
                 return Task.CompletedTask;
+            }
 
             @event.DamageAmount = _damageController.ReduceDamage(
                 @event.DamageAmount,

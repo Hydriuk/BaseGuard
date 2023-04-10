@@ -11,6 +11,7 @@ namespace BaseGuard
         public EGroupType ProtectedGroups { get; set; }
         public List<ScheduledProtection> Schedule { get; set; } = new List<ScheduledProtection>();
         public List<ShieldOverride> Overrides { get; set; } = new List<ShieldOverride>();
+        public bool AllowSelfDamage { get; set; }
 
         public EGuardMode GuardMode { get; set; }
         public List<GuardAsset> Guards { get; set; } = new List<GuardAsset>();

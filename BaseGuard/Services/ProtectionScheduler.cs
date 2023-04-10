@@ -56,7 +56,7 @@ namespace BaseGuard.Services
 
                 IsActive = lastPattern.State;
 
-                _timer.Start();
+                UpdatePattern();
             }
         }
 

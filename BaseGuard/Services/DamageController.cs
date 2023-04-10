@@ -26,6 +26,8 @@ namespace BaseGuard.Services
         private readonly IDamageWarner _damageWarner;
         private readonly Dictionary<ushort, ShieldOverride> _guardOverrides;
 
+        private readonly bool _allowSelfDamage;
+
         public DamageController(
             IConfigurationAdapter<Configuration> confAdapter,
             IActiveRaidProvider activeRaidProvider,
@@ -36,7 +38,8 @@ namespace BaseGuard.Services
             _damageWarner = damageWarner;
             _protectionScheduler = protectionScheduler;
             _guardOverrides = confAdapter.Configuration.Overrides.ToDictionary(guard => guard.Id);
-
+            _allowSelfDamage = confAdapter.Configuration.AllowSelfDamage;
+                
             switch (confAdapter.Configuration.ActivationMode)
             {
                 case EActivationMode.Permanent:
@@ -80,6 +83,16 @@ namespace BaseGuard.Services
         /// <returns></returns>
         public ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, CSteamID playerId, CSteamID groupId, CSteamID instigatorId)
         {
+            if (_allowSelfDamage)
+            {
+                Player instigator = PlayerTool.getPlayer(instigatorId);
+
+                CSteamID instigatorGroupId = instigator.quests.groupID;
+
+                if (playerId == instigatorId || groupId == instigatorGroupId)
+                    return damage;
+            }
+
             if (!_protectionScheduler.IsActive)
                 return damage;
 
