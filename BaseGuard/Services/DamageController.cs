@@ -24,7 +24,7 @@ namespace BaseGuard.Services
         private readonly IDamageReducer _damageReducer;
         private readonly IProtectionScheduler _protectionScheduler;
         private readonly IDamageWarner _damageWarner;
-        private readonly Dictionary<ushort, ShieldOverride> _guardOverrides;
+        private readonly Dictionary<ushort, ShieldOverride> _guardOverrides = new Dictionary<ushort, ShieldOverride>();
 
         private readonly bool _allowSelfDamage;
 
@@ -35,9 +35,16 @@ namespace BaseGuard.Services
             IProtectionScheduler protectionScheduler,
             IDamageWarner damageWarner)
         {
+            foreach (var shieldOverride in confAdapter.Configuration.Overrides)
+            {
+                foreach (var id in shieldOverride.Ids)
+                {
+                    _guardOverrides.Add(id, shieldOverride);
+                }
+            }
+
             _damageWarner = damageWarner;
             _protectionScheduler = protectionScheduler;
-            _guardOverrides = confAdapter.Configuration.Overrides.ToDictionary(guard => guard.Id);
             _allowSelfDamage = confAdapter.Configuration.AllowSelfDamage;
                 
             switch (confAdapter.Configuration.ActivationMode)

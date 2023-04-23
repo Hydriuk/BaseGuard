@@ -1,4 +1,4 @@
-# BuildGuard - Configuration file
+# BaseGuard - Configuration file
 # More information : https://unturnedstore.com/products/1380
 
 # # # # # # # # # # # # # # # # # # # # #
@@ -29,7 +29,10 @@ Schedule:
 #
 # Change protection for specific structures / barricades
 Overrides:
-- Id: 1373
+- Ids: 
+  - 1244
+  - 1372
+  - 1373
   BaseShield: 0 # from 0 to 1
   MaxShield: 0 # from 0 to 1
 #

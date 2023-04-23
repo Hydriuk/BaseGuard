@@ -10,12 +10,19 @@ namespace BaseGuard.Services.DamageReducers
     {
         private readonly float _baseShield;
 
-        private readonly Dictionary<ushort, ShieldOverride> _guardOverrides;
+        private readonly Dictionary<ushort, ShieldOverride> _guardOverrides = new Dictionary<ushort, ShieldOverride>();
 
         public BaseDamageReducer(IConfigurationAdapter<Configuration> confAdapter)
         {
             _baseShield = confAdapter.Configuration.BaseShield;
-            _guardOverrides = confAdapter.Configuration.Overrides.ToDictionary(guard => guard.Id);
+
+            foreach (var shieldOverride in confAdapter.Configuration.Overrides)
+            {
+                foreach (var id in shieldOverride.Ids)
+                {
+                    _guardOverrides.Add(id, shieldOverride);
+                }
+            }
         }
 
         public virtual float ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId)

@@ -39,7 +39,7 @@ namespace RocketMod
             {
                 new ShieldOverride()
                 {
-                    Id = 1373,
+                    Ids = new List<ushort>(){ 1244, 1372, 1373 },
                     BaseShield = 0f,
                     MaxShield = 0f
                 }
