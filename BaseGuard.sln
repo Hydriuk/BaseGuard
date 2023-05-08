@@ -44,10 +44,8 @@ Global
 		..\..\_Shared\RocketModModules\RocketModModules.projitems*{73b36c1f-7b23-4547-88e0-8e0ebb3b9635}*SharedItemsImports = 13
 		BaseGuard\BaseGuard.projitems*{75514b43-5d27-47cf-9784-644270f2c98d}*SharedItemsImports = 13
 		BaseGuard\BaseGuard.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
-		..\..\_Shared\EnvironmentModule\EnvironmentModule.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
 		..\..\_Shared\OpenModModules\OpenModModules.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
 		..\..\_Shared\SharedModules\SharedModules.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
-		..\..\_Shared\TranslationsModule\TranslationsModule.projitems*{8defcf8e-4cc0-461e-84e9-08885eca9b83}*SharedItemsImports = 5
 		..\..\_Shared\SharedModules\SharedModules.projitems*{9c68abd2-3e7d-4d8d-b30a-0c48a236898d}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

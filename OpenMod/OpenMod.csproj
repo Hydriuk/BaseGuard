@@ -56,10 +56,6 @@
 
   <Import Project="..\BaseGuard\BaseGuard.projitems" Label="Shared" />
 
-  <Import Project="..\..\..\_Shared\TranslationsModule\TranslationsModule.projitems" Label="Shared" />
-
-  <Import Project="..\..\..\_Shared\EnvironmentModule\EnvironmentModule.projitems" Label="Shared" />
-
   <Import Project="..\..\..\_Shared\OpenModModules\OpenModModules.projitems" Label="Shared" />
 
   <Import Project="..\..\..\_Shared\SharedModules\SharedModules.projitems" Label="Shared" />
