@@ -122,7 +122,13 @@ namespace BaseGuard.Services
                     HashSet<Guard> guards = new HashSet<Guard>();
                     foreach (var barricade in barricades)
                     {
+                        if (barricade == null)
+                            continue;
+
                         BarricadeDrop protectedDrop = BarricadeManager.FindBarricadeByRootTransform(barricade);
+
+                        if (protectedDrop == null)
+                            continue;
 
                         if (_guardProvider.TryGetValue(protectedDrop.instanceID, out Guard guard))
                         {
@@ -133,7 +139,13 @@ namespace BaseGuard.Services
 
                     foreach (var structure in structures)
                     {
+                        if(structure == null) 
+                            continue;
+
                         StructureDrop protectedDrop = StructureManager.FindStructureByRootTransform(structure);
+
+                        if(protectedDrop == null)
+                            continue;
 
                         if (_guardProvider.TryGetValue(protectedDrop.instanceID, out Guard guard))
                         {

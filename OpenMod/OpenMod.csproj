@@ -12,9 +12,9 @@
     <WarningsAsErrors>nullable</WarningsAsErrors>
     <NoWarn>$(NoWarn);NU1701;NU1702;CS0436</NoWarn>
     <LangVersion>9.0</LangVersion>
-    <Version>1.3.1</Version>
-    <InformationalVersion>1.3.1</InformationalVersion>
-    <PackageVersion>1.3.1</PackageVersion>
+    <Version>1.3.2</Version>
+    <InformationalVersion>1.3.2</InformationalVersion>
+    <PackageVersion>1.3.2</PackageVersion>
     <AssemblyName>BaseGuard.OpenMod</AssemblyName>
     <Configurations>RocketMod;OpenMod</Configurations>
   </PropertyGroup>

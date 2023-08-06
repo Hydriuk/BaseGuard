@@ -1,3 +1,11 @@
+<link rel="stylesheet" href="C:\Users\Antonin\Documents\_workspace\Unturned\Projects\vscode-hydriuk.css"></link>
+<style>
+    @media print {
+        @page { margin: 0; size: 21cm 130cm; }
+        body { margin: 0.2cm; }
+    }
+</style>
+
 # **BaseGuard** <sub>*by [Hydriuk](https://github.com/Hydriuk)*</sub>
 
 This plugin allows to protect player's structures and barricades when in range of specific barricades.  
@@ -22,7 +30,8 @@ This protection can either be always active, or only be active when all group me
       2. [ChatIcon](#chaticon)
    4. [**Anti-abuse rules**](#anti-abuse-rules)
       1. [GroupHistoryDuration](#grouphistoryduration)
-      2. [ProtectionDuration](#protectionduration)
+      2. [RaidDuration](#raidduration)
+      3. [ProtectionDuration](#protectionduration)
 
 ## **Configuration examples**
 ### **OpenMod**
@@ -65,7 +74,10 @@ ProtectionDuration: 24
 ### **RocketMod**
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
-<RocketConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<RocketConfiguration 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+>
   <ActivationMode>Offline</ActivationMode>
   <BaseShield>0.5</BaseShield>
   <ProtectedGroups>Any</ProtectedGroups>
@@ -116,7 +128,12 @@ Controls general protection activation. Values :
 - `Permanent` : Protections are always applied
 
 #### **BaseShield**
-Base protection to be applied when structures and barricades are protected.
+Base protection to be applied when structures and barricades are protected.  
+The value is the damage multiplier for protected strutures.  
+Examples :  
+`0.5` will virtually increase the structure's life by 2x.
+`0.66` will virtually increase the structure's life by 1.5x.
+The calculus is 1 / 0.66 = 1.5
 
 #### **ProtectedGroups**
 Controls protection activation depending on the group's type. Values : 
@@ -189,8 +206,13 @@ Icon used when the plugin sends a message to a player
 
 ### **Anti-abuse rules**
 #### **GroupHistoryDuration**
-Value is in hours. How long a player is still considered part of a group after quitting it. 
+Value is in hours. How long a player is still considered part of a group by the plugin after quitting it. 
 *Example*: `GroupHistoryDuration: 48` : When the player is connected, all groups he has been in for the last 48 hours will not be protected.
+
+#### **RaidDuration**
+Value is in seconds. When a player being raided disconnects, the raiders can continue to raid the base as long as they deal a damage every X seconds.  
+If the nobody deals damage to the structures of the disconnected player for the set amount of time, then the protection apply.  
+Raiders cannot start a raid if the owner disconnected before they dealt damage to the base.
 
 #### **ProtectionDuration**
 Value is in hours. How long does offline protection lasts
