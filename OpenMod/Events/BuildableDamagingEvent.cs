@@ -18,14 +18,24 @@ namespace BaseGuard.OpenMod.Events
 
         public Task HandleEventAsync(object? sender, UnturnedBuildableDamagingEvent @event)
         {
+            bool isTrapDamage = @event.DamageOrigin == EDamageOrigin.Trap_Explosion;
+
             // Cancel damage reduction if buildable has no owner
             if (
-                !@event.Buildable.Ownership.HasOwner ||
+                !isTrapDamage &&
+                (!@event.Buildable.Ownership.HasOwner ||
                 @event.Buildable.Ownership.OwnerPlayerId == null && @event.Buildable.Ownership.OwnerGroupId == null ||
                 @event.Buildable == null
-            )
+            ))
             {
                 return Task.CompletedTask;
+            }
+
+            if (isTrapDamage)
+            {
+                ItemAsset asset = (ItemAsset)Assets.find(EAssetType.ITEM, ushort.Parse(@event.Buildable.Asset.BuildableAssetId));
+                if (asset.type == EItemType.TRAP)
+                    return Task.CompletedTask;
             }
 
             // Cancel damage reduction for technical gameplay damages

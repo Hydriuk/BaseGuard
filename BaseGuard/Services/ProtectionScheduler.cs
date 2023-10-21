@@ -23,12 +23,13 @@ namespace BaseGuard.Services
     {
         public bool IsActive { get; private set; } = true;
 
-        private ITranslationsAdapter _translationsAdapter;
-        private IThreadAdatper _threadAdatper;
-        private string _chatIcon;
+        private readonly ITranslationsAdapter _translationsAdapter;
+        private readonly IThreadAdatper _threadAdatper;
+        private readonly string _chatIcon;
 
         private readonly List<Pattern> _patterns = new List<Pattern>();
-        private Timer _timer = new Timer(1000);
+        private readonly Timer _timer = new Timer(1000);
+
         private Pattern _nextPattern = new Pattern("0 0 1 1 0", EState.On);
 
         public ProtectionScheduler(IConfigurationAdapter<Configuration> configuration, ITranslationsAdapter translationsAdapter, IThreadAdatper threadAdatper)

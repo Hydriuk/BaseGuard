@@ -26,8 +26,17 @@ namespace BaseGuard.RocketMod.Events
 
         private void OnDamageStructureRequested(CSteamID instigatorSteamID, Transform structureTransform, ref ushort pendingTotalDamage, ref bool shouldAllow, EDamageOrigin damageOrigin)
         {
-            if (instigatorSteamID == CSteamID.Nil)
+            bool isTrapDamage = damageOrigin == EDamageOrigin.Trap_Explosion;
+
+            if (!isTrapDamage && instigatorSteamID == CSteamID.Nil)
                 return;
+
+            if (isTrapDamage)
+            {
+                ItemAsset asset = (ItemAsset)Assets.find(EAssetType.ITEM, ushort.Parse(structureTransform.name));
+                if (asset.type == EItemType.TRAP)
+                    return;
+            }
 
             switch (damageOrigin)
             {
@@ -54,8 +63,17 @@ namespace BaseGuard.RocketMod.Events
 
         private void OnDamageBarricadeRequested(CSteamID instigatorSteamID, Transform barricadeTransform, ref ushort pendingTotalDamage, ref bool shouldAllow, EDamageOrigin damageOrigin)
         {
-            if (instigatorSteamID == CSteamID.Nil)
+            bool isTrapDamage = damageOrigin == EDamageOrigin.Trap_Explosion;
+
+            if (!isTrapDamage && instigatorSteamID == CSteamID.Nil)
                 return;
+
+            if(isTrapDamage)
+            {
+                ItemAsset asset = (ItemAsset)Assets.find(EAssetType.ITEM, ushort.Parse(barricadeTransform.name));
+                if (asset.type == EItemType.TRAP)
+                    return;
+            }
 
             switch (damageOrigin)
             {
