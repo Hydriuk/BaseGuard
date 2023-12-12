@@ -27,7 +27,7 @@ namespace BaseGuard.OpenMod.Commands
         {
             _protectionScheduler = protectionScheduler;
             _threadAdatper = threadAdatper;
-            _chatIcon = configuration.Configuration.ChatIcon;
+            _chatIcon = configuration.Configuration.ChatMessages.ChatIcon;
         }
 
         protected override UniTask OnExecuteAsync()

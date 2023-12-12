@@ -25,7 +25,12 @@ namespace BaseGuard.Services
 
         private readonly ITranslationsAdapter _translationsAdapter;
         private readonly IThreadAdatper _threadAdatper;
+
         private readonly string _chatIcon;
+        private readonly ushort _effectID;
+        private readonly string _textName;
+        private readonly int _effectDuration;
+        private short _effectKey { get => (short)(_effectID - short.MaxValue); }
 
         private readonly List<Pattern> _patterns = new List<Pattern>();
         private readonly Timer _timer = new Timer(1000);
@@ -36,7 +41,11 @@ namespace BaseGuard.Services
         {
             _translationsAdapter = translationsAdapter;
             _threadAdatper = threadAdatper;
-            _chatIcon = configuration.Configuration.ChatIcon;
+
+            _chatIcon = configuration.Configuration.ChatMessages.ChatIcon;
+            _effectID = configuration.Configuration.ChatMessages.EffectID;
+            _textName = configuration.Configuration.ChatMessages.EffectTextName;
+            _effectDuration = configuration.Configuration.ChatMessages.EffectDuration;
 
             foreach (var timePattern in configuration.Configuration.Schedule)
             {
@@ -109,13 +118,26 @@ namespace BaseGuard.Services
 
             if (!string.IsNullOrEmpty(message))
             {
-                _threadAdatper.RunOnMainThread(() =>
+                _threadAdatper.RunOnMainThread(async () =>
                 {
-                    ChatManager.serverSendMessage(
-                        message,
-                        Color.green,
-                        iconURL: _chatIcon
-                    );
+                    if (_effectID != ushort.MinValue)
+                    {
+                        EffectManager.sendUIEffect(_effectID, _effectKey, true);
+                        Provider.GatherClientConnections().ForEach(conn => EffectManager.sendUIEffectText(_effectKey, conn, true, _textName, message));
+                        _threadAdatper.RunOnThreadPool(async () =>
+                        {
+                            await Task.Delay(_effectDuration * 1000);
+                            _threadAdatper.RunOnMainThread(() => EffectManager.ClearEffectByID_AllPlayers(_effectID));
+                        });
+                    }
+                    else
+                    {
+                        ChatManager.serverSendMessage(
+                            message,
+                            Color.green,
+                            iconURL: _chatIcon
+                        );
+                    }
                 });
             }
         }

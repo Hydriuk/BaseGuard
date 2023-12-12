@@ -45,8 +45,14 @@ namespace RocketMod
                 }
             };
 
-            DamageWarnCooldown = 10;
-            ChatIcon = "https://i.imgur.com/V6Jc0S7.png";
+            ChatMessages = new ChatMessages()
+            {
+                Cooldown = 10,
+                ChatIcon = "https://i.imgur.com/V6Jc0S7.png",
+                EffectID = 0,
+                EffectTextName = "Message",
+                EffectDuration = 5
+            };
 
             RaidDuration = 120;
             GroupHistoryDuration = 48;

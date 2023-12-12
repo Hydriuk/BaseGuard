@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="C:\Users\Antonin\Documents\_workspace\Unturned\Projects\vscode-hydriuk.css"></link>
 <style>
     @media print {
-        @page { margin: 0; size: 21cm 130cm; }
+        @page { margin: 0; size: 21cm 150cm; }
         body { margin: 0.2cm; }
     }
 </style>
@@ -63,8 +63,12 @@ Guards:
   Range: 64
   Shield: 1
 
-DamageWarnCooldown: 10
-ChatIcon: https://i.imgur.com/V6Jc0S7.png
+ChatMessages: 
+  DamageWarnCooldown: 10
+  ChatIcon: https://i.imgur.com/V6Jc0S7.png
+  EffectID: 0
+  EffectTextName: Message
+  EffectDuration: 5
 
 GroupHistoryDuration: 48
 RaidDuration: 120
@@ -108,8 +112,13 @@ ProtectionDuration: 24
       <Shield>1</Shield>
     </GuardAsset>
   </Guards>
-  <DamageWarnCooldown>10</DamageWarnCooldown>
-  <ChatIcon>https://i.imgur.com/V6Jc0S7.png</ChatIcon>
+  <ChatMessages 
+    Cooldown="10" 
+    ChatIcon="https://i.imgur.com/V6Jc0S7.png" 
+    EffectID="0" 
+    EffectTextName="Message" 
+    EffectDuration="5">
+  </ChatMessages>
   <GroupHistoryDuration>48</GroupHistoryDuration>
   <RaidDuration>120</RaidDuration>
   <ProtectionDuration>24</ProtectionDuration>
@@ -195,12 +204,21 @@ When calculating protection for a buildable, only one guard of each type will be
 
 ---
 
-### **Chat messages**
-#### **DamageWarnCooldown**
+### **Chat Messages**
+#### **Cooldown**
 Value is in seconds. When a player tries to damage a protected structure, he will receive a warning. To prevent chat spam, this value tells the plugin to wait between messages.
 
 #### **ChatIcon**
 Icon used when the plugin sends a message to a player
+
+#### **EffectID**
+ID of the effect to display in place of the chat message. If this id is set, the chat message won't show.
+
+#### **EffectTextName**
+Name of the effect's gameobject in which the message should be written
+
+#### **EffectDuration**
+How long should the effect stay on screen
 
 ---
 

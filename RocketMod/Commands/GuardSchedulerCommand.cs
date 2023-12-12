@@ -36,7 +36,7 @@ namespace BaseGuard.RocketMod.Commands
                         message,
                         Color.green,
                         toPlayer: player.SteamPlayer(),
-                        iconURL: Plugin.Instance.ConfigurationAdapter.Configuration.ChatIcon
+                        iconURL: Plugin.Instance.ConfigurationAdapter.Configuration.ChatMessages.ChatIcon
                     );
                 });
             }

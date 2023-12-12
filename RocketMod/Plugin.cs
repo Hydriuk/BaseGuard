@@ -42,10 +42,10 @@ namespace BaseGuard.RocketMod
             Instance = this;
 
             ConfigurationAdapter = Configuration.Instance;
-            TranslationsAdapter = new TranslationsAdapter(base.Translations.Instance);
-            DamageWarner = new DamageWarner(ConfigurationAdapter, TranslationsAdapter);
-            EnvironmentAdapter = new EnvironmentAdapter(this);
             ThreadAdapter = new ThreadAdapter();
+            TranslationsAdapter = new TranslationsAdapter(base.Translations.Instance);
+            DamageWarner = new DamageWarner(ConfigurationAdapter, TranslationsAdapter, ThreadAdapter);
+            EnvironmentAdapter = new EnvironmentAdapter(this);
             ProtectionScheduler = new ProtectionScheduler(ConfigurationAdapter, TranslationsAdapter, ThreadAdapter);
             ProtectionDecayProvider = new ProtectionDecayProvider(EnvironmentAdapter, ConfigurationAdapter);
             GroupHistoryStore = new GroupHistoryStore(ConfigurationAdapter, EnvironmentAdapter, ThreadAdapter);

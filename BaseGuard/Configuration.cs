@@ -1,6 +1,7 @@
 ﻿using BaseGuard.Models;
 using Hydriuk.Unturned.SharedModules.Adapters;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace BaseGuard
 {
@@ -16,11 +17,28 @@ namespace BaseGuard
         public EGuardMode GuardMode { get; set; }
         public List<GuardAsset> Guards { get; set; } = new List<GuardAsset>();
 
-        public int DamageWarnCooldown { get; set; }
-        public string ChatIcon { get; set; } = string.Empty;
+        public ChatMessages ChatMessages { get; set; } = new ChatMessages();
 
         public double GroupHistoryDuration { get; set; }
         public double RaidDuration { get; set; }
         public double ProtectionDuration { get; set; }
+    }
+
+    public class ChatMessages
+    {
+        [XmlAttribute]
+        public int Cooldown { get; set; }
+
+        [XmlAttribute]
+        public string ChatIcon { get; set; } = string.Empty;
+
+        [XmlAttribute]
+        public ushort EffectID { get; set; }
+
+        [XmlAttribute]
+        public string EffectTextName { get; set; } = string.Empty;
+
+        [XmlAttribute]
+        public int EffectDuration { get; set; }
     }
 }

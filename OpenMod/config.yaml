@@ -69,11 +69,23 @@ Guards:
 #
 # # # # # # #
 #
-# Time needed before a new message can be sent by the plugin
-DamageWarnCooldown: 10 # in seconds
-#
-# Icon URL used for messages
-ChatIcon: https://i.imgur.com/V6Jc0S7.png
+# Configure how chat messages are sent
+ChatMessages: 
+  #
+  # Time needed before a new message can be sent by the plugin
+  DamageWarnCooldown: 10 # seconds
+  #
+  # Icon URL used for damage warns
+  ChatIcon: https://i.imgur.com/V6Jc0S7.png
+  #
+  # ID of the effect to show in place of the chat message.
+  EffectID: 0
+  #
+  # Name of the text gameobject to write the message in
+  EffectTextName: Message
+  #
+  # How long should the effect stay on screen
+  EffectDuration: 5 # seconds
 #
 # # # # # # #
   
