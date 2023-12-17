@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>&ast;&ast;BaseGuard&ast;&ast; &lt;sub&gt;&ast;by &lbrack;Hydriuk&rbrack;&lpar;https&colon;&sol;&sol;github&period;com&sol;Hydriuk&rpar;&ast;&lt;&sol;sub&gt;</title>
+        <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+        
+    </head>
+    <body class="vscode-body vscode-dark">
+        <link rel="stylesheet" href="C:\Users\Antonin\Documents\_workspace\Unturned\Projects\vscode-hydriuk.css"></link>
+<style>
+    @media print {
+        @page { margin: 0; size: 21cm 150cm; }
+        body { margin: 0.2cm; }
+    }
+</style>
+<h1 id="baseguard-by-hydriuk"><strong>BaseGuard</strong> <sub><em>by <a href="https://github.com/Hydriuk">Hydriuk</a></em></sub></h1>
+<p>This plugin allows to protect player's structures and barricades when in range of specific barricades.<br>
+This protection can either be always active, or only be active when all group members are disconnected.</p>
+<ol>
+<li><a href="#configuration-examples"><strong>Configuration examples</strong></a>
+<ol>
+<li><a href="#openmod">OpenMod</a></li>
+<li><a href="#rocketmod">RocketMod</a></li>
+</ol>
+</li>
+<li><a href="#options-description"><strong>Options description</strong></a>
+<ol>
+<li><a href="#protection-controls"><strong>Protection controls</strong></a>
+<ol>
+<li><a href="#activationmode">ActivationMode</a></li>
+<li><a href="#baseshield">BaseShield</a></li>
+<li><a href="#protectedgroups">ProtectedGroups</a></li>
+<li><a href="#schedule">Schedule</a></li>
+<li><a href="#overrides">Overrides</a></li>
+<li><a href="#allowselfdamage">AllowSelfDamage</a></li>
+</ol>
+</li>
+<li><a href="#guards"><strong>Guards</strong></a>
+<ol>
+<li><a href="#guardmode">GuardMode</a></li>
+<li><a href="#guards-1">Guards</a></li>
+</ol>
+</li>
+<li><a href="#chat-messages"><strong>Chat messages</strong></a>
+<ol>
+<li><a href="#damagewarncooldown">DamageWarnCooldown</a></li>
+<li><a href="#chaticon">ChatIcon</a></li>
+</ol>
+</li>
+<li><a href="#anti-abuse-rules"><strong>Anti-abuse rules</strong></a>
+<ol>
+<li><a href="#grouphistoryduration">GroupHistoryDuration</a></li>
+<li><a href="#raidduration">RaidDuration</a></li>
+<li><a href="#protectionduration">ProtectionDuration</a></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="configuration-examples"><strong>Configuration examples</strong></h2>
+<h3 id="openmod"><strong>OpenMod</strong></h3>
+<pre><code class="language-yaml"><span class="hljs-attr">ActivationMode:</span> <span class="hljs-string">Offline</span>
+<span class="hljs-attr">BaseShield:</span> <span class="hljs-number">0</span>
+<span class="hljs-attr">ProtectedGroups:</span> <span class="hljs-string">All</span>
+<span class="hljs-attr">Schedule:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Protection:</span> <span class="hljs-string">On</span>
+  <span class="hljs-attr">At:</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-string">*</span> <span class="hljs-string">*</span> <span class="hljs-number">1</span><span class="hljs-number">-5</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Protection:</span> <span class="hljs-string">Off</span>
+  <span class="hljs-attr">At:</span> <span class="hljs-number">0</span> <span class="hljs-number">18</span> <span class="hljs-string">*</span> <span class="hljs-string">*</span> <span class="hljs-number">1</span><span class="hljs-number">-5</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Protection:</span> <span class="hljs-string">On</span>
+  <span class="hljs-attr">At:</span> <span class="hljs-number">0</span> <span class="hljs-number">2</span> <span class="hljs-string">*</span> <span class="hljs-string">*</span> <span class="hljs-number">6</span><span class="hljs-string">,0</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Protection:</span> <span class="hljs-string">Off</span>
+  <span class="hljs-attr">At:</span> <span class="hljs-number">0</span> <span class="hljs-number">10</span> <span class="hljs-string">*</span> <span class="hljs-string">*</span> <span class="hljs-number">6</span><span class="hljs-string">,0</span>
+<span class="hljs-attr">Overrides:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Id:</span> <span class="hljs-number">1373</span>
+  <span class="hljs-attr">BaseShield:</span> <span class="hljs-number">0</span>
+  <span class="hljs-attr">MaxShield:</span> <span class="hljs-number">0</span>
+<span class="hljs-attr">AllowSelfDamage:</span> <span class="hljs-literal">false</span>
+
+<span class="hljs-attr">GuardMode:</span> <span class="hljs-string">Ratio</span>
+<span class="hljs-attr">Guards:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Id:</span> <span class="hljs-number">458</span>
+  <span class="hljs-attr">Range:</span>  <span class="hljs-number">16</span>
+  <span class="hljs-attr">Shield:</span> <span class="hljs-number">0.5</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Id:</span> <span class="hljs-number">1230</span>
+  <span class="hljs-attr">Range:</span> <span class="hljs-number">64</span>
+  <span class="hljs-attr">Shield:</span> <span class="hljs-number">1</span>
+
+<span class="hljs-attr">ChatMessages:</span> 
+  <span class="hljs-attr">DamageWarnCooldown:</span> <span class="hljs-number">10</span>
+  <span class="hljs-attr">ChatIcon:</span> <span class="hljs-string">https://i.imgur.com/V6Jc0S7.png</span>
+  <span class="hljs-attr">EffectID:</span> <span class="hljs-number">0</span>
+  <span class="hljs-attr">EffectTextName:</span> <span class="hljs-string">Message</span>
+  <span class="hljs-attr">EffectDuration:</span> <span class="hljs-number">5</span>
+
+<span class="hljs-attr">GroupHistoryDuration:</span> <span class="hljs-number">48</span>
+<span class="hljs-attr">RaidDuration:</span> <span class="hljs-number">120</span>
+<span class="hljs-attr">ProtectionDuration:</span> <span class="hljs-number">24</span>
+</code></pre>
+<h3 id="rocketmod"><strong>RocketMod</strong></h3>
+<pre><code class="language-xml"><span class="hljs-meta">&lt;?xml version=<span class="hljs-string">&quot;1.0&quot;</span> encoding=<span class="hljs-string">&quot;utf-8&quot;</span>?&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">RocketConfiguration</span> 
+  <span class="hljs-attr">xmlns:xsd</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema&quot;</span> 
+  <span class="hljs-attr">xmlns:xsi</span>=<span class="hljs-string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span>
+&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ActivationMode</span>&gt;</span>Offline<span class="hljs-tag">&lt;/<span class="hljs-name">ActivationMode</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">BaseShield</span>&gt;</span>0.5<span class="hljs-tag">&lt;/<span class="hljs-name">BaseShield</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ProtectedGroups</span>&gt;</span>Any<span class="hljs-tag">&lt;/<span class="hljs-name">ProtectedGroups</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">Schedule</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ScheduledProtection</span> <span class="hljs-attr">Protection</span>=<span class="hljs-string">&quot;On&quot;</span> <span class="hljs-attr">At</span>=<span class="hljs-string">&quot;0 0 * * 1-5&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ScheduledProtection</span> <span class="hljs-attr">Protection</span>=<span class="hljs-string">&quot;Off&quot;</span> <span class="hljs-attr">At</span>=<span class="hljs-string">&quot;0 18 * * 1-5&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ScheduledProtection</span> <span class="hljs-attr">Protection</span>=<span class="hljs-string">&quot;On&quot;</span> <span class="hljs-attr">At</span>=<span class="hljs-string">&quot;0 2 * * 6,0&quot;</span> /&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ScheduledProtection</span> <span class="hljs-attr">Protection</span>=<span class="hljs-string">&quot;Off&quot;</span> <span class="hljs-attr">At</span>=<span class="hljs-string">&quot;0 10 * * 6,0&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">Schedule</span>&gt;</span>
+ <span class="hljs-tag">&lt;<span class="hljs-name">Overrides</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">ShieldOverride</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Id</span>&gt;</span>1373<span class="hljs-tag">&lt;/<span class="hljs-name">Id</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">BaseShield</span>&gt;</span>0<span class="hljs-tag">&lt;/<span class="hljs-name">BaseShield</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">MaxShield</span>&gt;</span>0<span class="hljs-tag">&lt;/<span class="hljs-name">MaxShield</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">ShieldOverride</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">Overrides</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">AllowSelfDamage</span>&gt;</span>false<span class="hljs-tag">&lt;/<span class="hljs-name">AllowSelfDamage</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">GuardMode</span>&gt;</span>Base<span class="hljs-tag">&lt;/<span class="hljs-name">GuardMode</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">Guards</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">GuardAsset</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Id</span>&gt;</span>458<span class="hljs-tag">&lt;/<span class="hljs-name">Id</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Range</span>&gt;</span>16<span class="hljs-tag">&lt;/<span class="hljs-name">Range</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Shield</span>&gt;</span>0.5<span class="hljs-tag">&lt;/<span class="hljs-name">Shield</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">GuardAsset</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">GuardAsset</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Id</span>&gt;</span>1230<span class="hljs-tag">&lt;/<span class="hljs-name">Id</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Range</span>&gt;</span>64<span class="hljs-tag">&lt;/<span class="hljs-name">Range</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">Shield</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">Shield</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">GuardAsset</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">Guards</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ChatMessages</span> 
+    <span class="hljs-attr">Cooldown</span>=<span class="hljs-string">&quot;10&quot;</span> 
+    <span class="hljs-attr">ChatIcon</span>=<span class="hljs-string">&quot;https://i.imgur.com/V6Jc0S7.png&quot;</span> 
+    <span class="hljs-attr">EffectID</span>=<span class="hljs-string">&quot;0&quot;</span> 
+    <span class="hljs-attr">EffectTextName</span>=<span class="hljs-string">&quot;Message&quot;</span> 
+    <span class="hljs-attr">EffectDuration</span>=<span class="hljs-string">&quot;5&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">ChatMessages</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">GroupHistoryDuration</span>&gt;</span>48<span class="hljs-tag">&lt;/<span class="hljs-name">GroupHistoryDuration</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">RaidDuration</span>&gt;</span>120<span class="hljs-tag">&lt;/<span class="hljs-name">RaidDuration</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">ProtectionDuration</span>&gt;</span>24<span class="hljs-tag">&lt;/<span class="hljs-name">ProtectionDuration</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">RocketConfiguration</span>&gt;</span>
+</code></pre>
+<h2 id="options-description"><strong>Options description</strong></h2>
+<hr>
+<h3 id="protection-controls"><strong>Protection controls</strong></h3>
+<h4 id="activationmode"><strong>ActivationMode</strong></h4>
+<p>Controls general protection activation. Values :</p>
+<ul>
+<li><code>Unabled</code> : Protections are never applied</li>
+<li><code>Offline</code> : Protections are active when the player who placed the structure and his group  are disconnected</li>
+<li><code>Permanent</code> : Protections are always applied</li>
+</ul>
+<h4 id="baseshield"><strong>BaseShield</strong></h4>
+<p>Base protection to be applied when structures and barricades are protected.<br>
+The value is the damage multiplier for protected strutures.<br>
+Examples :<br>
+<code>0.5</code> will virtually increase the structure's life by 2x.
+<code>0.66</code> will virtually increase the structure's life by 1.5x.
+The calculus is 1 / 0.66 = 1.5</p>
+<h4 id="protectedgroups"><strong>ProtectedGroups</strong></h4>
+<p>Controls protection activation depending on the group's type. Values :</p>
+<ul>
+<li><code>NoGroup</code> : Only structures that are not part of a group are protected</li>
+<li><code>InGameGroup</code> : Only structures which group is an in-game group are protected</li>
+<li><code>SteamGroup</code> : Only structures which group is a steam group are protected</li>
+<li><code>Any</code> : Structures are protected, independently of their group type</li>
+</ul>
+<h4 id="schedule"><strong>Schedule</strong></h4>
+<p>Controls when are protection active for everybody. With this you can for example enable  protection during the day and disable it on weekends.</p>
+<ul>
+<li><code>Protection</code>: Values : <code>On</code> / <code>Off</code>. Turn the protection on or off</li>
+<li><code>At</code>: Value : A cron table. Here is a link to help with the syntax : <a href="https://crontab.guru/">https://crontab.guru/</a>. The  protection will change state at the moment defined by the cron table.</li>
+</ul>
+<p>Schedule example :</p>
+<pre><code class="language-yaml"><span class="hljs-attr">Schedule:</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Protection:</span> <span class="hljs-string">On</span>
+  <span class="hljs-attr">At:</span> <span class="hljs-number">0</span> <span class="hljs-number">0</span> <span class="hljs-string">*</span> <span class="hljs-string">*</span> <span class="hljs-number">1</span><span class="hljs-number">-5</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Protection:</span> <span class="hljs-string">Off</span>
+  <span class="hljs-attr">At:</span> <span class="hljs-number">0</span> <span class="hljs-number">18</span> <span class="hljs-string">*</span> <span class="hljs-string">*</span> <span class="hljs-number">1</span><span class="hljs-number">-5</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Protection:</span> <span class="hljs-string">On</span>
+  <span class="hljs-attr">At:</span> <span class="hljs-number">0</span> <span class="hljs-number">2</span> <span class="hljs-string">*</span> <span class="hljs-string">*</span> <span class="hljs-number">6</span><span class="hljs-string">,0</span>
+<span class="hljs-bullet">-</span> <span class="hljs-attr">Protection:</span> <span class="hljs-string">Off</span>
+  <span class="hljs-attr">At:</span> <span class="hljs-number">0</span> <span class="hljs-number">10</span> <span class="hljs-string">*</span> <span class="hljs-string">*</span> <span class="hljs-number">6</span><span class="hljs-string">,0</span>
+</code></pre>
+<p>This schedule will enable protections from 00:00 to 18:00 during the week, and from 02:00 to 10:00 on weekends. Bases will be raidable from 18:00 to 00:00, monday to friday. And from 10:00 to 02:00 saturday and  sunday.<br>
+If not clear enough, you may contact me for help.</p>
+<h4 id="overrides"><strong>Overrides</strong></h4>
+<p>Changes the protection for specific barricades and structures</p>
+<ul>
+<li><code>Id</code> : Id of the barricade/structure being overrided</li>
+<li><code>BaseShield</code> : New base shield for this structure</li>
+<li><code>MaxShield</code> : Maximum shield the structure can have</li>
+</ul>
+<p>The overrides allows you to set different behaviours for given structures and barricades. For example, you can set <code>BaseShield</code> and <code>MaxShield</code> of sentries to 0 to prevent them from having any protection.</p>
+<h4 id="allowselfdamage"><strong>AllowSelfDamage</strong></h4>
+<p>Allow players to deal normal damage to their own structures. <em>Values</em> : <code>true</code> or <code>false</code></p>
+<hr>
+<h3 id="guards"><strong>Guards</strong></h3>
+<h4 id="guardmode"><strong>GuardMode</strong></h4>
+<p>Controls protection calculation. Values :</p>
+<ul>
+<li><code>Base</code> : Only the value from <code>BaseShield</code> is used. <code>Guards</code> are ignored.</li>
+<li><code>Cumulative</code> : <code>BaseShield</code> and <code>Shield</code>'s value from in range <code>Guards</code> are added. Example : <code>BaseShield: 0.5</code> and a guard with <code>Shield: 0.5</code> will give a total protection of <code>100%</code> : (<code>0.5</code> + <code>0.5</code>) * 100</li>
+<li><code>Ratio</code> : <code>BaseShield</code> and <code>Shield</code>'s value from in range <code>Guards</code> are multiplied. Example : <code>BaseShield: 0.5</code> and a guard with <code>Shield: 0.5</code> will give a total protection of <code>75%</code> : (<code>1</code> - (<code>1</code> -<code>0.5</code>) * (<code>1</code> - <code>0.5</code>)) * 100<br>
+For each structures, only one of each type of guards in taken into account : If you have two small generators in range, one of them will be ignored.</li>
+</ul>
+<h4 id="guards-1"><strong>Guards</strong></h4>
+<p>Barricade and structure guards.</p>
+<ul>
+<li><code>Id</code> : Id of the guard</li>
+<li><code>Range</code> : Range of the guard's protection</li>
+<li><code>Shield</code> : Amount of protection the guard gives</li>
+</ul>
+<p>A guard can either be a barricade or a structure. A guard will protect in range buildables by a certain amount.
+A generator guard must be powered to provide protection, as well as safezone radiators and oxygenators.
+When calculating protection for a buildable, only one guard of each type will be used : two small generators won't add their shields, but a small and a large one will.</p>
+<hr>
+<h3 id="chat-messages"><strong>Chat Messages</strong></h3>
+<h4 id="cooldown"><strong>Cooldown</strong></h4>
+<p>Value is in seconds. When a player tries to damage a protected structure, he will receive a warning. To prevent chat spam, this value tells the plugin to wait between messages.</p>
+<h4 id="chaticon"><strong>ChatIcon</strong></h4>
+<p>Icon used when the plugin sends a message to a player</p>
+<h4 id="effectid"><strong>EffectID</strong></h4>
+<p>ID of the effect to display in place of the chat message. If this id is set, the chat message won't show.</p>
+<h4 id="effecttextname"><strong>EffectTextName</strong></h4>
+<p>Name of the effect's gameobject in which the message should be written</p>
+<h4 id="effectduration"><strong>EffectDuration</strong></h4>
+<p>How long should the effect stay on screen</p>
+<hr>
+<h3 id="anti-abuse-rules"><strong>Anti-abuse rules</strong></h3>
+<h4 id="grouphistoryduration"><strong>GroupHistoryDuration</strong></h4>
+<p>Value is in hours. How long a player is still considered part of a group by the plugin after quitting it.
+<em>Example</em>: <code>GroupHistoryDuration: 48</code> : When the player is connected, all groups he has been in for the last 48 hours will not be protected.</p>
+<h4 id="raidduration"><strong>RaidDuration</strong></h4>
+<p>Value is in seconds. When a player being raided disconnects, the raiders can continue to raid the base as long as they deal a damage every X seconds.<br>
+If the nobody deals damage to the structures of the disconnected player for the set amount of time, then the protection apply.<br>
+Raiders cannot start a raid if the owner disconnected before they dealt damage to the base.</p>
+<h4 id="protectionduration"><strong>ProtectionDuration</strong></h4>
+<p>Value is in hours. How long does offline protection lasts
+<em>Example</em> : <code>ProtectionDuration: 24</code> : 24 hours after the protection was applied to the group's structures, the protection will wear off.</p>
+<hr>
+
+        
+        
+    </body>
+    </html>

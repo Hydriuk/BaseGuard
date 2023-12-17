@@ -10,7 +10,6 @@ using OpenMod.API.Ioc;
 using SDG.Unturned;
 using Steamworks;
 using System.Collections.Generic;
-using System.Linq;
 using Random = UnityEngine.Random;
 
 namespace BaseGuard.Services
@@ -27,6 +26,7 @@ namespace BaseGuard.Services
         private readonly Dictionary<ushort, ShieldOverride> _guardOverrides = new Dictionary<ushort, ShieldOverride>();
 
         private readonly bool _allowSelfDamage;
+        private readonly bool _prioritizeOverrides;
 
         public DamageController(
             IConfigurationAdapter<Configuration> confAdapter,
@@ -46,7 +46,8 @@ namespace BaseGuard.Services
             _damageWarner = damageWarner;
             _protectionScheduler = protectionScheduler;
             _allowSelfDamage = confAdapter.Configuration.AllowSelfDamage;
-                
+            _prioritizeOverrides = confAdapter.Configuration.PrioritizeOverrides;
+
             switch (confAdapter.Configuration.ActivationMode)
             {
                 case EActivationMode.Permanent:
@@ -66,16 +67,16 @@ namespace BaseGuard.Services
             switch (confAdapter.Configuration.GuardMode)
             {
                 case EGuardMode.Ratio:
-                    _damageReducer = new RatioDamageReducer(confAdapter, guardProvider);
+                    _damageReducer = new RatioDamageReducer(confAdapter, guardProvider, _protectionScheduler);
                     break;
 
                 case EGuardMode.Cumulative:
-                    _damageReducer = new CumulativeDamageReducer(confAdapter, guardProvider);
+                    _damageReducer = new CumulativeDamageReducer(confAdapter, guardProvider, _protectionScheduler);
                     break;
 
                 case EGuardMode.Base:
                 default:
-                    _damageReducer = new BaseDamageReducer(confAdapter);
+                    _damageReducer = new BaseDamageReducer(confAdapter, _protectionScheduler);
                     break;
             }
         }
@@ -100,7 +101,7 @@ namespace BaseGuard.Services
                     return damage;
             }
 
-            if (!_protectionScheduler.IsActive)
+            if (!_prioritizeOverrides && !_protectionScheduler.IsActive)
                 return damage;
 
             float newDamage = damage;
@@ -108,8 +109,9 @@ namespace BaseGuard.Services
             if (_guardActivator.TryActivateGuard(playerId, groupId))
                 newDamage = _damageReducer.ReduceDamage(damage, assetId, buildableInstanceId);
 
-            // Apply max override
-            newDamage = ApplyOverride(damage, newDamage, assetId);
+            // Apply max override if we prioritize overrides or that protection is active
+            if (_prioritizeOverrides || _protectionScheduler.IsActive)
+                newDamage = ApplyOverride(damage, newDamage, assetId);
 
             if (instigatorId != CSteamID.Nil)
                 _damageWarner.TryWarn(PlayerTool.getPlayer(instigatorId), damage, newDamage);
@@ -124,15 +126,7 @@ namespace BaseGuard.Services
             if (!_guardOverrides.TryGetValue(assetId, out var shieldOverride))
                 return currentDamage;
 
-            // float minDamage = baseDamage * (1 - shieldOverride.MinShield);
-
             float maxDamage = baseDamage * (1 - shieldOverride.MaxShield);
-
-            //if (currentDamage < minDamage)
-            //    return minShield
-
-            //if (currentDamage > maxDamage)
-            //    return maxDamage;
 
             return currentDamage > maxDamage ? maxDamage : currentDamage;
         }

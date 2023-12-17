@@ -11,7 +11,11 @@ namespace BaseGuard.Services.DamageReducers
     {
         private readonly IGuardProvider _guardProvider;
 
-        public RatioDamageReducer(IConfigurationAdapter<Configuration> confAdapter, IGuardProvider guardProvider) : base(confAdapter)
+        public RatioDamageReducer(
+            IConfigurationAdapter<Configuration> confAdapter, 
+            IGuardProvider guardProvider,
+            IProtectionScheduler protectionScheduler) : base(confAdapter, protectionScheduler)
+
         {
             _guardProvider = guardProvider;
         }

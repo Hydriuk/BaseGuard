@@ -27,6 +27,9 @@ Schedule:
 - Protection: Off
   At: 0 10 * * 6,0
 #
+# If true, overrides will apply even if the protection schedule is on. If false, overrides are affected by the protection schedule
+PrioritizeOverrides: true
+#
 # Change protection for specific structures / barricades
 Overrides:
 - Ids: 
@@ -82,7 +85,7 @@ ChatMessages:
   EffectID: 0
   #
   # Name of the text gameobject to write the message in
-  EffectTextName: Message
+  EffectTextName: MessageTextbox
   #
   # How long should the effect stay on screen
   EffectDuration: 5 # seconds
