@@ -140,9 +140,9 @@ Controls general protection activation. Values :
 Base protection to be applied when structures and barricades are protected.  
 The value is the damage multiplier for protected strutures.  
 Examples :  
-`0.5` will virtually increase the structure's life by 2x.
-`0.66` will virtually increase the structure's life by 1.5x.
-The calculus is 1 / 0.66 = 1.5
+`0.5` will virtually increase the structure's life by 2x.  
+`0.8` will virtually increase the structure's life by 5x.  
+The calculus is 1 / (1 - 0.8) = 5
 
 #### **ProtectedGroups**
 Controls protection activation depending on the group's type. Values : 

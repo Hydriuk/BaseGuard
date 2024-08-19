@@ -60,6 +60,10 @@ namespace BaseGuard.Services
                 foreach (var barricadeRegion in BarricadeManager.BarricadeRegions)
                     foreach (var drop in barricadeRegion.drops)
                         AddGuard(drop.asset.id, drop.instanceID, drop.model.position, drop.interactable.IsActive());
+
+                foreach (var structureRegion in StructureManager.regions)
+                    foreach (var drop in structureRegion.drops)
+                        AddGuard(drop.asset.id, drop.instanceID, drop.model.position, true);
             });
         }
 

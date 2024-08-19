@@ -186,10 +186,11 @@ namespace BaseGuard.Services
 
         private class Pattern
         {
-            private CrontabSchedule _scheduler { get; set; }
             public bool State { get; set; }
             public DateTime NextOccurence { get; private set; }
             public DateTime PreviousOccurence { get => GetPreviousOccurence(); }
+
+            private readonly CrontabSchedule _scheduler;
 
             public Pattern(string scheduler, EState state)
             {
