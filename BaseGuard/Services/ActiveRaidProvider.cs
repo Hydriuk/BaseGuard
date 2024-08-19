@@ -24,6 +24,7 @@ namespace BaseGuard.Services
         // FYI https://theburningmonk.com/2011/03/hashset-vs-list-vs-dictionary/
         private readonly Dictionary<CSteamID, float> _activeRaids = new Dictionary<CSteamID, float>();
         private readonly double _raidActiveTime;
+        private readonly bool _ownerOnly;
         private readonly Func<CSteamID, bool> _protectGroup;
 
         public ActiveRaidProvider(IConfigurationAdapter<Configuration> confAdapter, IGroupHistoryStore groupHistoryStore, IProtectionDecayProvider protectionDecay)
@@ -31,7 +32,8 @@ namespace BaseGuard.Services
             _groupHistoryStore = groupHistoryStore;
             _protectionDecay = protectionDecay;
             _raidActiveTime = confAdapter.Configuration.RaidDuration;
-
+            _ownerOnly = confAdapter.Configuration.OwnerOnly;
+            
             switch (confAdapter.Configuration.ProtectedGroups)
             {
                 case EGroupType.NoGroup:
@@ -91,7 +93,7 @@ namespace BaseGuard.Services
 
             foreach (var sPlayer in Provider.clients)
             {
-                if (!isGroupSet && groupId != CSteamID.Nil && sPlayer.player.quests.groupID == groupId)
+                if (!_ownerOnly && !isGroupSet && groupId != CSteamID.Nil && sPlayer.player.quests.groupID == groupId)
                 {
                     _activeRaids.Add(groupId, Time.realtimeSinceStartup);
                     isGroupSet = true;
@@ -103,18 +105,18 @@ namespace BaseGuard.Services
                     isPlayerSet = true;
                 }
 
-                if (!isGroupSet && _groupHistoryStore.PlayerWasInGroup(sPlayer.playerID.steamID, groupId))
+                if (!_ownerOnly && !isGroupSet && _groupHistoryStore.PlayerWasInGroup(sPlayer.playerID.steamID, groupId))
                 {
                     _activeRaids.Add(groupId, Time.realtimeSinceStartup);
                     isGroupSet = true;
                 }
 
-                if (isPlayerSet && isGroupSet)
+                if (isPlayerSet && (_ownerOnly || isGroupSet))
                     break;
             }
 
             // Check if raid is active
-            return isPlayerSet || isGroupSet;
+            return isPlayerSet || (!_ownerOnly && isGroupSet);
         }
 
         private void Upsert(CSteamID steamId)

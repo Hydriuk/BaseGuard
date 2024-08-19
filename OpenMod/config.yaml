@@ -42,6 +42,9 @@ Overrides:
 # Allow players to deal normal damage to their own structures
 AllowSelfDamage: false
 #
+# Do not take other group memebers into account when checking if the owner is offline
+OwnerOnly: false
+#
 # # # # # # #
 
 

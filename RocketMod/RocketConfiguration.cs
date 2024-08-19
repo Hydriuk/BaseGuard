@@ -21,6 +21,7 @@ namespace RocketMod
             Schedule = new List<ScheduledProtection>() {};
             PrioritizeOverrides = true;
             AllowSelfDamage = false;
+            OwnerOnly = false;
             Guards = new List<GuardAsset>()
             {
                 new GuardAsset()
