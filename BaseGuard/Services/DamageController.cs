@@ -9,6 +9,7 @@ using OpenMod.API.Ioc;
 #endif
 using SDG.Unturned;
 using Steamworks;
+using System;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
 
@@ -91,7 +92,7 @@ namespace BaseGuard.Services
         /// <returns></returns>
         public ushort ReduceDamage(ushort damage, ushort assetId, uint buildableInstanceId, CSteamID playerId, CSteamID groupId, CSteamID instigatorId)
         {
-            if (_allowSelfDamage)
+            if (_allowSelfDamage && instigatorId != CSteamID.Nil)
             {
                 Player instigator = PlayerTool.getPlayer(instigatorId);
 
@@ -106,7 +107,7 @@ namespace BaseGuard.Services
 
             float newDamage = damage;
 
-            if (_guardActivator.TryActivateGuard(playerId, groupId))
+            if (_protectionScheduler.IsActive && _guardActivator.TryActivateGuard(playerId, groupId))
                 newDamage = _damageReducer.ReduceDamage(damage, assetId, buildableInstanceId);
 
             // Apply max override if we prioritize overrides or that protection is active
@@ -128,7 +129,7 @@ namespace BaseGuard.Services
 
             float maxDamage = baseDamage * (1 - shieldOverride.MaxShield);
 
-            return currentDamage > maxDamage ? maxDamage : currentDamage;
+            return Math.Max(currentDamage, maxDamage);
         }
 
         private ushort ConvertDamage(float damageToConvert)
