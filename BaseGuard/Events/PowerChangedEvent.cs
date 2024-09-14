@@ -84,5 +84,14 @@ namespace BaseGuard.Events
 
             PowerUpdated?.Invoke(drop.instanceID, __instance.isPowered && __instance.isWired);
         }
+
+        [HarmonyPatch(typeof(InteractableTank), nameof(InteractableTank.updateAmount))]
+        [HarmonyPostfix]
+        private static void TankUpdateAmount(InteractableTank __instance)
+        {
+            BarricadeDrop drop = BarricadeManager.FindBarricadeByRootTransform(__instance.transform);
+
+            PowerUpdated?.Invoke(drop.instanceID, __instance.amount > 0);
+        }
     }
 }

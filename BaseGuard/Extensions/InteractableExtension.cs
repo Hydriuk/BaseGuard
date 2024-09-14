@@ -18,6 +18,9 @@ namespace BaseGuard.Extensions
             if (interactable is InteractableOxygenator oxygenator)
                 return oxygenator.isPowered && oxygenator.isWired;
 
+            if (interactable is InteractableTank tank)
+                return tank.amount > 0;
+
             return true;
         }
     }
